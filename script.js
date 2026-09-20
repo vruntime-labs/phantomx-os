@@ -2,9 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const input = document.getElementById("command-input");
   const body = document.getElementById("terminal-body");
   const clock = document.getElementById("taskbar-clock");
-  const terminalWindow = document.getElementById("terminal-window");
 
-  // Real-time Clock
+  // Real-time Clock function
   function updateClock() {
     const now = new Date();
     clock.textContent = now.toLocaleTimeString();
@@ -12,10 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(updateClock, 1000);
   updateClock();
 
-  // Terminal Commands
+  // Command Responses
   const commands = {
-    help: "Available commands: <br> • <b style='color:#22c55e'>help</b> - Show options<br> • <b style='color:#22c55e'>about</b> - About system<br> • <b style='color:#22c55e'>clear</b> - Clear terminal screen",
-    about: "PhantomX OS v2.0.1 — Lightweight Web Desktop Kernel."
+    help: "Available commands: <br> • <b style='color:#22c55e'>help</b> - Show options<br> • <b style='color:#22c55e'>about</b> - About system<br> • <b style='color:#22c55e'>clear</b> - Clear screen",
+    about: "PhantomX OS v2.1.0 — Web Desktop Kernel."
   };
 
   input.addEventListener("keydown", (e) => {
@@ -45,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Window controls
 function closeTerminal() {
   document.getElementById("terminal-window").style.display = "none";
 }
