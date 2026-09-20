@@ -1,163 +1,30 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhantomX OS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="terminal">
+    <div class="terminal-header">
+      <span class="btn red"></span>
+      <span class="btn yellow"></span>
+      <span class="btn green"></span>
+      <span class="title">PhantomX OS — v2.0.1</span>
+    </div>
+    <div class="terminal-body" id="terminal-body">
+      <p>Welcome to PhantomX OS!</p>
+      <p>Type <span class="highlight">'help'</span> to see a list of available commands.</p>
+      <br>
+    </div>
+    <div class="input-line">
+      <span class="prompt">phantom@os:~$</span>
+      <input type="text" id="command-input" autofocus autocomplete="off" placeholder="Type command here...">
+    </div>
+  </div>
 
-body {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  height: 100vh;
-  overflow: hidden;
-  user-select: none;
-}
-
-/* Desktop Icon Grid */
-.desktop {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.icon {
-  width: 70px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 6px;
-}
-
-.icon:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-.icon img {
-  width: 40px;
-  height: 40px;
-}
-
-.icon span {
-  font-size: 12px;
-  margin-top: 5px;
-  text-shadow: 1px 1px 2px black;
-}
-
-/* Windows styling */
-.window {
-  position: absolute;
-  top: 100px;
-  left: 150px;
-  width: 500px;
-  height: 320px;
-  background: #111827;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #374151;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.window-header {
-  background: #1f2937;
-  padding: 8px 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #e5e7eb;
-  font-size: 13px;
-  cursor: move;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-.window-body {
-  padding: 12px;
-  flex: 1;
-  color: white;
-}
-
-/* Terminal Body */
-.terminal-body {
-  font-family: monospace;
-}
-
-.term-text {
-  color: #10b981;
-  margin-bottom: 6px;
-  font-size: 13px;
-}
-
-.input-line {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.prompt {
-  color: #10b981;
-  font-size: 13px;
-}
-
-#term-input {
-  background: transparent;
-  border: none;
-  color: white;
-  outline: none;
-  font-family: monospace;
-  width: 100%;
-}
-
-textarea {
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  border: none;
-  color: white;
-  resize: none;
-  outline: none;
-}
-
-/* Taskbar */
-.taskbar {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 40px;
-  background: #111827;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 10px;
-  border-top: 1px solid #374151;
-}
-
-.start-btn {
-  background: #2563eb;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.clock {
-  color: white;
-  font-size: 12px;
-}
+  <script src="script.js"></script>
+</body>
+</html>
