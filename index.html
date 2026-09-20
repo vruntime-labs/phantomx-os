@@ -7,54 +7,22 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- Desktop Icons -->
-  <div class="desktop">
-    <div class="icon" onclick="openWindow('terminal-win')">
-      <img src="https://img.icons8.com/fluency/48/console.png" alt="Terminal">
-      <span>Terminal</span>
+  <div class="terminal">
+    <div class="terminal-header">
+      <span class="btn red"></span>
+      <span class="btn yellow"></span>
+      <span class="btn green"></span>
+      <span class="title">PhantomX OS — v2.0.1</span>
     </div>
-    <div class="icon" onclick="openWindow('notepad-win')">
-      <img src="https://img.icons8.com/fluency/48/notepad.png" alt="Notepad">
-      <span>Notepad</span>
+    <div class="terminal-body" id="terminal-body">
+      <p>Welcome to PhantomX OS!</p>
+      <p>Type <span class="highlight">'help'</span> to see a list of available commands.</p>
+      <br>
     </div>
-    <div class="icon" onclick="openWindow('settings-win')">
-      <img src="https://img.icons8.com/fluency/48/settings.png" alt="Settings">
-      <span>Settings</span>
+    <div class="input-line">
+      <span class="prompt">phantom@os:~$</span>
+      <input type="text" id="command-input" autofocus autocomplete="off" placeholder="Type command here...">
     </div>
-  </div>
-
-  <!-- Terminal Window -->
-  <div id="terminal-win" class="window">
-    <div class="window-header" onmousedown="dragMouseDown(event, 'terminal-win')">
-      <span>PhantomX Terminal v2.0.1</span>
-      <button class="close-btn" onclick="closeWindow('terminal-win')">🔴</button>
-    </div>
-    <div class="window-body terminal-body">
-      <p class="term-text">PhantomX OS v2.0.1 Modern Kernel Loaded.</p>
-      <p class="term-text">Type <b>help</b> or <b>about</b> to get started.</p>
-      <div class="input-line">
-        <span class="prompt">user@phantomx:~$</span>
-        <input type="text" id="term-input" onkeydown="handleCommand(event)">
-      </div>
-    </div>
-  </div>
-
-  <!-- Notepad Window -->
-  <div id="notepad-win" class="window hidden">
-    <div class="window-header" onmousedown="dragMouseDown(event, 'notepad-win')">
-      <span>Notepad</span>
-      <button class="close-btn" onclick="closeWindow('notepad-win')">🔴</button>
-    </div>
-    <div class="window-body">
-      <textarea placeholder="Type your notes here..."></textarea>
-    </div>
-  </div>
-
-  <!-- Taskbar -->
-  <div class="taskbar">
-    <button class="start-btn">⚡ Start</button>
-    <div id="clock" class="clock">00:00:00 PM</div>
   </div>
 
   <script src="script.js"></script>
