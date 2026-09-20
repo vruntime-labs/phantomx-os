@@ -3,383 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PhantomX OS v2.0.0</title>
-  
-  <style>
-    /* CSS RESET & VARIABLES */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
-
-    :root {
-      --accent-color: #0078d4;
-      --bg-color: #001f3f;
-      --window-bg: rgba(255, 255, 255, 0.95);
-      --window-text: #1a1a1a;
-      --taskbar-bg: rgba(20, 20, 20, 0.85);
-    }
-
-    body {
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      user-select: none;
-    }
-
-    /* DESKTOP ICON GRID */
-    .desktop {
-      height: calc(100vh - 48px);
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      align-content: flex-start;
-      gap: 20px;
-    }
-
-    .desktop-icon {
-      width: 80px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: white;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-      cursor: pointer;
-      border-radius: 8px;
-      padding: 8px;
-      transition: background 0.2s;
-    }
-
-    .desktop-icon:hover {
-      background: rgba(255, 255, 255, 0.15);
-    }
-
-    .desktop-icon .icon {
-      font-size: 36px;
-      margin-bottom: 6px;
-    }
-
-    .desktop-icon span {
-      font-size: 12px;
-      text-align: center;
-    }
-
-    /* WINDOW FRAME SYSTEM */
-    .window {
-      position: absolute;
-      top: 100px;
-      left: 150px;
-      width: 600px;
-      height: 400px;
-      background: var(--window-bg);
-      color: var(--window-text);
-      border-radius: 8px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      display: none;
-      flex-direction: column;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .window-header {
-      background: #e1e1e1;
-      padding: 8px 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: move;
-      border-bottom: 1px solid #ccc;
-    }
-
-    .window-title {
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .window-controls {
-      display: flex;
-      gap: 8px;
-    }
-
-    .control-btn {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: none;
-    }
-
-    .btn-close { background: #ff5f56; }
-    .btn-min { background: #ffbd2e; }
-    .btn-max { background: #27c93f; }
-
-    .window-body {
-      flex-grow: 1;
-      padding: 12px;
-      overflow: auto;
-    }
-
-    /* TERMINAL APP STYLES */
-    .terminal-body {
-      background: #0d1117;
-      color: #00ff66;
-      font-family: 'Courier New', Courier, monospace;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      border-radius: 4px;
-      padding: 10px;
-    }
-
-    .terminal-output {
-      flex-grow: 1;
-      overflow-y: auto;
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    .terminal-input-line {
-      display: flex;
-      margin-top: 6px;
-    }
-
-    .terminal-input-line input {
-      background: transparent;
-      border: none;
-      color: #00ff66;
-      font-family: inherit;
-      font-size: 13px;
-      width: 100%;
-      outline: none;
-    }
-
-    /* BOTTOM TASKBAR */
-    .taskbar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100vw;
-      height: 48px;
-      background: var(--taskbar-bg);
-      backdrop-filter: blur(10px);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 12px;
-      z-index: 9999;
-    }
-
-    .start-btn {
-      background: var(--accent-color);
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 13px;
-    }
-
-    .clock {
-      color: white;
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    /* START MENU */
-    .start-menu {
-      position: fixed;
-      bottom: 56px;
-      left: 12px;
-      width: 260px;
-      background: rgba(30, 30, 30, 0.95);
-      backdrop-filter: blur(15px);
-      border-radius: 8px;
-      padding: 12px;
-      color: white;
-      display: none;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    }
-
-    .start-menu-item {
-      padding: 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-    }
-
-    .start-menu-item:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
-  </style>
+  <title>PhantomX OS</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- DESKTOP APP ICONS -->
+  <!-- Desktop Icons -->
   <div class="desktop">
-    <div class="desktop-icon" onclick="openWindow('window-terminal')">
-      <div class="icon">💻</div>
+    <div class="icon" onclick="openWindow('terminal-win')">
+      <img src="https://img.icons8.com/fluency/48/console.png" alt="Terminal">
       <span>Terminal</span>
     </div>
-    <div class="desktop-icon" onclick="openWindow('window-notes')">
-      <div class="icon">📝</div>
+    <div class="icon" onclick="openWindow('notepad-win')">
+      <img src="https://img.icons8.com/fluency/48/notepad.png" alt="Notepad">
       <span>Notepad</span>
     </div>
-    <div class="desktop-icon" onclick="openWindow('window-settings')">
-      <div class="icon">⚙️</div>
+    <div class="icon" onclick="openWindow('settings-win')">
+      <img src="https://img.icons8.com/fluency/48/settings.png" alt="Settings">
       <span>Settings</span>
     </div>
   </div>
 
-  <!-- WINDOW 1: TERMINAL -->
-  <div id="window-terminal" class="window">
-    <div class="window-header" onmousedown="dragWindow(event, 'window-terminal')">
-      <span class="window-title">PhantomX Terminal v2.0.0</span>
-      <div class="window-controls">
-        <button class="control-btn btn-close" onclick="closeWindow('window-terminal')"></button>
-      </div>
+  <!-- Terminal Window -->
+  <div id="terminal-win" class="window">
+    <div class="window-header" onmousedown="dragMouseDown(event, 'terminal-win')">
+      <span>PhantomX Terminal v2.0.1</span>
+      <button class="close-btn" onclick="closeWindow('terminal-win')">🔴</button>
     </div>
-    <div class="window-body" style="padding:0; background:#0d1117;">
-      <div class="terminal-body">
-        <div id="term-out" class="terminal-output">
-          PhantomX OS v2.0.0 Modern Kernel Loaded.<br>
-          Type <b>help</b> or <b>about</b> to get started.
-        </div>
-        <div class="terminal-input-line">
-          <span>user@phantomx:~$&nbsp;</span>
-          <input type="text" id="term-in" onkeydown="handleTerminalCommand(event)">
-        </div>
+    <div class="window-body terminal-body">
+      <p class="term-text">PhantomX OS v2.0.1 Modern Kernel Loaded.</p>
+      <p class="term-text">Type <b>help</b> or <b>about</b> to get started.</p>
+      <div class="input-line">
+        <span class="prompt">user@phantomx:~$</span>
+        <input type="text" id="term-input" onkeydown="handleCommand(event)">
       </div>
     </div>
   </div>
 
-  <!-- WINDOW 2: NOTEPAD -->
-  <div id="window-notes" class="window">
-    <div class="window-header" onmousedown="dragWindow(event, 'window-notes')">
-      <span class="window-title">Notepad</span>
-      <div class="window-controls">
-        <button class="control-btn btn-close" onclick="closeWindow('window-notes')"></button>
-      </div>
+  <!-- Notepad Window -->
+  <div id="notepad-win" class="window hidden">
+    <div class="window-header" onmousedown="dragMouseDown(event, 'notepad-win')">
+      <span>Notepad</span>
+      <button class="close-btn" onclick="closeWindow('notepad-win')">🔴</button>
     </div>
     <div class="window-body">
-      <textarea style="width: 100%; height: 100%; border: none; outline: none; resize: none; font-size: 14px;" placeholder="Type your notes here..."></textarea>
+      <textarea placeholder="Type your notes here..."></textarea>
     </div>
   </div>
 
-  <!-- WINDOW 3: SETTINGS -->
-  <div id="window-settings" class="window">
-    <div class="window-header" onmousedown="dragWindow(event, 'window-settings')">
-      <span class="window-title">System Settings</span>
-      <div class="window-controls">
-        <button class="control-btn btn-close" onclick="closeWindow('window-settings')"></button>
-      </div>
-    </div>
-    <div class="window-body">
-      <h3>Desktop Background</h3>
-      <br>
-      <button onclick="changeBg('#001f3f')" style="padding:6px 12px; cursor:pointer;">Deep Blue</button>
-      <button onclick="changeBg('#111111')" style="padding:6px 12px; cursor:pointer;">Dark Gray</button>
-      <button onclick="changeBg('linear-gradient(135deg, #1f1c2c, #928dab)')" style="padding:6px 12px; cursor:pointer;">Purple Gradient</button>
-    </div>
-  </div>
-
-  <!-- START MENU -->
-  <div id="start-menu" class="start-menu">
-    <div class="start-menu-item" onclick="openWindow('window-terminal'); toggleStartMenu();">💻 Terminal</div>
-    <div class="start-menu-item" onclick="openWindow('window-notes'); toggleStartMenu();">📝 Notepad</div>
-    <div class="start-menu-item" onclick="openWindow('window-settings'); toggleStartMenu();">⚙️ Settings</div>
-  </div>
-
-  <!-- BOTTOM TASKBAR -->
+  <!-- Taskbar -->
   <div class="taskbar">
-    <button class="start-btn" onclick="toggleStartMenu()">⚡ Start</button>
-    <div class="clock" id="clock">00:00:00 AM</div>
+    <button class="start-btn">⚡ Start</button>
+    <div id="clock" class="clock">00:00:00 PM</div>
   </div>
 
-  <!-- JAVASCRIPT SYSTEM LOGIC -->
-  <script>
-    // Clock Functionality
-    function updateClock() {
-      const now = new Date();
-      document.getElementById('clock').innerText = now.toLocaleTimeString();
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    // Window Management
-    function openWindow(id) {
-      document.getElementById(id).style.display = 'flex';
-    }
-
-    function closeWindow(id) {
-      document.getElementById(id).style.display = 'none';
-    }
-
-    function toggleStartMenu() {
-      const menu = document.getElementById('start-menu');
-      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // Background Changer
-    function changeBg(color) {
-      document.body.style.background = color;
-    }
-
-    // Draggable Windows Logic
-    function dragWindow(e, windowId) {
-      const win = document.getElementById(windowId);
-      let shiftX = e.clientX - win.getBoundingClientRect().left;
-      let shiftY = e.clientY - win.getBoundingClientRect().top;
-
-      function moveAt(pageX, pageY) {
-        win.style.left = pageX - shiftX + 'px';
-        win.style.top = pageY - shiftY + 'px';
-      }
-
-      function onMouseMove(event) {
-        moveAt(event.pageX, event.pageY);
-      }
-
-      document.addEventListener('mousemove', onMouseMove);
-
-      document.onmouseup = function() {
-        document.removeEventListener('mousemove', onMouseMove);
-        document.onmouseup = null;
-      };
-    }
-
-    // Terminal Commands
-    function handleTerminalCommand(e) {
-      if (e.key === 'Enter') {
-        const input = document.getElementById('term-in');
-        const output = document.getElementById('term-out');
-        const cmd = input.value.trim().toLowerCase();
-
-        output.innerHTML += `<div>user@phantomx:~$ ${cmd}</div>`;
-
-        if (cmd === 'help') {
-          output.innerHTML += `<div>Available commands: <b>about</b>, <b>clear</b>, <b>date</b></div>`;
-        } else if (cmd === 'about') {
-          output.innerHTML += `<div>PhantomX OS v2.0.0 — Modern Desktop Edition. Built with 100% pure HTML, CSS, & JS.</div>`;
-        } else if (cmd === 'clear') {
-          output.innerHTML = '';
-        } else if (cmd === 'date') {
-          output.innerHTML += `<div>${new Date().toLocaleString()}</div>`;
-        } else if (cmd !== '') {
-          output.innerHTML += `<div>Command not found: ${cmd}</div>`;
-        }
-
-        input.value = '';
-        output.scrollTop = output.scrollHeight;
-      }
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
