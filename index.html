@@ -7,30 +7,34 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Desktop Screen -->
-  <div class="desktop">
+  <!-- Desktop Workspace -->
+  <div class="desktop" id="desktop">
     
-    <!-- Desktop Icons -->
+    <!-- Desktop Icons Grid -->
     <div class="desktop-icons">
-      <div class="icon" onclick="openTerminal()">
+      <div class="icon" onclick="openWindow('terminal-window')">
         <div class="icon-img">💻</div>
         <span>Terminal</span>
       </div>
-      <div class="icon">
+      <div class="icon" onclick="openWindow('notepad-window')">
         <div class="icon-img">📝</div>
         <span>Notepad</span>
       </div>
-      <div class="icon">
+      <div class="icon" onclick="openWindow('settings-window')">
         <div class="icon-img">⚙️</div>
         <span>Settings</span>
       </div>
     </div>
 
-    <!-- Floating Terminal Window -->
-    <div class="window" id="terminal-window">
-      <div class="window-header">
-        <span class="window-title">PhantomX Terminal v2.1.0</span>
-        <button class="close-btn" onclick="closeTerminal()">🔴</button>
+    <!-- Terminal Window -->
+    <div class="window active-window" id="terminal-window" style="top: 50px; left: 80px;">
+      <div class="window-header" onmousedown="startDrag(event, 'terminal-window')">
+        <div class="window-title-area">
+          <span class="window-dot red" onclick="closeWindow('terminal-window')"></span>
+          <span class="window-dot yellow" onclick="minimizeWindow('terminal-window')"></span>
+          <span class="window-dot green" onclick="maximizeWindow('terminal-window')"></span>
+          <span class="window-title">Terminal</span>
+        </div>
       </div>
       <div class="window-body" id="terminal-body">
         <p class="welcome-text">PhantomX OS v2.1.0 Modern Kernel Loaded.</p>
@@ -43,12 +47,64 @@
       </div>
     </div>
 
+    <!-- Notepad Window (Hidden by default) -->
+    <div class="window" id="notepad-window" style="top: 80px; left: 320px; display: none;">
+      <div class="window-header" onmousedown="startDrag(event, 'notepad-window')">
+        <div class="window-title-area">
+          <span class="window-dot red" onclick="closeWindow('notepad-window')"></span>
+          <span class="window-dot yellow"></span>
+          <span class="window-dot green"></span>
+          <span class="window-title">Untitled - Notepad</span>
+        </div>
+      </div>
+      <div class="window-body notepad-body">
+        <textarea placeholder="Type your notes here..."></textarea>
+      </div>
+    </div>
+
+    <!-- Settings Window (Hidden by default) -->
+    <div class="window" id="settings-window" style="top: 100px; left: 200px; display: none;">
+      <div class="window-header" onmousedown="startDrag(event, 'settings-window')">
+        <div class="window-title-area">
+          <span class="window-dot red" onclick="closeWindow('settings-window')"></span>
+          <span class="window-dot yellow"></span>
+          <span class="window-dot green"></span>
+          <span class="window-title">Settings</span>
+        </div>
+      </div>
+      <div class="window-body settings-body">
+        <h3>System Settings</h3>
+        <p>OS Version: PhantomX v2.1.0</p>
+        <p>Kernel: x86_64 Modern Web Build</p>
+        <br>
+        <button class="os-btn" onclick="alert('System is up to date!')">Check for Updates</button>
+      </div>
+    </div>
+
   </div>
 
-  <!-- Bottom Taskbar -->
+  <!-- Start Menu Popup -->
+  <div class="start-menu" id="start-menu">
+    <div class="start-header">Pinned Apps</div>
+    <div class="start-grid">
+      <div class="start-app" onclick="openWindow('terminal-window'); toggleStartMenu();">💻 Terminal</div>
+      <div class="start-app" onclick="openWindow('notepad-window'); toggleStartMenu();">📝 Notepad</div>
+      <div class="start-app" onclick="openWindow('settings-window'); toggleStartMenu();">⚙️ Settings</div>
+    </div>
+  </div>
+
+  <!-- Modern Taskbar (Windows 11 / Linux KDE style) -->
   <div class="taskbar">
-    <button class="start-btn">⚡ Start</button>
-    <div class="clock" id="taskbar-clock">00:00:00 PM</div>
+    <div class="taskbar-left"></div>
+    <div class="taskbar-center">
+      <button class="start-btn" onclick="toggleStartMenu()">⚡</button>
+      <button class="task-icon active" onclick="openWindow('terminal-window')">💻</button>
+      <button class="task-icon" onclick="openWindow('notepad-window')">📝</button>
+      <button class="task-icon" onclick="openWindow('settings-window')">⚙️</button>
+    </div>
+    <div class="taskbar-right">
+      <div class="clock" id="taskbar-clock">00:00:00</div>
+    </div>
   </div>
 
   <script src="script.js"></script>
