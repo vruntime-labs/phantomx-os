@@ -3,26 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PhantomX OS</title>
+  <title>PhantomX OS v2.0.1</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="terminal">
-    <div class="terminal-header">
-      <span class="btn red"></span>
-      <span class="btn yellow"></span>
-      <span class="btn green"></span>
-      <span class="title">PhantomX OS — v2.0.1</span>
+  <!-- Desktop Environment -->
+  <div class="desktop">
+    
+    <!-- Desktop Icons -->
+    <div class="desktop-icons">
+      <div class="icon" onclick="openTerminal()">
+        <div class="icon-img terminal-icon">💻</div>
+        <span>Terminal</span>
+      </div>
+      <div class="icon">
+        <div class="icon-img notepad-icon">📝</div>
+        <span>Notepad</span>
+      </div>
+      <div class="icon">
+        <div class="icon-img settings-icon">⚙️</div>
+        <span>Settings</span>
+      </div>
     </div>
-    <div class="terminal-body" id="terminal-body">
-      <p>Welcome to PhantomX OS!</p>
-      <p>Type <span class="highlight">'help'</span> to see a list of available commands.</p>
-      <br>
+
+    <!-- Terminal Window -->
+    <div class="window" id="terminal-window">
+      <div class="window-header">
+        <span class="window-title">PhantomX Terminal v2.0.1</span>
+        <button class="close-btn" onclick="closeTerminal()">●</button>
+      </div>
+      <div class="window-body" id="terminal-body">
+        <p class="welcome-text">PhantomX OS v2.0.1 Modern Kernel Loaded.</p>
+        <p class="welcome-sub">Type <span class="highlight">help</span> or <span class="highlight">about</span> to get started.</p>
+        <br>
+      </div>
+      <div class="input-line">
+        <span class="prompt">user@phantomx:~$</span>
+        <input type="text" id="command-input" autofocus autocomplete="off">
+      </div>
     </div>
-    <div class="input-line">
-      <span class="prompt">phantom@os:~$</span>
-      <input type="text" id="command-input" autofocus autocomplete="off" placeholder="Type command here...">
-    </div>
+
+  </div>
+
+  <!-- Bottom Taskbar -->
+  <div class="taskbar">
+    <button class="start-btn">⚡ Start</button>
+    <div class="clock" id="taskbar-clock">00:00:00 PM</div>
   </div>
 
   <script src="script.js"></script>
