@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PhantomX OS v2.1.0</title>
+  <title>PhantomX OS v2.1.1</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -30,14 +30,14 @@
     <div class="window active-window" id="terminal-window" style="top: 50px; left: 80px;">
       <div class="window-header" onmousedown="startDrag(event, 'terminal-window')">
         <div class="window-title-area">
-          <span class="window-dot red" onclick="closeWindow('terminal-window')"></span>
-          <span class="window-dot yellow" onclick="minimizeWindow('terminal-window')"></span>
-          <span class="window-dot green" onclick="maximizeWindow('terminal-window')"></span>
+          <span class="window-dot red" onclick="closeWindow('terminal-window')" title="Close"></span>
+          <span class="window-dot yellow" onclick="minimizeWindow('terminal-window')" title="Minimize"></span>
+          <span class="window-dot green" onclick="maximizeWindow('terminal-window')" title="Maximize"></span>
           <span class="window-title">Terminal</span>
         </div>
       </div>
       <div class="window-body" id="terminal-body">
-        <p class="welcome-text">PhantomX OS v2.1.0 Modern Kernel Loaded.</p>
+        <p class="welcome-text">PhantomX OS v2.1.1 Modern Kernel Loaded.</p>
         <p class="welcome-sub">Type <span class="highlight">help</span> or <span class="highlight">about</span> to get started.</p>
         <br>
       </div>
@@ -51,9 +51,9 @@
     <div class="window" id="notepad-window" style="top: 80px; left: 320px; display: none;">
       <div class="window-header" onmousedown="startDrag(event, 'notepad-window')">
         <div class="window-title-area">
-          <span class="window-dot red" onclick="closeWindow('notepad-window')"></span>
-          <span class="window-dot yellow"></span>
-          <span class="window-dot green"></span>
+          <span class="window-dot red" onclick="closeWindow('notepad-window')" title="Close"></span>
+          <span class="window-dot yellow" onclick="minimizeWindow('notepad-window')" title="Minimize"></span>
+          <span class="window-dot green" onclick="maximizeWindow('notepad-window')" title="Maximize"></span>
           <span class="window-title">Untitled - Notepad</span>
         </div>
       </div>
@@ -66,15 +66,15 @@
     <div class="window" id="settings-window" style="top: 100px; left: 200px; display: none;">
       <div class="window-header" onmousedown="startDrag(event, 'settings-window')">
         <div class="window-title-area">
-          <span class="window-dot red" onclick="closeWindow('settings-window')"></span>
-          <span class="window-dot yellow"></span>
-          <span class="window-dot green"></span>
+          <span class="window-dot red" onclick="closeWindow('settings-window')" title="Close"></span>
+          <span class="window-dot yellow" onclick="minimizeWindow('settings-window')" title="Minimize"></span>
+          <span class="window-dot green" onclick="maximizeWindow('settings-window')" title="Maximize"></span>
           <span class="window-title">Settings</span>
         </div>
       </div>
       <div class="window-body settings-body">
         <h3>System Settings</h3>
-        <p>OS Version: PhantomX v2.1.0</p>
+        <p>OS Version: PhantomX v2.1.1</p>
         <p>Kernel: x86_64 Modern Web Build</p>
         <br>
         <button class="os-btn" onclick="alert('System is up to date!')">Check for Updates</button>
