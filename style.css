@@ -8,23 +8,31 @@
 body {
   background: linear-gradient(135deg, #1e3a8a, #0f172a, #111827);
   height: 100vh;
+  width: 100vw;
   overflow: hidden;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #ffffff;
 }
 
+/* Desktop workspace area occupying everything above the taskbar */
 .desktop {
-  height: calc(100vh - 40px);
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 45px);
   padding: 20px;
 }
 
-/* Icons styling */
+/* Desktop Icons pinned to the top-left corner */
 .desktop-icons {
+  position: absolute;
+  top: 20px;
+  left: 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  width: 80px;
+  gap: 25px;
+  z-index: 1;
 }
 
 .icon {
@@ -34,11 +42,13 @@ body {
   cursor: pointer;
   text-align: center;
   font-size: 13px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+  width: 70px;
 }
 
 .icon-img {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   background-color: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 10px;
@@ -46,32 +56,34 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 24px;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
+  transition: background 0.2s;
 }
 
 .icon:hover .icon-img {
   background-color: rgba(255, 255, 255, 0.25);
 }
 
-/* Terminal Window */
+/* Floating Terminal Window */
 .window {
-  width: 550px;
-  height: 380px;
+  width: 580px;
+  height: 400px;
   background-color: #0b0f19;
   border: 1px solid #1e293b;
   border-radius: 8px;
   position: absolute;
-  top: 40px;
-  left: 140px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  top: 60px;
+  left: 120px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  z-index: 10;
 }
 
 .window-header {
   background-color: #1e293b;
-  padding: 8px 12px;
+  padding: 10px 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -85,15 +97,17 @@ body {
 .close-btn {
   background: none;
   border: none;
+  color: #ef4444;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 12px;
+  padding: 0 4px;
 }
 
 .window-body {
   padding: 15px;
   flex: 1;
   overflow-y: auto;
-  font-family: monospace;
+  font-family: 'Courier New', Courier, monospace;
   font-size: 14px;
   line-height: 1.5;
 }
@@ -113,9 +127,10 @@ body {
 
 .input-line {
   display: flex;
-  padding: 10px 15px;
+  padding: 12px 15px;
   background-color: #0b0f19;
-  font-family: monospace;
+  font-family: 'Courier New', Courier, monospace;
+  border-top: 1px solid #1e293b;
 }
 
 .prompt {
@@ -134,28 +149,37 @@ body {
   flex: 1;
 }
 
-/* Bottom Taskbar */
+/* Bottom Taskbar locked across the bottom edge */
 .taskbar {
-  height: 40px;
-  background-color: #090d16;
-  border-top: 1px solid #1e293b;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 45px;
+  background-color: rgba(9, 13, 22, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+  padding: 0 15px;
+  z-index: 1000;
 }
 
 .start-btn {
   background-color: #2563eb;
   color: white;
   border: none;
-  padding: 6px 14px;
-  border-radius: 5px;
+  padding: 6px 16px;
+  border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+
+.start-btn:hover {
+  background-color: #1d4ed8;
 }
 
 .clock {
