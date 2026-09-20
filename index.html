@@ -1,565 +1,384 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PhantomX OS v1.3.1 — Modular Cyberdeck</title>
-
-  <!-- Base Search Engine Meta Tags -->
-  <meta name="description" content="PhantomX OS v1.3.1 — Interactive cyberdeck terminal HUD simulator with custom CLI, telemetry, CCTV feeds, and Web Audio SFX.">
-  <meta name="keywords" content="PhantomX OS, Cyberdeck, Terminal Simulator, Matrix Rain, Web Audio API, Hacker HUD">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://vruntime-labs.github.io/phantomx-os/">
-
-  <!-- Open Graph / Social Media Preview Meta Tags -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://vruntime-labs.github.io/phantomx-os/">
-  <meta property="og:title" content="PhantomX OS v1.3.1 — Cyberdeck Simulator">
-  <meta property="og:description" content="Web-based cyberpunk terminal featuring CLI commands, real-time audio synthesis, and HUD themes.">
-
-  <!-- SVG Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
-
+  <title>PhantomX OS v2.0.0</title>
+  
   <style>
-    /* CSS Variables & Theme Definitions */
-    :root {
-      --main-color: #00ff66;
-      --bg-color: #050b05;
-      --panel-bg: rgba(5, 20, 10, 0.85);
-      --border-color: #00ff66;
-      --font-family: 'Courier New', Courier, monospace;
-    }
-
-    body.theme-amber {
-      --main-color: #ffb000;
-      --bg-color: #0b0800;
-      --panel-bg: rgba(20, 15, 0, 0.85);
-      --border-color: #ffb000;
-    }
-
-    body.theme-cyberpunk {
-      --main-color: #00f0ff;
-      --bg-color: #0f051d;
-      --panel-bg: rgba(20, 5, 35, 0.85);
-      --border-color: #ff007f;
-    }
-
-    /* Base Layout Setup */
+    /* CSS RESET & VARIABLES */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    :root {
+      --accent-color: #0078d4;
+      --bg-color: #001f3f;
+      --window-bg: rgba(255, 255, 255, 0.95);
+      --window-text: #1a1a1a;
+      --taskbar-bg: rgba(20, 20, 20, 0.85);
     }
 
     body {
-      background-color: var(--bg-color);
-      color: var(--main-color);
-      font-family: var(--font-family);
       height: 100vh;
+      width: 100vw;
       overflow: hidden;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       user-select: none;
     }
 
-    /* Background Matrix Canvas */
-    #matrix-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      opacity: 0.25;
+    /* DESKTOP ICON GRID */
+    .desktop {
+      height: calc(100vh - 48px);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      gap: 20px;
     }
 
-    /* Grid Container */
-    .hud-grid {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: 280px 1fr 300px;
-      grid-template-rows: auto 1fr auto auto;
-      gap: 12px;
-      padding: 12px;
-      height: 100vh;
+    .desktop-icon {
+      width: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: white;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      cursor: pointer;
+      border-radius: 8px;
+      padding: 8px;
+      transition: background 0.2s;
     }
 
-    .hud-header {
-      grid-column: 1 / -1;
+    .desktop-icon:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .desktop-icon .icon {
+      font-size: 36px;
+      margin-bottom: 6px;
+    }
+
+    .desktop-icon span {
+      font-size: 12px;
+      text-align: center;
+    }
+
+    /* WINDOW FRAME SYSTEM */
+    .window {
+      position: absolute;
+      top: 100px;
+      left: 150px;
+      width: 600px;
+      height: 400px;
+      background: var(--window-bg);
+      color: var(--window-text);
+      border-radius: 8px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .window-header {
+      background: #e1e1e1;
+      padding: 8px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid var(--border-color);
-      padding-bottom: 6px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      cursor: move;
+      border-bottom: 1px solid #ccc;
     }
 
-    /* Cyber Panel Windows */
-    .win {
-      background: var(--panel-bg);
-      border: 1px solid var(--border-color);
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+    .window-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .window-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .control-btn {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-close { background: #ff5f56; }
+    .btn-min { background: #ffbd2e; }
+    .btn-max { background: #27c93f; }
+
+    .window-body {
+      flex-grow: 1;
+      padding: 12px;
+      overflow: auto;
+    }
+
+    /* TERMINAL APP STYLES */
+    .terminal-body {
+      background: #0d1117;
+      color: #00ff66;
+      font-family: 'Courier New', Courier, monospace;
+      height: 100%;
       display: flex;
       flex-direction: column;
-    }
-
-    .win-title {
-      background: var(--main-color);
-      color: var(--bg-color);
-      padding: 4px 8px;
-      font-size: 12px;
-      font-weight: bold;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .win-body {
+      border-radius: 4px;
       padding: 10px;
-      font-size: 13px;
     }
 
-    /* CLI & Log Terminal */
-    #term-log {
+    .terminal-output {
+      flex-grow: 1;
+      overflow-y: auto;
       font-size: 13px;
       line-height: 1.4;
     }
 
-    .cli-bar {
+    .terminal-input-line {
       display: flex;
-      align-items: center;
-      border-top: 1px solid var(--border-color);
-      padding: 6px;
-      background: rgba(0, 0, 0, 0.4);
+      margin-top: 6px;
     }
 
-    .cli-bar span {
-      margin-right: 6px;
-      font-weight: bold;
-    }
-
-    #cli-input {
+    .terminal-input-line input {
       background: transparent;
       border: none;
-      outline: none;
-      color: var(--main-color);
-      font-family: var(--font-family);
+      color: #00ff66;
+      font-family: inherit;
       font-size: 13px;
       width: 100%;
+      outline: none;
     }
 
-    /* CCTV Feeds */
-    .cctv-container {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .cctv-box {
-      position: relative;
-      border: 1px solid var(--border-color);
-      background: #000;
-    }
-
-    .cctv-box canvas {
-      width: 100%;
-      height: 90px;
-      display: block;
-    }
-
-    .cctv-tag {
-      position: absolute;
-      top: 4px;
-      left: 4px;
-      font-size: 10px;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 2px 4px;
-    }
-
-    /* Bottom Settings Bar */
-    .director-dock {
-      grid-column: 1 / -1;
-      background: var(--panel-bg);
-      border: 1px solid var(--border-color);
-      padding: 8px 12px;
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      font-size: 12px;
-    }
-
-    .director-dock select, .director-dock input {
-      background: var(--bg-color);
-      color: var(--main-color);
-      border: 1px solid var(--border-color);
-      padding: 2px 4px;
-      font-family: var(--font-family);
-    }
-
-    /* Modal Overlay */
-    .overlay {
-      display: none;
+    /* BOTTOM TASKBAR */
+    .taskbar {
       position: fixed;
-      top: 0;
+      bottom: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: 99;
-      justify-content: center;
+      width: 100vw;
+      height: 48px;
+      background: var(--taskbar-bg);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      flex-direction: column;
+      padding: 0 12px;
+      z-index: 9999;
     }
 
-    .alert-box {
-      font-size: 24px;
+    .start-btn {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
       font-weight: bold;
-      border: 2px solid var(--main-color);
-      padding: 20px 40px;
-      background: var(--bg-color);
-      box-shadow: 0 0 15px var(--main-color);
-      text-align: center;
+      cursor: pointer;
+      font-size: 13px;
     }
 
-    .counter-text {
-      margin-top: 12px;
+    .clock {
+      color: white;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* START MENU */
+    .start-menu {
+      position: fixed;
+      bottom: 56px;
+      left: 12px;
+      width: 260px;
+      background: rgba(30, 30, 30, 0.95);
+      backdrop-filter: blur(15px);
+      border-radius: 8px;
+      padding: 12px;
+      color: white;
+      display: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .start-menu-item {
+      padding: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       font-size: 14px;
     }
 
-    /* Responsive Mobile Layout */
-    @media (max-width: 900px) {
-      body {
-        overflow-y: auto;
-        height: auto;
-      }
-
-      .hud-grid {
-        display: flex;
-        flex-direction: column;
-        height: auto;
-      }
-
-      .win {
-        min-height: 200px;
-      }
-
-      .director-dock {
-        flex-wrap: wrap;
-      }
+    .start-menu-item:hover {
+      background: rgba(255, 255, 255, 0.1);
     }
   </style>
 </head>
-<body class="theme-matrix">
-  <canvas id="matrix-canvas"></canvas>
+<body>
 
-  <div class="hud-grid">
-    <!-- Header -->
-    <header class="hud-header">
-      <span>PHANTOMX OS v1.3.1</span>
-      <span id="target-header">TARGET: [SYS_MAINFRAME]</span>
-      <span>STATUS: <span id="status-tag">ONLINE</span></span>
-    </header>
+  <!-- DESKTOP APP ICONS -->
+  <div class="desktop">
+    <div class="desktop-icon" onclick="openWindow('window-terminal')">
+      <div class="icon">💻</div>
+      <span>Terminal</span>
+    </div>
+    <div class="desktop-icon" onclick="openWindow('window-notes')">
+      <div class="icon">📝</div>
+      <span>Notepad</span>
+    </div>
+    <div class="desktop-icon" onclick="openWindow('window-settings')">
+      <div class="icon">⚙️</div>
+      <span>Settings</span>
+    </div>
+  </div>
 
-    <!-- Telemetry Panel -->
-    <div class="win">
-      <div class="win-title"><span>TARGET TELEMETRY</span><span>NODE_01</span></div>
-      <div class="win-body">
-        <div>CPU LOAD: <span id="cpu">42%</span></div>
-        <div>NET BANDWIDTH: <span id="net">1.8 GB/s</span></div>
-        <div>ENCRYPTION: AES-256-GCM</div>
-        <br>
-        <div id="bar-cpu">[███████░░░░░░░]</div>
+  <!-- WINDOW 1: TERMINAL -->
+  <div id="window-terminal" class="window">
+    <div class="window-header" onmousedown="dragWindow(event, 'window-terminal')">
+      <span class="window-title">PhantomX Terminal v2.0.0</span>
+      <div class="window-controls">
+        <button class="control-btn btn-close" onclick="closeWindow('window-terminal')"></button>
       </div>
     </div>
-
-    <!-- Main Terminal Stream & CLI Input -->
-    <div class="win" style="display: flex; flex-direction: column;">
-      <div class="win-title"><span>TERMINAL EXPLOIT STREAM</span><span>TTY_01</span></div>
-      <div class="win-body" id="term-log" style="overflow-y: auto; flex-grow: 1;">
-        <div>PhantomX Kernel v1.3.1 Initialized.</div>
-        <div>Type <b>help</b> to list available CLI commands.</div>
-      </div>
-      <div class="cli-bar">
-        <span>user@phantomx:~$</span>
-        <input type="text" id="cli-input" placeholder="Enter command..." autofocus autocomplete="off">
-      </div>
-    </div>
-
-    <!-- CCTV Camera Grid -->
-    <div class="win">
-      <div class="win-title"><span>CCTV FEED BYPASS</span><span>CAM_SYS</span></div>
-      <div class="win-body" style="padding: 4px;">
-        <div class="cctv-container">
-          <div class="cctv-box"><span class="cctv-tag">CAM_01 [MAIN]</span><canvas id="cctv1"></canvas></div>
-          <div class="cctv-box"><span class="cctv-tag">CAM_02 [VAULT]</span><canvas id="cctv2"></canvas></div>
+    <div class="window-body" style="padding:0; background:#0d1117;">
+      <div class="terminal-body">
+        <div id="term-out" class="terminal-output">
+          PhantomX OS v2.0.0 Modern Kernel Loaded.<br>
+          Type <b>help</b> or <b>about</b> to get started.
+        </div>
+        <div class="terminal-input-line">
+          <span>user@phantomx:~$&nbsp;</span>
+          <input type="text" id="term-in" onkeydown="handleTerminalCommand(event)">
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Trace Monitor -->
-    <div class="win" style="grid-column: 1 / -1;">
-      <div class="win-title"><span>GLOBAL TRACE MONITOR</span><span>REAL-TIME</span></div>
-      <div class="win-body">
-        <div>TRACE LEVEL: <span id="trace-val">12%</span> <span id="trace-status">[SECURE]</span></div>
-        <div id="trace-bar">[████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░]</div>
+  <!-- WINDOW 2: NOTEPAD -->
+  <div id="window-notes" class="window">
+    <div class="window-header" onmousedown="dragWindow(event, 'window-notes')">
+      <span class="window-title">Notepad</span>
+      <div class="window-controls">
+        <button class="control-btn btn-close" onclick="closeWindow('window-notes')"></button>
       </div>
     </div>
-
-    <!-- Director Panel Dock -->
-    <div class="director-dock">
-      <span>🎬 <b>SETTINGS:</b></span>
-      <label>Speed: <input type="range" id="speed-slider" min="1" max="10" value="5"></label>
-      <label>Theme: 
-        <select id="theme-select">
-          <option value="theme-matrix">Matrix Green</option>
-          <option value="theme-amber">Retro Amber</option>
-          <option value="theme-cyberpunk">Cyberpunk Neon</option>
-        </select>
-      </label>
-      <label>Audio SFX: <input type="checkbox" id="sfx-toggle" checked></label>
-      <span>Hotkeys: <b>ALT+1</b> (Breach) | <b>ALT+2</b> (Lockdown)</span>
+    <div class="window-body">
+      <textarea style="width: 100%; height: 100%; border: none; outline: none; resize: none; font-size: 14px;" placeholder="Type your notes here..."></textarea>
     </div>
   </div>
 
-  <!-- Modal Overlay -->
-  <div class="overlay" id="modal">
-    <div class="alert-box" id="modal-text">EXTRACTING INTEL...</div>
-    <div class="counter-text" id="modal-sub">DOWNLOADED: <span id="dl-count">0</span> MB / 4096 MB</div>
+  <!-- WINDOW 3: SETTINGS -->
+  <div id="window-settings" class="window">
+    <div class="window-header" onmousedown="dragWindow(event, 'window-settings')">
+      <span class="window-title">System Settings</span>
+      <div class="window-controls">
+        <button class="control-btn btn-close" onclick="closeWindow('window-settings')"></button>
+      </div>
+    </div>
+    <div class="window-body">
+      <h3>Desktop Background</h3>
+      <br>
+      <button onclick="changeBg('#001f3f')" style="padding:6px 12px; cursor:pointer;">Deep Blue</button>
+      <button onclick="changeBg('#111111')" style="padding:6px 12px; cursor:pointer;">Dark Gray</button>
+      <button onclick="changeBg('linear-gradient(135deg, #1f1c2c, #928dab)')" style="padding:6px 12px; cursor:pointer;">Purple Gradient</button>
+    </div>
   </div>
 
+  <!-- START MENU -->
+  <div id="start-menu" class="start-menu">
+    <div class="start-menu-item" onclick="openWindow('window-terminal'); toggleStartMenu();">💻 Terminal</div>
+    <div class="start-menu-item" onclick="openWindow('window-notes'); toggleStartMenu();">📝 Notepad</div>
+    <div class="start-menu-item" onclick="openWindow('window-settings'); toggleStartMenu();">⚙️ Settings</div>
+  </div>
+
+  <!-- BOTTOM TASKBAR -->
+  <div class="taskbar">
+    <button class="start-btn" onclick="toggleStartMenu()">⚡ Start</button>
+    <div class="clock" id="clock">00:00:00 AM</div>
+  </div>
+
+  <!-- JAVASCRIPT SYSTEM LOGIC -->
   <script>
-    // Web Audio API Synthesizer
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    // Clock Functionality
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').innerText = now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
 
-    function ensureAudioResumed() {
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
+    // Window Management
+    function openWindow(id) {
+      document.getElementById(id).style.display = 'flex';
+    }
+
+    function closeWindow(id) {
+      document.getElementById(id).style.display = 'none';
+    }
+
+    function toggleStartMenu() {
+      const menu = document.getElementById('start-menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Background Changer
+    function changeBg(color) {
+      document.body.style.background = color;
+    }
+
+    // Draggable Windows Logic
+    function dragWindow(e, windowId) {
+      const win = document.getElementById(windowId);
+      let shiftX = e.clientX - win.getBoundingClientRect().left;
+      let shiftY = e.clientY - win.getBoundingClientRect().top;
+
+      function moveAt(pageX, pageY) {
+        win.style.left = pageX - shiftX + 'px';
+        win.style.top = pageY - shiftY + 'px';
       }
-    }
 
-    function playKeyClick() {
-      const sfxOn = document.getElementById('sfx-toggle').checked;
-      if (!sfxOn) return;
-
-      ensureAudioResumed();
-      
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(800 + Math.random() * 400, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-      
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.04);
-    }
-
-    function playAlarmTone(freqStart = 440, freqEnd = 880) {
-      const sfxOn = document.getElementById('sfx-toggle').checked;
-      if (!sfxOn) return;
-
-      ensureAudioResumed();
-
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(freqStart, audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(freqEnd, audioCtx.currentTime + 0.2);
-      
-      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
-      
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.2);
-    }
-
-    // Matrix Background Canvas Loop
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-
-    const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
-    const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    const alphabet = katakana + latin;
-    const fontSize = 14;
-    let columns = 0;
-    let rainDrops = [];
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      columns = Math.floor(canvas.width / fontSize);
-      rainDrops = Array(columns).fill(1);
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    function drawMatrix() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--main-color').trim() || '#00ff66';
-      ctx.font = fontSize + 'px monospace';
-
-      for (let i = 0; i < rainDrops.length; i++) {
-        const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-        ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-
-        if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          rainDrops[i] = 0;
-        }
-        rainDrops[i]++;
+      function onMouseMove(event) {
+        moveAt(event.pageX, event.pageY);
       }
-    }
-    setInterval(drawMatrix, 30);
 
-    // CCTV Camera Noise Generator
-    function drawCCTV(canvasId) {
-      const cctvCanvas = document.getElementById(canvasId);
-      if (!cctvCanvas) return;
-      const cctx = cctvCanvas.getContext('2d');
-      cctvCanvas.width = 140;
-      cctvCanvas.height = 100;
+      document.addEventListener('mousemove', onMouseMove);
 
-      function renderNoise() {
-        const imgData = cctx.createImageData(cctvCanvas.width, cctvCanvas.height);
-        for (let i = 0; i < imgData.data.length; i += 4) {
-          const val = Math.random() * 255;
-          imgData.data[i] = val;
-          imgData.data[i+1] = val;
-          imgData.data[i+2] = val;
-          imgData.data[i+3] = 255;
-        }
-        cctx.putImageData(imgData, 0, 0);
-      }
-      setInterval(renderNoise, 100);
-    }
-    drawCCTV('cctv1');
-    drawCCTV('cctv2');
-
-    // Theme Switcher Engine
-    function changeTheme(themeName) {
-      document.body.className = themeName;
+      document.onmouseup = function() {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.onmouseup = null;
+      };
     }
 
-    const themeSelect = document.getElementById('theme-select');
-    if (themeSelect) {
-      themeSelect.addEventListener('change', (e) => {
-        changeTheme(e.target.value);
-      });
-    }
-
-    // Terminal CLI Parser
-    const cliInput = document.getElementById('cli-input');
-    const termLog = document.getElementById('term-log');
-
-    cliInput.addEventListener('keydown', (e) => {
-      playKeyClick();
+    // Terminal Commands
+    function handleTerminalCommand(e) {
       if (e.key === 'Enter') {
-        const cmd = cliInput.value.trim().toLowerCase();
-        cliInput.value = '';
-        
-        if (cmd === '') return;
+        const input = document.getElementById('term-in');
+        const output = document.getElementById('term-out');
+        const cmd = input.value.trim().toLowerCase();
 
-        appendLog(`user@phantomx:~$ ${cmd}`);
-        processCommand(cmd);
-      }
-    });
+        output.innerHTML += `<div>user@phantomx:~$ ${cmd}</div>`;
 
-    function appendLog(text) {
-      const line = document.createElement('div');
-      line.innerHTML = text;
-      termLog.appendChild(line);
-      termLog.scrollTop = termLog.scrollHeight;
-    }
-
-    function processCommand(cmd) {
-      const args = cmd.split(' ');
-      switch (args[0]) {
-        case 'help':
-          appendLog('Available commands: <b>help</b>, <b>scan</b>, <b>theme</b>, <b>clear</b>, <b>status</b>');
-          break;
-        case 'scan':
-          appendLog('[+] Scanning local subnet... Found 4 active nodes.');
-          break;
-        case 'clear':
-          termLog.innerHTML = '';
-          break;
-        case 'status':
-          appendLog('SYS_MAINFRAME: ONLINE | TRACE: 12% | ENCRYPTION: SECURE');
-          break;
-        case 'theme':
-          if (args[1] === 'amber') {
-            changeTheme('theme-amber');
-            if (themeSelect) themeSelect.value = 'theme-amber';
-            appendLog('Theme set to Retro Amber.');
-          } else if (args[1] === 'matrix') {
-            changeTheme('theme-matrix');
-            if (themeSelect) themeSelect.value = 'theme-matrix';
-            appendLog('Theme set to Matrix Green.');
-          } else if (args[1] === 'cyberpunk') {
-            changeTheme('theme-cyberpunk');
-            if (themeSelect) themeSelect.value = 'theme-cyberpunk';
-            appendLog('Theme set to Cyberpunk Neon.');
-          } else {
-            appendLog('Usage: theme &lt;matrix | amber | cyberpunk&gt;');
-          }
-          break;
-        default:
-          appendLog(`Command not recognized: '${cmd}'. Type <b>help</b> for options.`);
-      }
-    }
-
-    // Hotkeys Listener (ALT+1 Breach | ALT+2 Lockdown)
-    window.addEventListener('keydown', (e) => {
-      if (e.altKey && e.key === '1') {
-        e.preventDefault();
-        triggerBreach();
-      } else if (e.altKey && e.key === '2') {
-        e.preventDefault();
-        triggerLockdown();
-      }
-    });
-
-    function triggerBreach() {
-      playAlarmTone(440, 880);
-      const modal = document.getElementById('modal');
-      const alertText = document.getElementById('modal-text');
-      alertText.textContent = 'EXTRACTING INTEL...';
-      modal.style.display = 'flex';
-      
-      let downloaded = 0;
-      const dlCount = document.getElementById('dl-count');
-      
-      const timer = setInterval(() => {
-        downloaded += 256;
-        dlCount.textContent = downloaded;
-        if (downloaded >= 4096) {
-          clearInterval(timer);
-          setTimeout(() => {
-            modal.style.display = 'none';
-          }, 1000);
+        if (cmd === 'help') {
+          output.innerHTML += `<div>Available commands: <b>about</b>, <b>clear</b>, <b>date</b></div>`;
+        } else if (cmd === 'about') {
+          output.innerHTML += `<div>PhantomX OS v2.0.0 — Modern Desktop Edition. Built with 100% pure HTML, CSS, & JS.</div>`;
+        } else if (cmd === 'clear') {
+          output.innerHTML = '';
+        } else if (cmd === 'date') {
+          output.innerHTML += `<div>${new Date().toLocaleString()}</div>`;
+        } else if (cmd !== '') {
+          output.innerHTML += `<div>Command not found: ${cmd}</div>`;
         }
-      }, 100);
-    }
 
-    function triggerLockdown() {
-      playAlarmTone(200, 100);
-      const modal = document.getElementById('modal');
-      const alertText = document.getElementById('modal-text');
-      alertText.textContent = '🚨 SYSTEM BREACH DETECTED - LOCKDOWN ENGAGED 🚨';
-      modal.style.display = 'flex';
-
-      setTimeout(() => {
-        modal.style.display = 'none';
-      }, 3000);
+        input.value = '';
+        output.scrollTop = output.scrollHeight;
+      }
     }
   </script>
 </body>
