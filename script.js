@@ -1,66 +1,169 @@
-// Clock functionality
-function updateClock() {
-  const now = new Date();
-  document.getElementById('clock').innerText = now.toLocaleTimeString();
-}
-setInterval(updateClock, 1000);
-updateClock();
-
-// Window management
-function openWindow(id) {
-  document.getElementById(id).classList.remove('hidden');
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
 }
 
-function closeWindow(id) {
-  document.getElementById(id).classList.add('hidden');
+body {
+  background: linear-gradient(135deg, #1e3a8a, #0f172a, #111827);
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #ffffff;
 }
 
-// Window Dragging Logic
-let activeWin = null;
-let offsetX = 0, offsetY = 0;
-
-function dragMouseDown(e, winId) {
-  activeWin = document.getElementById(winId);
-  offsetX = e.clientX - activeWin.offsetLeft;
-  offsetY = e.clientY - activeWin.offsetTop;
-  document.onmousemove = elementDrag;
-  document.onmouseup = closeDragElement;
+.desktop {
+  height: calc(100vh - 40px);
+  position: relative;
+  padding: 20px;
 }
 
-function elementDrag(e) {
-  if (!activeWin) return;
-  activeWin.style.left = (e.clientX - offsetX) + "px";
-  activeWin.style.top = (e.clientY - offsetY) + "px";
+/* Desktop Icons */
+.desktop-icons {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 80px;
 }
 
-function closeDragElement() {
-  document.onmousemove = null;
-  document.onmouseup = null;
-  activeWin = null;
+.icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  text-align: center;
+  font-size: 13px;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
 }
 
-// Simple Terminal Interaction
-function handleCommand(e) {
-  if (e.key === 'Enter') {
-    const input = e.target.value.trim().toLowerCase();
-    const body = document.querySelector('.terminal-body');
-    
-    let output = document.createElement('p');
-    output.className = 'term-text';
-    
-    if (input === 'help') {
-      output.innerText = "Available commands: help, clear, version";
-    } else if (input === 'version') {
-      output.innerText = "PhantomX OS version 2.0.1 (Refactored Core)";
-    } else if (input === 'clear') {
-      body.querySelectorAll('p').forEach(p => p.remove());
-      e.target.value = '';
-      return;
-    } else {
-      output.innerText = `Command not recognized: ${input}`;
-    }
+.icon-img {
+  width: 48px;
+  height: 48px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin-bottom: 6px;
+  transition: background 0.2s;
+}
 
-    body.insertBefore(output, document.querySelector('.input-line'));
-    e.target.value = '';
-  }
+.icon:hover .icon-img {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Terminal Window */
+.window {
+  width: 550px;
+  height: 380px;
+  background-color: #0b0f19;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  position: absolute;
+  top: 40px;
+  left: 140px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.window-header {
+  background-color: #1e293b;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.window-title {
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.window-body {
+  padding: 15px;
+  flex: 1;
+  overflow-y: auto;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.welcome-text {
+  color: #22c55e;
+}
+
+.welcome-sub {
+  color: #ffffff;
+}
+
+.highlight {
+  color: #22c55e;
+  font-weight: bold;
+}
+
+.input-line {
+  display: flex;
+  padding: 10px 15px;
+  background-color: #0b0f19;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.prompt {
+  color: #22c55e;
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+#command-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  flex: 1;
+}
+
+/* Taskbar */
+.taskbar {
+  height: 40px;
+  background-color: #090d16;
+  border-top: 1px solid #1e293b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.start-btn {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.clock {
+  font-size: 12px;
+  color: #cbd5e1;
+  font-family: monospace;
 }
