@@ -1,30 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PhantomX OS</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="terminal">
-    <div class="terminal-header">
-      <span class="btn red"></span>
-      <span class="btn yellow"></span>
-      <span class="btn green"></span>
-      <span class="title">PhantomX OS — v2.0.1</span>
-    </div>
-    <div class="terminal-body" id="terminal-body">
-      <p>Welcome to PhantomX OS!</p>
-      <p>Type <span class="highlight">'help'</span> to see a list of available commands.</p>
-      <br>
-    </div>
-    <div class="input-line">
-      <span class="prompt">phantom@os:~$</span>
-      <input type="text" id="command-input" autofocus autocomplete="off" placeholder="Type command here...">
-    </div>
-  </div>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  <script src="script.js"></script>
-</body>
-</html>
+body {
+  background-color: #0f172a;
+  color: #f8fafc;
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.terminal {
+  width: 100%;
+  max-width: 800px;
+  background-color: #1e293b;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  border: 1px solid #334155;
+}
+
+.terminal-header {
+  background-color: #0f172a;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.red { background-color: #ef4444; }
+.yellow { background-color: #f59e0b; }
+.green { background-color: #10b981; }
+
+.title {
+  color: #94a3b8;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.terminal-body {
+  padding: 20px;
+  height: 350px;
+  overflow-y: auto;
+  line-height: 1.6;
+}
+
+.highlight {
+  color: #38bdf8;
+  font-weight: bold;
+}
+
+.input-line {
+  display: flex;
+  padding: 15px 20px;
+  background-color: #0f172a;
+  border-top: 1px solid #334155;
+}
+
+.prompt {
+  color: #10b981;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+#command-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #f8fafc;
+  font-family: inherit;
+  font-size: 16px;
+  flex: 1;
+}
