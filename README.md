@@ -1,4 +1,4 @@
-# ⚡ PhantomX OS v2.1.1
+# ⚡ PhantomX OS v2.1.2
 
 > A zero-dependency, open-source web desktop environment, cyberdeck HUD, and browser-based hacking simulator.
 
@@ -13,11 +13,11 @@ PhantomX OS is a lightweight Web OS platform built 100% in pure Vanilla JavaScri
 
 ---
 
-## 🚀 What's New in v2.1.1
+## 🚀 What's New in v2.1.2
 
-* **Fully Wired Window Controls:** Smooth close `(X)`, minimize, and maximize toggles working across active desktop applications (Terminal, Notepad, Settings).
-* **Refactored UI Engine:** Upgraded HTML/CSS layout structure for responsive window positioning and clean multitasking.
-* **System Version Bump:** Core system banner and title updated to v2.1.1.
+* **Full PWA Support:** Native Progressive Web App integration with `manifest.json` and `sw.js` for offline caching and desktop/mobile app installation.
+* **Window Engine Improvements:** Implemented native `minimizeWindow()` and `maximizeWindow()` toggle logic with dynamic z-index stacking.
+* **System Version Sync:** Aligned version indicators across core HTML, CLI banner, and system settings modules to v2.1.2.
 
 ---
 
@@ -48,6 +48,8 @@ phantomx-os/
 ├── index.html               # Main root HTML5 entry point
 ├── style.css                # Core window manager & cyberdeck HUD styles
 ├── script.js                # Vanilla JS window engine & terminal logic
+├── manifest.json            # PWA web app installer specification
+├── sw.js                    # Service worker offline cache engine
 ├── sitemap.xml              # Search engine index sitemap
 ├── robots.txt               # Crawler permission file
 ├── google*.html             # Google Search Console verification
