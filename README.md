@@ -1,4 +1,4 @@
-# ⚡ PhantomX OS v2.1.2
+# ⚡ PhantomX OS v2.2.0
 
 > A zero-dependency, open-source web desktop environment, cyberdeck HUD, and browser-based hacking simulator.
 
@@ -13,19 +13,19 @@ PhantomX OS is a lightweight Web OS platform built 100% in pure Vanilla JavaScri
 
 ---
 
-## 🚀 What's New in v2.1.2
+## 🚀 What's New in v2.2.0
 
-* **Full PWA Support:** Native Progressive Web App integration with `manifest.json` and `sw.js` for offline caching and desktop/mobile app installation.
-* **Window Engine Improvements:** Implemented native `minimizeWindow()` and `maximizeWindow()` toggle logic with dynamic z-index stacking.
-* **System Version Sync:** Aligned version indicators across core HTML, CLI banner, and system settings modules to v2.1.2.
+* **Modular Kernel Architecture:** Extracted core OS operations into `kernel.js` to handle low-level window lifecycles (open, close, minimize, maximize), dynamic z-index stacking, and active process tracking.
+* **Virtual File System:** Added an in-memory JSON-backed filesystem (`/home`, `/sys`, `/logs`) supporting `ls` and `ps` CLI terminal commands.
+* **Service Worker Update:** Synchronized offline PWA caching layer with the new `kernel.js` release bundle.
 
 ---
 
 ## 🔥 Key Features
 
 * 💻 **Web Desktop Environment:** Functional floating taskbar dock, desktop app icons, and real-time clock indicator.
-* 🪟 **Window Manager Engine:** Client-side state handling for opening, closing, minimizing, and maximizing app windows.
-* 👾 **Cyberdeck Terminal Suite:** Interactive CLI stream supporting real-time commands and system telemetry tracking.
+* 🧠 **Kernel Engine (`kernel.js`):** Client-side state handling for window lifecycles, active process lists, and focus management.
+* 👾 **Cyberdeck Terminal Suite:** Interactive CLI stream supporting real-time commands, process inspection (`ps`), and filesystem traversal (`ls`).
 * 🎥 **CCTV & Trace Monitors:** Simulated visual canvas monitoring and real-time security trace level displays.
 * 🎵 **Web Audio API SFX:** Native browser audio synthesis for tactical UI clicks and alarm sound effects.
 * 🎨 **Theme Engine:** Instant color scheme switching (Matrix Green, Retro Amber, Cyberpunk Neon).
@@ -47,7 +47,8 @@ PhantomX OS is a lightweight Web OS platform built 100% in pure Vanilla JavaScri
 phantomx-os/
 ├── index.html               # Main root HTML5 entry point
 ├── style.css                # Core window manager & cyberdeck HUD styles
-├── script.js                # Vanilla JS window engine & terminal logic
+├── kernel.js                # OS Kernel (Window lifecycle, z-index, process tracking)
+├── script.js                # App logic & CLI command parser
 ├── manifest.json            # PWA web app installer specification
 ├── sw.js                    # Service worker offline cache engine
 ├── sitemap.xml              # Search engine index sitemap
