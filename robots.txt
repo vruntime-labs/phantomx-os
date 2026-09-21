@@ -1,2 +1,3 @@
 User-agent: *
+Allow: /
 Sitemap: https://vruntime-labs.github.io/phantomx-os/sitemap.xml
