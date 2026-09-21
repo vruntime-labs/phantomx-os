@@ -3,8 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PhantomX OS v2.1.1</title>
+  <title>PhantomX OS v2.1.2</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- Web App PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0f172a">
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js');
+      });
+    }
+  </script>
 </head>
 <body>
   <!-- Desktop Workspace -->
@@ -37,7 +50,7 @@
         </div>
       </div>
       <div class="window-body" id="terminal-body">
-        <p class="welcome-text">PhantomX OS v2.1.1 Modern Kernel Loaded.</p>
+        <p class="welcome-text">PhantomX OS v2.1.2 Modern Kernel Loaded.</p>
         <p class="welcome-sub">Type <span class="highlight">help</span> or <span class="highlight">about</span> to get started.</p>
         <br>
       </div>
@@ -74,7 +87,7 @@
       </div>
       <div class="window-body settings-body">
         <h3>System Settings</h3>
-        <p>OS Version: PhantomX v2.1.1</p>
+        <p>OS Version: PhantomX v2.1.2</p>
         <p>Kernel: x86_64 Modern Web Build</p>
         <br>
         <button class="os-btn" onclick="alert('System is up to date!')">Check for Updates</button>
