@@ -3,123 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PhantomX OS v2.1.2</title>
+  <title>PhantomX OS v2.2.0</title>
   <link rel="stylesheet" href="style.css">
-
-  <!-- Web App PWA Manifest -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0f172a">
-
-  <!-- Service Worker Registration -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js');
-      });
-    }
-  </script>
 </head>
 <body>
+
   <!-- Desktop Workspace -->
-  <div class="desktop" id="desktop">
+  <div id="desktop">
     
-    <!-- Desktop Icons Grid -->
-    <div class="desktop-icons">
-      <div class="icon" onclick="openWindow('terminal-window')">
-        <div class="icon-img">💻</div>
-        <span>Terminal</span>
-      </div>
-      <div class="icon" onclick="openWindow('notepad-window')">
-        <div class="icon-img">📝</div>
-        <span>Notepad</span>
-      </div>
-      <div class="icon" onclick="openWindow('settings-window')">
-        <div class="icon-img">⚙️</div>
-        <span>Settings</span>
-      </div>
-    </div>
-
-    <!-- Terminal Window -->
-    <div class="window active-window" id="terminal-window" style="top: 50px; left: 80px;">
+    <!-- Terminal App Window -->
+    <div id="terminal-window" class="window" style="top: 80px; left: 200px;">
       <div class="window-header" onmousedown="startDrag(event, 'terminal-window')">
-        <div class="window-title-area">
-          <span class="window-dot red" onclick="closeWindow('terminal-window')" title="Close"></span>
-          <span class="window-dot yellow" onclick="minimizeWindow('terminal-window')" title="Minimize"></span>
-          <span class="window-dot green" onclick="maximizeWindow('terminal-window')" title="Maximize"></span>
-          <span class="window-title">Terminal</span>
+        <div class="window-title">⚡ Cyberdeck Terminal — v2.2.0</div>
+        <div class="window-controls">
+          <button class="window-dot yellow" onclick="minimizeWindow('terminal-window')"></button>
+          <button class="window-dot green" onclick="maximizeWindow('terminal-window')"></button>
+          <button class="window-dot red" onclick="closeWindow('terminal-window')"></button>
         </div>
       </div>
-      <div class="window-body" id="terminal-body">
-        <p class="welcome-text">PhantomX OS v2.1.2 Modern Kernel Loaded.</p>
-        <p class="welcome-sub">Type <span class="highlight">help</span> or <span class="highlight">about</span> to get started.</p>
-        <br>
+      <div id="terminal-body" class="window-body">
+        <p>PhantomX OS [Version 2.2.0]</p>
+        <p>Type <b style="color:#34d399">help</b> to view available system commands.</p>
       </div>
-      <div class="input-line">
-        <span class="prompt">user@phantomx:~$</span>
-        <input type="text" id="command-input" autofocus autocomplete="off">
-      </div>
-    </div>
-
-    <!-- Notepad Window (Hidden by default) -->
-    <div class="window" id="notepad-window" style="top: 80px; left: 320px; display: none;">
-      <div class="window-header" onmousedown="startDrag(event, 'notepad-window')">
-        <div class="window-title-area">
-          <span class="window-dot red" onclick="closeWindow('notepad-window')" title="Close"></span>
-          <span class="window-dot yellow" onclick="minimizeWindow('notepad-window')" title="Minimize"></span>
-          <span class="window-dot green" onclick="maximizeWindow('notepad-window')" title="Maximize"></span>
-          <span class="window-title">Untitled - Notepad</span>
-        </div>
-      </div>
-      <div class="window-body notepad-body">
-        <textarea placeholder="Type your notes here..."></textarea>
-      </div>
-    </div>
-
-    <!-- Settings Window (Hidden by default) -->
-    <div class="window" id="settings-window" style="top: 100px; left: 200px; display: none;">
-      <div class="window-header" onmousedown="startDrag(event, 'settings-window')">
-        <div class="window-title-area">
-          <span class="window-dot red" onclick="closeWindow('settings-window')" title="Close"></span>
-          <span class="window-dot yellow" onclick="minimizeWindow('settings-window')" title="Minimize"></span>
-          <span class="window-dot green" onclick="maximizeWindow('settings-window')" title="Maximize"></span>
-          <span class="window-title">Settings</span>
-        </div>
-      </div>
-      <div class="window-body settings-body">
-        <h3>System Settings</h3>
-        <p>OS Version: PhantomX v2.1.2</p>
-        <p>Kernel: x86_64 Modern Web Build</p>
-        <br>
-        <button class="os-btn" onclick="alert('System is up to date!')">Check for Updates</button>
+      <div class="terminal-input-line">
+        <span class="prompt">user@phantomx:/$</span>
+        <input type="text" id="command-input" autofocus autocomplete="off" spellcheck="false">
       </div>
     </div>
 
   </div>
 
-  <!-- Start Menu Popup -->
-  <div class="start-menu" id="start-menu">
-    <div class="start-header">Pinned Apps</div>
-    <div class="start-grid">
-      <div class="start-app" onclick="openWindow('terminal-window'); toggleStartMenu();">💻 Terminal</div>
-      <div class="start-app" onclick="openWindow('notepad-window'); toggleStartMenu();">📝 Notepad</div>
-      <div class="start-app" onclick="openWindow('settings-window'); toggleStartMenu();">⚙️ Settings</div>
-    </div>
+  <!-- Taskbar & Start Menu -->
+  <div id="start-menu" class="start-menu">
+    <div class="start-header">PhantomX OS</div>
+    <ul>
+      <li onclick="openWindow('terminal-window'); toggleStartMenu();">💻 Terminal</li>
+    </ul>
   </div>
 
-  <!-- Modern Taskbar (Windows 11 / Linux KDE style) -->
-  <div class="taskbar">
-    <div class="taskbar-left"></div>
-    <div class="taskbar-center">
-      <button class="start-btn" onclick="toggleStartMenu()">⚡</button>
-      <button class="task-icon active" onclick="openWindow('terminal-window')">💻</button>
-      <button class="task-icon" onclick="openWindow('notepad-window')">📝</button>
-      <button class="task-icon" onclick="openWindow('settings-window')">⚙️</button>
+  <div id="taskbar">
+    <button class="start-btn" onclick="toggleStartMenu()">⚡ Start</button>
+    <div class="taskbar-apps">
+      <button class="taskbar-item" onclick="openWindow('terminal-window')">Terminal</button>
     </div>
-    <div class="taskbar-right">
-      <div class="clock" id="taskbar-clock">00:00:00</div>
-    </div>
+    <div id="taskbar-clock" class="taskbar-clock">00:00</div>
   </div>
 
+  <!-- Core Scripts -->
+  <script src="kernel.js"></script>
   <script src="script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
 </body>
 </html>
