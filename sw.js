@@ -1,8 +1,9 @@
-const CACHE_NAME = 'phantomx-v2.1.2';
+const CACHE_NAME = 'phantomx-v2.2.0';
 const ASSETS = [
   './',
   './index.html',
   './style.css',
+  './kernel.js',
   './script.js',
   './manifest.json'
 ];
