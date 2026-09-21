@@ -1,45 +1,54 @@
-# ⚡ PhantomX OS v1.0
+# ⚡ PhantomX OS v2.1.1
 
-> **Hollywood Cyberdeck & Web-Based Hacking Simulator**
+> A zero-dependency, open-source web desktop environment, cyberdeck HUD, and browser-based hacking simulator.
 
-PhantomX OS is an open-source, interactive Cyberdeck HUD built for **filmmakers, video content creators, live streamers, and props designers**. It provides a real-time, cinematic hacking dashboard right inside any modern web browser—no installation or dependencies required.
-
----
-
-## ✨ Features
-
-- **📺 Retro CRT Phosphor Effect:** Built-in scanlines, text glow, and retro screen bloom.
-- **🌧️ Animated Matrix Rain:** Canvas-rendered background stream for depth and aesthetic visual telemetry.
-- **📊 Dynamic Target Telemetry:** Live CPU load, network bandwidth monitors, and animated trace meters.
-- **🔓 Continuous Hash Cracker Stream:** Auto-populating cryptographic hash generation output.
-- **🚨 Interactive Hotkey Banners:** Trigger full-screen Hollywood alert overlays instantly during filming or pranks.
+PhantomX OS is a lightweight Web OS platform built 100% in pure Vanilla JavaScript, HTML5, and CSS3. It simulates a high-tech terminal exploit suite—complete with real-time CLI commands, telemetry monitoring, CCTV feed bypasses, trace monitors, and Web Audio SFX—all managed inside an authentic desktop window environment with zero framework bloat.
 
 ---
 
-## ⌨️ Interactive Hotkeys
+## 🌐 Live Demo & Deployment
 
-Use these keyboard shortcuts during live recordings or pranks to trigger full-screen cinema overlays:
-
-| Hotkey Combination | Action Triggered | Visual Overlay |
-| :--- | :--- | :--- |
-| `Alt + 1` | Grant System Access | **ACCESS GRANTED** (Green Pulse) |
-| `Alt + 2` | Trigger Security Alarm | **SYSTEM BREACH DETECTED** (Red Warning) |
+* **Live Web App:** [https://vruntime-labs.github.io/phantomx-os/](https://vruntime-labs.github.io/phantomx-os/)
+* **Organization:** [vruntime-labs](https://github.com/vruntime-labs)
 
 ---
 
-## 🚀 Quick Deployment & Usage
+## 🚀 What's New in v2.1.1
 
-### 1. View Live Site
-Host this repository on **GitHub Pages** to access it instantly via URL.
-
-### 2. Local Usage
-1. Download or clone this repository:
-bash
-git clone https://github.com/mmukeshbabu2010-dot/phantomx-os.git
-
-2. Open `index.html` directly in any web browser.
+* **Fully Wired Window Controls:** Smooth close `(X)`, minimize, and maximize toggles working across active desktop applications (Terminal, Notepad, Settings).
+* **Refactored UI Engine:** Upgraded HTML/CSS layout structure for responsive window positioning and clean multitasking.
+* **System Version Bump:** Core system banner and title updated to v2.1.1.
 
 ---
 
-## 📄 License
-Distributed under the **MIT License**. Free for personal, commercial, and movie production use.
+## 🔥 Key Features
+
+* 💻 **Web Desktop Environment:** Functional floating taskbar dock, desktop app icons, and real-time clock indicator.
+* 🪟 **Window Manager Engine:** Client-side state handling for opening, closing, minimizing, and maximizing app windows.
+* 👾 **Cyberdeck Terminal Suite:** Interactive CLI stream supporting real-time commands and system telemetry tracking.
+* 🎥 **CCTV & Trace Monitors:** Simulated visual canvas monitoring and real-time security trace level displays.
+* 🎵 **Web Audio API SFX:** Native browser audio synthesis for tactical UI clicks and alarm sound effects.
+* 🎨 **Theme Engine:** Instant color scheme switching (Matrix Green, Retro Amber, Cyberpunk Neon).
+
+---
+
+## 🛠 Tech Stack & Architecture
+
+* **Frontend:** Pure HTML5, CSS3 (Flexbox/Grid, Glassmorphism), Vanilla JavaScript (ES6+).
+* **Graphics & Audio:** HTML5 2D Canvas API & Native Web Audio API.
+* **Dependencies:** STRICTLY 0 (No React, Vue, Tailwind, or external NPM libraries).
+* **Hosting:** 100% Free static deployment via GitHub Pages.
+
+---
+
+## 📂 Repository Hierarchy
+
+```text
+phantomx-os/
+├── index.html               # Main root HTML5 entry point
+├── style.css                # Core window manager & cyberdeck HUD styles
+├── script.js                # Vanilla JS window engine & terminal logic
+├── sitemap.xml              # Search engine index sitemap
+├── robots.txt               # Crawler permission file
+├── google*.html             # Google Search Console verification
+└── BingSiteAuth.xml         # Bing Webmaster Tools verification
