@@ -1,0 +1,17 @@
+{
+  "name": "PhantomX OS",
+  "short_name": "PhantomX",
+  "description": "Zero-dependency web desktop environment, cyberdeck HUD, and browser-based hacking simulator.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "https://vruntime-labs.github.io/phantomx-os/sitemap.xml",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
