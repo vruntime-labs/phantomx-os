@@ -6,28 +6,53 @@ document.addEventListener("DOMContentLoaded", () => {
   // Real-time Clock
   function updateClock() {
     const now = new Date();
-    clock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    if (clock) {
+      clock.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
   }
   setInterval(updateClock, 1000);
   updateClock();
 
-  // CLI Commands
+  // Simulated Virtual File System Structure
+  const fileSystem = {
+    "/": ["home", "sys", "logs"],
+    "/home": ["user_notes.txt", "project_info.md"],
+    "/sys": ["kernel.conf", "network.cfg"],
+    "/logs": ["auth.log", "trace.log"]
+  };
+
+  let currentPath = "/";
+
+  // CLI Commands Engine
   const commands = {
-    help: "Available commands: <br> • <b style='color:#34d399'>help</b> - Show options<br> • <b style='color:#34d399'>about</b> - About system<br> • <b style='color:#34d399'>clear</b> - Clear screen",
-    about: "PhantomX OS v2.1.2 — Modern Web Desktop Kernel."
+    help: "Available commands: <br> • <b style='color:#34d399'>help</b> - List commands<br> • <b style='color:#34d399'>about</b> - OS info<br> • <b style='color:#34d399'>ls</b> - List directory contents<br> • <b style='color:#34d399'>ps</b> - List active processes<br> • <b style='color:#34d399'>clear</b> - Clear terminal screen",
+    about: "PhantomX OS v2.2.0 — Modern Cyberdeck Web OS Kernel."
   };
 
   if (input) {
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
-        const command = input.value.trim().toLowerCase();
-        
+        const rawInput = input.value.trim();
+        const command = rawInput.toLowerCase();
+
         const userLine = document.createElement("p");
-        userLine.innerHTML = `<span class="prompt">user@phantomx:~$</span> ${input.value}`;
+        userLine.innerHTML = `<span class="prompt">user@phantomx:${currentPath}$</span> ${rawInput}`;
         body.appendChild(userLine);
 
         if (command === "clear") {
           body.innerHTML = "";
+        } else if (command === "ls") {
+          const files = fileSystem[currentPath] || [];
+          const output = document.createElement("p");
+          output.innerHTML = files.map(f => f.includes('.') ? f : `<b style='color:#3b82f6'>${f}/</b>`).join("&nbsp;&nbsp;&nbsp;&nbsp;");
+          body.appendChild(output);
+        } else if (command === "ps") {
+          const active = Array.from(window.PhantomKernel.activeProcesses);
+          const output = document.createElement("p");
+          output.innerHTML = active.length > 0 
+            ? `Active Processes (${active.length}):<br>` + active.map(pid => ` • <span style="color:#34d399">${pid}</span> (running)`).join("<br>")
+            : "No active background processes.";
+          body.appendChild(output);
         } else if (commands[command]) {
           const response = document.createElement("p");
           response.innerHTML = commands[command];
@@ -35,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (command !== "") {
           const error = document.createElement("p");
           error.style.color = "#ef4444";
-          error.textContent = `Command not recognized: '${command}'`;
+          error.textContent = `Command not recognized: '${rawInput}'`;
           body.appendChild(error);
         }
 
@@ -45,92 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Elevate window depth on click
+  // Window depth elevation listener
   document.querySelectorAll('.window').forEach(win => {
-    win.addEventListener('mousedown', () => bringToFront(win));
+    win.addEventListener('mousedown', () => window.PhantomKernel.bringToFront(win));
   });
 });
-
-// Window Management Engine
-let highestZ = 10;
-
-function openWindow(windowId) {
-  const win = document.getElementById(windowId);
-  if (win) {
-    win.style.display = "flex";
-    bringToFront(win);
-  }
-}
-
-function closeWindow(windowId) {
-  const win = document.getElementById(windowId);
-  if (win) {
-    win.style.display = "none";
-  }
-}
-
-function minimizeWindow(windowId) {
-  const win = document.getElementById(windowId);
-  if (win) {
-    win.style.display = "none";
-  }
-}
-
-function maximizeWindow(windowId) {
-  const win = document.getElementById(windowId);
-  if (win) {
-    if (win.classList.contains("maximized")) {
-      win.classList.remove("maximized");
-      win.style.top = "80px";
-      win.style.left = "200px";
-      win.style.width = "580px";
-      win.style.height = "380px";
-    } else {
-      win.classList.add("maximized");
-      win.style.top = "0px";
-      win.style.left = "0px";
-      win.style.width = "100vw";
-      win.style.height = "calc(100vh - 50px)";
-    }
-  }
-}
-
-function bringToFront(win) {
-  highestZ += 1;
-  win.style.zIndex = highestZ;
-}
-
-function toggleStartMenu() {
-  const menu = document.getElementById("start-menu");
-  menu.classList.toggle("open");
-}
-
-// Window Dragging Support
-let activeWindow = null;
-let offsetX = 0;
-let offsetY = 0;
-
-function startDrag(e, windowId) {
-  if (e.target.classList.contains('window-dot')) return;
-  activeWindow = document.getElementById(windowId);
-  if (activeWindow.classList.contains("maximized")) return;
-
-  bringToFront(activeWindow);
-  offsetX = e.clientX - activeWindow.offsetLeft;
-  offsetY = e.clientY - activeWindow.offsetTop;
-  
-  document.addEventListener('mousemove', onDrag);
-  document.addEventListener('mouseup', stopDrag);
-}
-
-function onDrag(e) {
-  if (!activeWindow) return;
-  activeWindow.style.left = (e.clientX - offsetX) + 'px';
-  activeWindow.style.top = (e.clientY - offsetY) + 'px';
-}
-
-function stopDrag() {
-  activeWindow = null;
-  document.removeEventListener('mousemove', onDrag);
-  document.removeEventListener('mouseup', stopDrag);
-}
