@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // CLI Commands
   const commands = {
     help: "Available commands: <br> • <b style='color:#34d399'>help</b> - Show options<br> • <b style='color:#34d399'>about</b> - About system<br> • <b style='color:#34d399'>clear</b> - Clear screen",
-    about: "PhantomX OS v2.1.0 — Modern Web Desktop Kernel."
+    about: "PhantomX OS v2.1.2 — Modern Web Desktop Kernel."
   };
 
   if (input) {
@@ -44,9 +44,16 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  // Elevate window depth on click
+  document.querySelectorAll('.window').forEach(win => {
+    win.addEventListener('mousedown', () => bringToFront(win));
+  });
 });
 
 // Window Management Engine
+let highestZ = 10;
+
 function openWindow(windowId) {
   const win = document.getElementById(windowId);
   if (win) {
@@ -62,9 +69,35 @@ function closeWindow(windowId) {
   }
 }
 
+function minimizeWindow(windowId) {
+  const win = document.getElementById(windowId);
+  if (win) {
+    win.style.display = "none";
+  }
+}
+
+function maximizeWindow(windowId) {
+  const win = document.getElementById(windowId);
+  if (win) {
+    if (win.classList.contains("maximized")) {
+      win.classList.remove("maximized");
+      win.style.top = "80px";
+      win.style.left = "200px";
+      win.style.width = "580px";
+      win.style.height = "380px";
+    } else {
+      win.classList.add("maximized");
+      win.style.top = "0px";
+      win.style.left = "0px";
+      win.style.width = "100vw";
+      win.style.height = "calc(100vh - 50px)";
+    }
+  }
+}
+
 function bringToFront(win) {
-  document.querySelectorAll('.window').forEach(w => w.style.zIndex = 10);
-  win.style.zIndex = 100;
+  highestZ += 1;
+  win.style.zIndex = highestZ;
 }
 
 function toggleStartMenu() {
@@ -72,7 +105,7 @@ function toggleStartMenu() {
   menu.classList.toggle("open");
 }
 
-// Simple Window Dragging Support
+// Window Dragging Support
 let activeWindow = null;
 let offsetX = 0;
 let offsetY = 0;
@@ -80,6 +113,8 @@ let offsetY = 0;
 function startDrag(e, windowId) {
   if (e.target.classList.contains('window-dot')) return;
   activeWindow = document.getElementById(windowId);
+  if (activeWindow.classList.contains("maximized")) return;
+
   bringToFront(activeWindow);
   offsetX = e.clientX - activeWindow.offsetLeft;
   offsetY = e.clientY - activeWindow.offsetTop;
