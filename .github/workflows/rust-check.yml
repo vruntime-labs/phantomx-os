@@ -1,0 +1,44 @@
+name: Rust foundation checks
+
+on:
+  push:
+    paths:
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "crates/**"
+      - ".github/workflows/rust-check.yml"
+  pull_request:
+    paths:
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "crates/**"
+      - ".github/workflows/rust-check.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Format, test, lint, and check Wasm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install stable Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+          components: rustfmt, clippy
+
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      - name: Run tests
+        run: cargo test --workspace
+
+      - name: Run Clippy
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - name: Check WebAssembly target
+        run: cargo check -p phantomx-kernel-core --target wasm32-unknown-unknown
