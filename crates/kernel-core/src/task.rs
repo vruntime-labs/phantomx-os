@@ -26,12 +26,7 @@ pub struct TaskDescriptor {
 
 impl TaskDescriptor {
     /// Create a task descriptor.
-    pub const fn new(
-        id: TaskId,
-        process_id: ProcessId,
-        state: TaskState,
-        priority: u8,
-    ) -> Self {
+    pub const fn new(id: TaskId, process_id: ProcessId, state: TaskState, priority: u8) -> Self {
         Self {
             id,
             process_id,

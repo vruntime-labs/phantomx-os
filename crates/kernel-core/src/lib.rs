@@ -14,7 +14,7 @@ pub mod capability;
 pub mod error;
 pub mod task;
 
-pub use abi::{AbiVersion, ProcessId, ServiceId, TaskId, KERNEL_ABI_VERSION};
+pub use abi::{AbiVersion, KERNEL_ABI_VERSION, ProcessId, ServiceId, TaskId};
 pub use capability::{Capability, CapabilitySet};
 pub use error::KernelError;
 pub use task::{TaskDescriptor, TaskState};
