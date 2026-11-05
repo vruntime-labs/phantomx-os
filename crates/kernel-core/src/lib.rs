@@ -1,10 +1,13 @@
 #![no_std]
 #![forbid(unsafe_code)]
 
+#[cfg(test)]
+extern crate std;
+
 //! Platform-independent primitives shared by Phantom-X Browser and Native editions.
 //!
 //! This crate intentionally contains no hardware access, scheduler, allocator,
-//! browser bindings, or boot code. Those belong in platform-specific crates.
+//! browser bindings, or boot code.
 
 pub mod abi;
 pub mod capability;
