@@ -66,11 +66,11 @@ mod tests {
     fn permissions_can_be_granted_and_revoked() {
         let mut permissions = CapabilitySet::EMPTY;
         permissions.insert(Capability::FileRead);
-        assert_eq!(permissions.contains(Capability::FileRead), true);
-        assert_eq!(permissions.contains(Capability::FileWrite), false);
+        assert!(permissions.contains(Capability::FileRead));
+        assert!(!permissions.contains(Capability::FileWrite));
 
         permissions.remove(Capability::FileRead);
-        assert_eq!(permissions.contains(Capability::FileRead), false);
+        assert!(!permissions.contains(Capability::FileRead));
     }
 
     #[test]
