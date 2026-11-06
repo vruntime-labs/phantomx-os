@@ -13,6 +13,7 @@ on:
       - 'assets/**'
       - 'tests/**'
       - '.github/workflows/browser-check.yml'
+      - '.github/workflows/pages.yml'
   pull_request:
     paths:
       - 'index.html'
@@ -24,6 +25,7 @@ on:
       - 'assets/**'
       - 'tests/**'
       - '.github/workflows/browser-check.yml'
+      - '.github/workflows/pages.yml'
 
 permissions:
   contents: read
@@ -48,5 +50,7 @@ jobs:
       - name: Validate web app manifest
         run: |
           node -e "const fs=require('node:fs'); const m=JSON.parse(fs.readFileSync('manifest.json','utf8')); if (!m.name || !m.start_url || !m.icons?.length) process.exit(1); for (const icon of m.icons) if (!fs.existsSync(icon.src.replace(/^\.\//,''))) throw new Error('Missing PWA icon: '+icon.src);"
-      - name: Run kernel regression tests
+      - name: Validate GitHub Pages workflow YAML
+        run: ruby -e "require 'yaml'; YAML.parse_file('.github/workflows/pages.yml'); puts 'Pages workflow YAML is valid'"
+      - name: Run browser regression tests
         run: node --test tests/*.test.mjs
