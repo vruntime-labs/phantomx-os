@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 
-function loadPublicPages() {
+function loadPublicPages(allowPopup = true) {
   const opened = [];
-  const window = { open(url, target) { opened.push({ url, target }); return { opener: 'same-origin' }; } };
+  const window = { open(url, target) { opened.push({ url, target }); return allowPopup ? { opener: 'same-origin' } : null; } };
   const document = { baseURI: 'https://vruntime-labs.github.io/phantomx-os/' };
   vm.runInNewContext(fs.readFileSync(new URL('../public-pages.js', import.meta.url), 'utf8'), { window, document, URL });
   return { api: window.PhantomPublicPages, opened };
@@ -42,4 +42,9 @@ test('opens only the allowlisted relative URL in a separate tab', () => {
   assert.equal(api.open('privacy'), true);
   assert.deepEqual(opened, [{ url: 'https://vruntime-labs.github.io/phantomx-os/privacy/', target: '_blank' }]);
   assert.equal(api.open('not-a-page'), false);
+});
+
+test('reports a blocked popup instead of claiming the page opened', () => {
+  const { api } = loadPublicPages(false);
+  assert.equal(api.open('privacy'), false);
 });

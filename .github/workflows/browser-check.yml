@@ -30,7 +30,7 @@ permissions:
 
 jobs:
   browser-runtime:
-    name: Syntax, manifest, and kernel regression checks
+    name: Syntax, manifest, and browser regression checks
     runs-on: ubuntu-24.04
     steps:
       - name: Check out repository
@@ -43,6 +43,7 @@ jobs:
         run: |
           node --check kernel.js
           node --check script.js
+          node --check public-pages.js
           node --check sw.js
       - name: Validate web app manifest
         run: |

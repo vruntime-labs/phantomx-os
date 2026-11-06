@@ -93,8 +93,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const pageQuery = command === 'open' ? args.join(' ') : [command, ...args].join(' ');
     const publicPage = publicPages?.resolve(pageQuery);
     if (publicPage) {
-      publicPages.open(publicPage.id);
-      appendLine('Opening ' + publicPage.label + ' in a new tab...');
+      const didOpen = publicPages.open(publicPage.id);
+      appendLine(didOpen
+        ? 'Opening ' + publicPage.label + ' in a new tab...'
+        : 'The browser blocked the new tab. Allow pop-ups for this site and try again.',
+        didOpen ? '' : 'terminal-error');
       return;
     }
 
