@@ -1,110 +1,191 @@
 /**
- * PhantomX OS Kernel v2.2.0
- * Central operating engine for window management, event routing, and process registry.
+ * PhantomX OS Browser Kernel v2.3.1
+ * Window lifecycle, focus, process state, and pointer-based window movement.
+ * This is a browser UI kernel, not a native operating-system kernel.
  */
-
 class Kernel {
   constructor() {
     this.highestZ = 10;
-    this.activeProcesses = new Set();
+    this.processes = new Map();
     this.activeWindow = null;
     this.dragOffset = { x: 0, y: 0 };
+    this.restoreBounds = new WeakMap();
 
     this.onDrag = this.onDrag.bind(this);
     this.stopDrag = this.stopDrag.bind(this);
+
+    document.querySelectorAll('.window').forEach((win) => {
+      if (win.style.display !== 'none') {
+        this.processes.set(win.id, { state: 'running' });
+        win.addEventListener('pointerdown', () => this.bringToFront(win));
+      }
+      const handle = win.querySelector('[data-window-drag-handle]');
+      if (handle) handle.addEventListener('pointerdown', (event) => this.startDrag(event, win.id));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') this.toggleStartMenu(false);
+    });
+    document.addEventListener('pointerdown', (event) => {
+      const menu = document.getElementById('start-menu');
+      const startButton = document.querySelector('.start-btn');
+      if (menu && menu.classList.contains('open') &&
+          !menu.contains(event.target) && !startButton?.contains(event.target)) {
+        this.toggleStartMenu(false);
+      }
+    });
+    window.addEventListener('resize', () => this.keepWindowsInBounds());
   }
 
-  // Window Management Subsystem
-  openWindow(windowId) {
-    const win = document.getElementById(windowId);
-    if (!win) return;
+  get activeProcesses() {
+    return this.processes;
+  }
 
-    win.style.display = "flex";
+  getWindow(windowId) {
+    return document.getElementById(windowId);
+  }
+
+  openWindow(windowId) {
+    const win = this.getWindow(windowId);
+    if (!win) return false;
+    win.style.display = 'flex';
+    this.processes.set(windowId, { state: 'running' });
     this.bringToFront(win);
-    this.activeProcesses.add(windowId);
+    this.keepWindowInBounds(win);
+    const input = win.querySelector('input, textarea, button');
+    if (input && windowId === 'terminal-window') input.focus();
+    this.updateTaskbar();
+    return true;
   }
 
   closeWindow(windowId) {
-    const win = document.getElementById(windowId);
-    if (!win) return;
-
-    win.style.display = "none";
-    this.activeProcesses.delete(windowId);
+    const win = this.getWindow(windowId);
+    if (!win) return false;
+    win.style.display = 'none';
+    win.classList.remove('maximized');
+    this.processes.delete(windowId);
+    if (this.activeWindow === win) this.stopDrag();
+    this.updateTaskbar();
+    return true;
   }
 
   minimizeWindow(windowId) {
-    const win = document.getElementById(windowId);
-    if (!win) return;
-
-    win.style.display = "none";
+    const win = this.getWindow(windowId);
+    if (!win) return false;
+    win.style.display = 'none';
+    const process = this.processes.get(windowId);
+    if (process) process.state = 'minimized';
+    if (this.activeWindow === win) this.stopDrag();
+    this.updateTaskbar();
+    return true;
   }
 
   maximizeWindow(windowId) {
-    const win = document.getElementById(windowId);
-    if (!win) return;
+    const win = this.getWindow(windowId);
+    if (!win) return false;
 
-    if (win.classList.contains("maximized")) {
-      win.classList.remove("maximized");
-      win.style.top = "80px";
-      win.style.left = "200px";
-      win.style.width = "580px";
-      win.style.height = "380px";
+    if (win.classList.contains('maximized')) {
+      win.classList.remove('maximized');
+      const bounds = this.restoreBounds.get(win);
+      if (bounds) {
+        win.style.left = bounds.left;
+        win.style.top = bounds.top;
+        win.style.width = bounds.width;
+        win.style.height = bounds.height;
+      }
+      this.keepWindowInBounds(win);
     } else {
-      win.classList.add("maximized");
-      win.style.top = "0px";
-      win.style.left = "0px";
-      win.style.width = "100vw";
-      win.style.height = "calc(100vh - 50px)";
+      this.restoreBounds.set(win, {
+        left: win.style.left || win.offsetLeft + 'px',
+        top: win.style.top || win.offsetTop + 'px',
+        width: win.style.width || win.offsetWidth + 'px',
+        height: win.style.height || win.offsetHeight + 'px'
+      });
+      win.classList.add('maximized');
+      win.style.left = '0px';
+      win.style.top = '0px';
+      win.style.width = '100%';
+      win.style.height = 'calc(100% - 50px)';
     }
+    this.bringToFront(win);
+    return true;
   }
 
   bringToFront(win) {
+    if (!win) return;
     this.highestZ += 1;
-    win.style.zIndex = this.highestZ;
+    win.style.zIndex = String(this.highestZ);
+    const process = this.processes.get(win.id);
+    if (process) process.state = 'running';
   }
 
-  toggleStartMenu() {
-    const menu = document.getElementById("start-menu");
-    if (menu) menu.classList.toggle("open");
+  updateTaskbar() {
+    document.querySelectorAll('[data-window-launch]').forEach((button) => {
+      const process = this.processes.get(button.dataset.windowLaunch);
+      button.classList.toggle('is-active', Boolean(process && process.state === 'running'));
+      button.classList.toggle('is-minimized', Boolean(process && process.state === 'minimized'));
+    });
   }
 
-  // Window Drag Handler
-  startDrag(e, windowId) {
-    if (e.target.classList.contains('window-dot')) return;
-    
-    const win = document.getElementById(windowId);
-    if (!win || win.classList.contains("maximized")) return;
+  toggleStartMenu(force) {
+    const menu = document.getElementById('start-menu');
+    const button = document.querySelector('.start-btn');
+    if (!menu) return;
+    const shouldOpen = typeof force === 'boolean' ? force : !menu.classList.contains('open');
+    menu.classList.toggle('open', shouldOpen);
+    menu.setAttribute('aria-hidden', String(!shouldOpen));
+    if (button) button.setAttribute('aria-expanded', String(shouldOpen));
+  }
 
+  startDrag(event, windowId) {
+    if (event.button !== 0 || event.target.closest('button, input, a, textarea')) return;
+    const win = this.getWindow(windowId);
+    if (!win || win.classList.contains('maximized')) return;
+    event.preventDefault();
     this.activeWindow = win;
-    this.bringToFront(this.activeWindow);
-
-    this.dragOffset.x = e.clientX - this.activeWindow.offsetLeft;
-    this.dragOffset.y = e.clientY - this.activeWindow.offsetTop;
-
-    document.addEventListener('mousemove', this.onDrag);
-    document.addEventListener('mouseup', this.stopDrag);
+    this.bringToFront(win);
+    this.dragOffset.x = event.clientX - win.offsetLeft;
+    this.dragOffset.y = event.clientY - win.offsetTop;
+    document.addEventListener('pointermove', this.onDrag);
+    document.addEventListener('pointerup', this.stopDrag);
+    document.addEventListener('pointercancel', this.stopDrag);
   }
 
-  onDrag(e) {
+  onDrag(event) {
     if (!this.activeWindow) return;
-    this.activeWindow.style.left = `${e.clientX - this.dragOffset.x}px`;
-    this.activeWindow.style.top = `${e.clientY - this.dragOffset.y}px`;
+    const win = this.activeWindow;
+    const maxLeft = Math.max(0, window.innerWidth - Math.min(48, win.offsetWidth));
+    const maxTop = Math.max(0, window.innerHeight - 50);
+    const left = Math.min(maxLeft, Math.max(0, event.clientX - this.dragOffset.x));
+    const top = Math.min(maxTop, Math.max(0, event.clientY - this.dragOffset.y));
+    win.style.left = left + 'px';
+    win.style.top = top + 'px';
   }
 
   stopDrag() {
     this.activeWindow = null;
-    document.removeEventListener('mousemove', this.onDrag);
-    document.removeEventListener('mouseup', this.stopDrag);
+    document.removeEventListener('pointermove', this.onDrag);
+    document.removeEventListener('pointerup', this.stopDrag);
+    document.removeEventListener('pointercancel', this.stopDrag);
+  }
+
+  keepWindowInBounds(win) {
+    if (!win || win.classList.contains('maximized')) return;
+    const maxLeft = Math.max(0, window.innerWidth - Math.min(48, win.offsetWidth));
+    const maxTop = Math.max(0, window.innerHeight - 50);
+    win.style.left = Math.min(maxLeft, Math.max(0, win.offsetLeft)) + 'px';
+    win.style.top = Math.min(maxTop, Math.max(0, win.offsetTop)) + 'px';
+  }
+
+  keepWindowsInBounds() {
+    document.querySelectorAll('.window').forEach((win) => this.keepWindowInBounds(win));
   }
 }
 
-// Global Kernel Instance
 window.PhantomKernel = new Kernel();
 
-// Exported global wrappers for inline HTML event handlers
-function openWindow(id) { window.PhantomKernel.openWindow(id); }
-function closeWindow(id) { window.PhantomKernel.closeWindow(id); }
-function minimizeWindow(id) { window.PhantomKernel.minimizeWindow(id); }
-function maximizeWindow(id) { window.PhantomKernel.maximizeWindow(id); }
-function toggleStartMenu() { window.PhantomKernel.toggleStartMenu(); }
-function startDrag(e, id) { window.PhantomKernel.startDrag(e, id); }
+function openWindow(id) { return window.PhantomKernel.openWindow(id); }
+function closeWindow(id) { return window.PhantomKernel.closeWindow(id); }
+function minimizeWindow(id) { return window.PhantomKernel.minimizeWindow(id); }
+function maximizeWindow(id) { return window.PhantomKernel.maximizeWindow(id); }
+function toggleStartMenu(force) { return window.PhantomKernel.toggleStartMenu(force); }

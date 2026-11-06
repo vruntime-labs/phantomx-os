@@ -1,0 +1,51 @@
+name: Browser runtime checks
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'kernel.js'
+      - 'script.js'
+      - 'style.css'
+      - 'manifest.json'
+      - 'sw.js'
+      - 'assets/**'
+      - 'tests/**'
+      - '.github/workflows/browser-check.yml'
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'kernel.js'
+      - 'script.js'
+      - 'style.css'
+      - 'manifest.json'
+      - 'sw.js'
+      - 'assets/**'
+      - 'tests/**'
+      - '.github/workflows/browser-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  browser-runtime:
+    name: Syntax, manifest, and kernel regression checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check JavaScript syntax
+        run: |
+          node --check kernel.js
+          node --check script.js
+          node --check sw.js
+      - name: Validate web app manifest
+        run: |
+          node -e "const fs=require('node:fs'); const m=JSON.parse(fs.readFileSync('manifest.json','utf8')); if (!m.name || !m.start_url || !m.icons?.length) process.exit(1); for (const icon of m.icons) if (!fs.existsSync(icon.src.replace(/^\.\//,''))) throw new Error('Missing PWA icon: '+icon.src);"
+      - name: Run kernel regression tests
+        run: node --test tests/*.test.mjs
