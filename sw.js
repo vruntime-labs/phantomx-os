@@ -40,7 +40,7 @@ self.addEventListener('fetch', (event) => {
       const cache = await caches.open(CACHE_NAME);
       try {
         const response = await fetch(request);
-        if (response && response.ok) cache.put(request, response.clone());
+        if (response && response.ok) await cache.put(request, response.clone());
         return response;
       } catch (error) {
         return (await cache.match(request)) ||
@@ -51,19 +51,17 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // App-shell assets are versioned: cache-first is safe because a changed
+  // service worker installs a fresh cache before the old cache is removed.
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
     const cached = await cache.match(request);
-    if (cached) {
-      event.waitUntil(fetch(request).then((response) => {
-        if (response && response.ok) return cache.put(request, response.clone());
-      }).catch(() => undefined));
-      return cached;
-    }
+    if (cached) return cached;
+
     try {
       const response = await fetch(request);
       if (response && response.ok && response.type === 'basic') {
-        cache.put(request, response.clone());
+        await cache.put(request, response.clone());
       }
       return response;
     } catch (error) {
