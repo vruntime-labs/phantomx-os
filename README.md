@@ -24,7 +24,7 @@ The current repository contains a deliberately small static web application. Ver
 - A simulated terminal with a limited set of built-in commands, including `help`, `about`, `ls`, `ps` and `clear`.
 - An in-memory example virtual directory structure.
 - A service worker that caches the application shell for repeat/offline loading.
-- A web app manifest and responsive viewport foundation.
+- A web app manifest and viewport metadata.
 
 These are lightweight browser-side simulations, not a general-purpose operating system or a real command shell. The current terminal does not provide arbitrary host command execution, and the example virtual filesystem is not a persistent disk.
 
@@ -63,8 +63,8 @@ See [PHANTOMX_CONTEXT.md](PHANTOMX_CONTEXT.md) for approved architecture decisio
 - HTML5
 - CSS3
 - Vanilla JavaScript (ES6+)
-- HTML Canvas 2D where appropriate
 - Browser Service Worker and Web App Manifest APIs
+- HTML Canvas 2D is planned for future visual simulation modules.
 
 The Browser Edition is designed without a mandatory frontend framework or package dependency.
 
@@ -100,7 +100,7 @@ phantomx-os/
 
 The Browser Edition is a static client-side application. The current source inspected for this documentation does not show an application account system, analytics integration or project-operated application backend. The service worker caches listed application resources in the browser.
 
-The hosting provider may process connection and request information when you visit the live site. Browser storage and cached resources are controlled through your browser settings. See [PRIVACY.md](PRIVACY.md) for details and limitations.
+The hosting provider and the external Unsplash image CDN may process technical request information when their resources are requested. Browser storage and cached resources are controlled through your browser settings. See [PRIVACY.md](PRIVACY.md) for details and limitations.
 
 ## Contributing
 
