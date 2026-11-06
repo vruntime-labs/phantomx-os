@@ -1,6 +1,72 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PhantomX OS v2.2.0</title><link rel="stylesheet" href="style.css"><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0f172a"></head>
-<body><div id="desktop"><div id="terminal-window" class="window" style="top:80px;left:200px"><div class="window-header" onmousedown="startDrag(event, 'terminal-window')"><div class="window-title">⚡ Cyberdeck Terminal — v2.2.0</div><div class="window-controls"><button class="window-dot yellow" onclick="minimizeWindow('terminal-window')"></button><button class="window-dot green" onclick="maximizeWindow('terminal-window')"></button><button class="window-dot red" onclick="closeWindow('terminal-window')"></button></div></div><div id="terminal-body" class="window-body"><p>PhantomX OS [Version 2.2.0]</p><p>Type <b style="color:#34d399">help</b> to view available system commands.</p></div><div class="terminal-input-line"><span class="prompt">user@phantomx:/$</span><input type="text" id="command-input" autofocus autocomplete="off" spellcheck="false"></div></div></div>
-<div id="start-menu" class="start-menu"><div class="start-header">PhantomX OS</div><ul><li onclick="openWindow('terminal-window'); toggleStartMenu();">💻 Terminal</li></ul><div class="start-header">Project &amp; Documentation</div><nav class="start-links" aria-label="Project pages"><a href="./privacy/">Privacy Policy</a><a href="./contributors/">Contributors</a><a href="./legal/">Legal &amp; Policies</a><a href="./security/">Security Policy</a><a href="https://github.com/vruntime-labs/phantomx-os" target="_blank" rel="noopener noreferrer">Source Repository ↗</a></nav></div>
-<div id="taskbar"><button class="start-btn" onclick="toggleStartMenu()">⚡ Start</button><div class="taskbar-apps"><button class="taskbar-item" onclick="openWindow('terminal-window')">Terminal</button></div><div id="taskbar-clock" class="taskbar-clock">00:00</div></div>
-<script src="kernel.js"></script><script src="script.js"></script><script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js');}</script></body></html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PhantomX OS is an experimental browser-first desktop and cyberdeck simulation.">
+  <meta name="theme-color" content="#0f172a">
+  <title>PhantomX OS v2.3.1</title>
+  <link rel="icon" href="./assets/phantomx-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/phantomx-icon.svg">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main id="desktop" aria-label="PhantomX desktop workspace">
+    <section id="terminal-window" class="window" aria-label="Cyberdeck Terminal" style="top:80px;left:200px">
+      <header class="window-header" data-window-drag-handle>
+        <div class="window-title">⚡ Cyberdeck Terminal — v2.3.1</div>
+        <div class="window-controls" aria-label="Window controls">
+          <button class="window-dot yellow" type="button" aria-label="Minimize Terminal" title="Minimize" onclick="minimizeWindow('terminal-window')"></button>
+          <button class="window-dot green" type="button" aria-label="Maximize Terminal" title="Maximize or restore" onclick="maximizeWindow('terminal-window')"></button>
+          <button class="window-dot red" type="button" aria-label="Close Terminal" title="Close" onclick="closeWindow('terminal-window')"></button>
+        </div>
+      </header>
+      <div id="terminal-body" class="window-body" role="log" aria-live="polite" aria-relevant="additions text">
+        <p>PhantomX OS [Version 2.3.1]</p>
+        <p>Type <span class="highlight">help</span> to view available system commands.</p>
+      </div>
+      <form id="terminal-form" class="terminal-input-line" autocomplete="off">
+        <label class="prompt" for="command-input">user@phantomx:/$</label>
+        <input type="text" id="command-input" name="command" autofocus autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command">
+      </form>
+    </section>
+  </main>
+
+  <aside id="start-menu" class="start-menu" aria-label="Start menu" aria-hidden="true">
+    <div class="start-header">PhantomX OS</div>
+    <button class="start-app" type="button" onclick="openWindow('terminal-window'); toggleStartMenu(false)">
+      <span aria-hidden="true">💻</span><span>Terminal</span>
+    </button>
+    <div class="start-header start-links-heading">Project &amp; Documentation</div>
+    <nav class="start-links" aria-label="Project pages">
+      <a href="./privacy/">Privacy Policy</a>
+      <a href="./contributors/">Contributors</a>
+      <a href="./legal/">Legal &amp; Policies</a>
+      <a href="./security/">Security Policy</a>
+      <a href="https://github.com/vruntime-labs/phantomx-os" target="_blank" rel="noopener noreferrer">Source Repository ↗</a>
+    </nav>
+  </aside>
+
+  <footer id="taskbar" aria-label="System taskbar">
+    <button class="start-btn" type="button" aria-expanded="false" aria-controls="start-menu" onclick="toggleStartMenu()">⚡ Start</button>
+    <div class="taskbar-apps">
+      <button class="taskbar-item is-active" type="button" data-window-launch="terminal-window">Terminal</button>
+    </div>
+    <time id="taskbar-clock" class="taskbar-clock" aria-label="Local time">--:--</time>
+  </footer>
+
+  <script src="./kernel.js"></script>
+  <script src="./public-pages.js"></script>
+  <script src="./script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch((error) => {
+          console.warn('PhantomX offline support could not be registered:', error);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
