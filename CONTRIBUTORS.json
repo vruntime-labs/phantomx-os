@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_version": "1.0.0",
+  "project": "PhantomX OS",
+  "maintained_by": "VRuntime Labs",
+  "contributors": [
+    {
+      "id": "mmukeshbabu2010-dot",
+      "username": "mmukeshbabu2010-dot",
+      "display_name": "mmukeshbabu2010-dot",
+      "profile_url": "https://github.com/mmukeshbabu2010-dot",
+      "roles": [
+        "Project contributor"
+      ],
+      "contributions": [
+        "PhantomX OS project development"
+      ],
+      "show_in_app": true
+    }
+  ],
+  "notes": [
+    "This file is the canonical, machine-readable contributor directory.",
+    "The Browser Edition may read this JSON file to display contributor acknowledgements in a future release.",
+    "Contributor records are maintained by project maintainers and are not an automated ranking or a complete GitHub contribution metric.",
+    "Add or update entries only with appropriate attribution and contributor consent."
+  ]
+}

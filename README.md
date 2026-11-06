@@ -1,66 +1,124 @@
-# 👾 PhantomX OS v2.2.0
+# 👾 PhantomX OS
 
-> A zero-dependency, open-source web desktop environment, cyberdeck HUD, and browser-based hacking simulator.
+> A lightweight, open-source browser desktop and cyberdeck simulation, built with vanilla web technologies.
 
-PhantomX OS is a lightweight Web OS platform built 100% in pure Vanilla JavaScript, HTML5, and CSS3. It simulates a high-tech terminal exploit suite—complete with real-time CLI commands, telemetry monitoring, CCTV feed bypasses, trace monitors, and Web Audio SFX—all managed inside an authentic desktop window environment with zero framework bloat.
+PhantomX OS is an experimental, browser-first operating environment maintained by **VRuntime Labs**. The current public Browser Edition combines a small desktop workspace, a windowed terminal, a simulated command environment and an offline application shell.
 
----
-
-## 🚀 Live Demo & Deployment
-
-* **Live Web App:** [https://vruntime-labs.github.io/phantomx-os/](https://vruntime-labs.github.io/phantomx-os/)
-* **Organization:** [vruntime-labs](https://github.com/vruntime-labs)
+**PhantomX is a simulation environment.** Its Hacking Mode concept is intended for fictional systems and controlled learning experiences, not unauthorized access to real devices or networks.
 
 ---
 
-## 🆕 What's New in v2.2.0
+## Live project
 
-* **Modular Kernel Architecture:** Extracted core OS operations into `kernel.js` to handle low-level window lifecycles (open, close, minimize, maximize), dynamic z-index stacking, and active process tracking.
-* **Virtual File System:** Added an in-memory JSON-backed filesystem (`/home`, `/sys`, `/logs`) supporting `ls` and `ps` CLI terminal commands.
-* **Service Worker Update:** Synchronized offline PWA caching layer with the new `kernel.js` release bundle.
+- **Live demo:** https://vruntime-labs.github.io/phantomx-os/
+- **Source repository:** https://github.com/vruntime-labs/phantomx-os
+- **Maintainer:** [VRuntime Labs](https://github.com/vruntime-labs)
+- **Project context for contributors and AI tools:** [PHANTOMX_CONTEXT.md](PHANTOMX_CONTEXT.md)
 
----
+## Current Browser Edition
 
-## 🔥 Key Features
+The current repository contains a deliberately small static web application. Verified source-level components include:
 
-* 🖥️ **Web Desktop Environment:** Functional floating taskbar dock, desktop app icons, and real-time clock indicator.
-* ⚙️ **Kernel Engine (`kernel.js`):** Client-side state handling for window lifecycles, active process lists, and focus management.
-* 💻 **Cyberdeck Terminal Suite:** Interactive CLI stream supporting real-time commands, process inspection (`ps`), and filesystem traversal (`ls`).
-* 📡 **CCTV & Trace Monitors:** Simulated visual canvas monitoring and real-time security trace level displays.
-* 🔊 **Web Audio API SFX:** Native browser audio synthesis for tactical UI clicks and alarm sound effects.
-* 🎨 **Theme Engine:** Instant color scheme switching (Matrix Green, Retro Amber, Cyberpunk Neon).
+- A desktop workspace with a taskbar, Start menu and terminal window.
+- A JavaScript window/kernel module for window lifecycle, focus and process tracking.
+- A simulated terminal with a limited set of built-in commands, including `help`, `about`, `ls`, `ps` and `clear`.
+- An in-memory example virtual directory structure.
+- A service worker that caches the application shell for repeat/offline loading.
+- A web app manifest and responsive viewport foundation.
 
----
+These are lightweight browser-side simulations, not a general-purpose operating system or a real command shell. The current terminal does not provide arbitrary host command execution, and the example virtual filesystem is not a persistent disk.
 
-## 🧬 Tech Stack & Architecture
+## Project modes
 
-* **Frontend:** Pure HTML5, CSS3 (Flexbox/Grid, Glassmorphism), Vanilla JavaScript (ES6+).
-* **Graphics & Audio:** HTML5 2D Canvas API & Native Web Audio API.
-* **Dependencies:** STRICTLY 0 (No React, Vue, Tailwind, or external NPM libraries).
-* **Hosting:** 100% Free static deployment via GitHub Pages.
+PhantomX has three intended user-facing modes. Their inclusion here describes the product direction, not a claim that every mode is implemented.
 
----
+| Mode | Purpose | Status |
+|---|---|---|
+| Browser Mode | Browser desktop and web-app environment | **Early implementation** |
+| Hacking Mode | Fictional cyberdeck and controlled security simulations | **Planned / evolving** |
+| Story Mode | Mission-driven narrative experience | **Planned** |
 
-## 📂 Repository Hierarchy
+## Roadmap
+
+The proposed development sequence is:
+
+1. **Phase 0 — Repository and architecture audit:** verify current behavior, gaps, risks and tests.
+2. **Phase 1 — Browser foundation:** strengthen kernel lifecycle, process management, window management, filesystem and persistence.
+3. **Phase 2 — Hacking Mode CLI:** introduce a tokenizer/parser, command pipelines, output redirection and safe simulated command handlers.
+4. **Phase 3 — Simulation and Threat Matrix:** central simulation state, event dispatch, procedural Canvas visuals and trace/network displays.
+5. **Phase 4 — PhantomX Chronicles:** versioned JSON story packs, narrative state machine, branching missions and save recovery.
+6. **Phase 5 — Mission Control and Cyberdeck Profiles:** mission dashboard, intelligence archive and saved desktop configurations.
+7. **Phase 6 — Mobile Companion:** secure QR pairing, WebRTC data channel, remote CLI, virtual trackpad and telemetry HUD.
+8. **Phase 7 — Multiplayer:** separately designed real-time and asynchronous experiences, with identity, persistence and moderation.
+9. **Phase 8 — Native Edition:** long-term Rust kernel and architecture-specific low-level development.
+
+All roadmap items remain proposed until implemented and verified. The repository contains an initial Rust workspace and `kernel-core` crate, but this alone does **not** mean that a bootable Native Edition exists.
+
+See [PHANTOMX_CONTEXT.md](PHANTOMX_CONTEXT.md) for approved architecture decisions, working rules and the living checklist.
+
+## Technology
+
+### Browser Edition
+
+- HTML5
+- CSS3
+- Vanilla JavaScript (ES6+)
+- HTML Canvas 2D where appropriate
+- Browser Service Worker and Web App Manifest APIs
+
+The Browser Edition is designed without a mandatory frontend framework or package dependency.
+
+### Native Edition (long-term direction)
+
+- Rust, with a `no_std` kernel foundation under evaluation
+- Assembly for boot- and hardware-level work where required
+- Cargo workspace
+
+Native development is separate from the deployed browser application and must not destabilize it.
+
+## Repository overview
 
 ```text
 phantomx-os/
-├── index.html              # Main root HTML5 entry point
-├── style.css               # Core window manager & cyberdeck HUD styles
-├── kernel.js               # OS Kernel (Window lifecycle, z-index, process tracking)
-├── script.js               # App logic & CLI command parser
-├── manifest.json           # PWA web app installer specification
-├── sw.js                   # Service worker offline cache engine
-├── sitemap.xml             # Search engine index sitemap
-├── robots.txt              # Crawler permission file
-├── google*.html             # Google Search Console verification
-└── BingSiteAuth.xml        # Bing Webmaster Tools verification
+├── index.html                 # Browser application entry point
+├── style.css                  # Desktop and terminal styling
+├── kernel.js                  # Browser-side window/kernel behavior
+├── script.js                  # Terminal and simulated command behavior
+├── sw.js                      # Application-shell service worker
+├── manifest.json              # Web app manifest
+├── crates/
+│   └── kernel-core/           # Early Rust kernel-core crate
+├── docs/
+│   └── architecture/          # Architecture notes
+├── PHANTOMX_CONTEXT.md        # Contributor and AI project context
+├── CONTRIBUTORS.json          # Machine-readable contributor directory
+├── PRIVACY.md                 # Privacy policy
+└── LICENSE                    # MIT License
 ```
+
+## Privacy
+
+The Browser Edition is a static client-side application. The current source inspected for this documentation does not show an application account system, analytics integration or project-operated application backend. The service worker caches listed application resources in the browser.
+
+The hosting provider may process connection and request information when you visit the live site. Browser storage and cached resources are controlled through your browser settings. See [PRIVACY.md](PRIVACY.md) for details and limitations.
+
+## Contributing
+
+Contributions, bug reports and thoughtful feature proposals are welcome.
+
+1. Read [PHANTOMX_CONTEXT.md](PHANTOMX_CONTEXT.md) before proposing architectural changes.
+2. Check existing issues and avoid duplicating work.
+3. Describe the problem, proposed change, affected files and testing approach.
+4. Keep changes focused and preserve existing working behavior.
+5. Do not add paid services, mandatory external dependencies or broad permissions without maintainer approval.
+6. Keep Hacking Mode within authorized, fictional simulation boundaries.
+
+The project contributor directory is maintained in [CONTRIBUTORS.json](CONTRIBUTORS.json). It is structured so the Browser Edition may display contributor information in a future release. A listed contributor entry is a project-maintained attribution record, not an automated GitHub contribution count.
+
+## License
+
+PhantomX OS is distributed under the [MIT License](LICENSE), copyright © 2026 VRuntime Labs.
 
 ---
 
-## 🤖 AI & Contributor Context
-
-Before proposing changes, AI assistants and contributors must read the [PhantomX OS Project Context](PHANTOMX_CONTEXT.md). It records the approved architecture direction, Story Mode decisions, development checklists, and mandatory approval workflow.
-
-**Important:** Verify the current repository before describing features as implemented. The context document distinguishes existing code from planned Browser Edition, Native Edition, and Story Mode work.
+**Build upon PhantomX OS, not over it.** Preserve its lightweight identity, verify before claiming, and keep planned work distinct from shipped functionality.
