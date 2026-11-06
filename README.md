@@ -1,4 +1,4 @@
-# ⚡ PhantomX OS v2.2.0
+# 👾 PhantomX OS v2.2.0
 
 > A zero-dependency, open-source web desktop environment, cyberdeck HUD, and browser-based hacking simulator.
 
@@ -6,14 +6,14 @@ PhantomX OS is a lightweight Web OS platform built 100% in pure Vanilla JavaScri
 
 ---
 
-## 🌐 Live Demo & Deployment
+## 🚀 Live Demo & Deployment
 
 * **Live Web App:** [https://vruntime-labs.github.io/phantomx-os/](https://vruntime-labs.github.io/phantomx-os/)
 * **Organization:** [vruntime-labs](https://github.com/vruntime-labs)
 
 ---
 
-## 🚀 What's New in v2.2.0
+## 🆕 What's New in v2.2.0
 
 * **Modular Kernel Architecture:** Extracted core OS operations into `kernel.js` to handle low-level window lifecycles (open, close, minimize, maximize), dynamic z-index stacking, and active process tracking.
 * **Virtual File System:** Added an in-memory JSON-backed filesystem (`/home`, `/sys`, `/logs`) supporting `ls` and `ps` CLI terminal commands.
@@ -23,16 +23,16 @@ PhantomX OS is a lightweight Web OS platform built 100% in pure Vanilla JavaScri
 
 ## 🔥 Key Features
 
-* 💻 **Web Desktop Environment:** Functional floating taskbar dock, desktop app icons, and real-time clock indicator.
-* 🧠 **Kernel Engine (`kernel.js`):** Client-side state handling for window lifecycles, active process lists, and focus management.
-* 👾 **Cyberdeck Terminal Suite:** Interactive CLI stream supporting real-time commands, process inspection (`ps`), and filesystem traversal (`ls`).
-* 🎥 **CCTV & Trace Monitors:** Simulated visual canvas monitoring and real-time security trace level displays.
-* 🎵 **Web Audio API SFX:** Native browser audio synthesis for tactical UI clicks and alarm sound effects.
+* 🖥️ **Web Desktop Environment:** Functional floating taskbar dock, desktop app icons, and real-time clock indicator.
+* ⚙️ **Kernel Engine (`kernel.js`):** Client-side state handling for window lifecycles, active process lists, and focus management.
+* 💻 **Cyberdeck Terminal Suite:** Interactive CLI stream supporting real-time commands, process inspection (`ps`), and filesystem traversal (`ls`).
+* 📡 **CCTV & Trace Monitors:** Simulated visual canvas monitoring and real-time security trace level displays.
+* 🔊 **Web Audio API SFX:** Native browser audio synthesis for tactical UI clicks and alarm sound effects.
 * 🎨 **Theme Engine:** Instant color scheme switching (Matrix Green, Retro Amber, Cyberpunk Neon).
 
 ---
 
-## 🛠 Tech Stack & Architecture
+## 🧬 Tech Stack & Architecture
 
 * **Frontend:** Pure HTML5, CSS3 (Flexbox/Grid, Glassmorphism), Vanilla JavaScript (ES6+).
 * **Graphics & Audio:** HTML5 2D Canvas API & Native Web Audio API.
@@ -45,13 +45,22 @@ PhantomX OS is a lightweight Web OS platform built 100% in pure Vanilla JavaScri
 
 ```text
 phantomx-os/
-├── index.html               # Main root HTML5 entry point
-├── style.css                # Core window manager & cyberdeck HUD styles
-├── kernel.js                # OS Kernel (Window lifecycle, z-index, process tracking)
-├── script.js                # App logic & CLI command parser
-├── manifest.json            # PWA web app installer specification
-├── sw.js                    # Service worker offline cache engine
-├── sitemap.xml              # Search engine index sitemap
-├── robots.txt               # Crawler permission file
+├── index.html              # Main root HTML5 entry point
+├── style.css               # Core window manager & cyberdeck HUD styles
+├── kernel.js               # OS Kernel (Window lifecycle, z-index, process tracking)
+├── script.js               # App logic & CLI command parser
+├── manifest.json           # PWA web app installer specification
+├── sw.js                   # Service worker offline cache engine
+├── sitemap.xml             # Search engine index sitemap
+├── robots.txt              # Crawler permission file
 ├── google*.html             # Google Search Console verification
-└── BingSiteAuth.xml         # Bing Webmaster Tools verification
+└── BingSiteAuth.xml        # Bing Webmaster Tools verification
+```
+
+---
+
+## 🤖 AI & Contributor Context
+
+Before proposing changes, AI assistants and contributors must read the [PhantomX OS Project Context](PHANTOMX_CONTEXT.md). It records the approved architecture direction, Story Mode decisions, development checklists, and mandatory approval workflow.
+
+**Important:** Verify the current repository before describing features as implemented. The context document distinguishes existing code from planned Browser Edition, Native Edition, and Story Mode work.
