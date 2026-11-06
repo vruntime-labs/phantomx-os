@@ -9,7 +9,7 @@ This Privacy Policy describes the privacy considerations for the PhantomX OS pro
 
 ## 1. Scope
 
-This policy covers the publicly hosted PhantomX OS website and the browser application in this repository. It does not govern GitHub's own websites, services or privacy practices, third-party websites you choose to visit, or future services that may be introduced under a separate notice.
+This policy covers the publicly hosted PhantomX OS website and the browser application in this repository. It does not govern GitHub's own websites, services or privacy practices, third-party websites or asset providers, or future services that may be introduced under a separate notice.
 
 ## 2. What the current application does
 
@@ -19,6 +19,7 @@ The current Browser Edition is a static client-side web application. The source 
 - A browser-side simulated terminal and example in-memory virtual directory structure.
 - A service worker that caches a defined list of application-shell resources using the browser Cache API.
 - A web app manifest.
+- A CSS background image loaded from the Unsplash image CDN at `images.unsplash.com`.
 
 The reviewed application source does not show a project-operated account system, sign-in flow, analytics SDK, advertising SDK, or application backend. It does not currently provide a project-operated cloud account or synchronization service.
 
@@ -52,11 +53,15 @@ The project does not currently provide a private support form through the Browse
 
 The application source reviewed for this policy does not include a project-installed analytics or advertising SDK and does not intentionally set an application analytics cookie.
 
-GitHub or other infrastructure providers may use cookies or similar technologies on their own services. Browser behavior and provider practices may change; consult the relevant provider's policy and your browser settings.
+GitHub, Unsplash or other infrastructure providers may use cookies or similar technologies on their own services. Browser behavior and provider practices may change; consult the relevant provider's policy and your browser settings.
 
-## 7. Third-party services and external links
+## 7. Third-party assets and external links
 
-The project repository and live site link to GitHub and may link to other external resources. When you follow an external link, that destination's privacy policy and terms apply. The project does not control external websites.
+The current stylesheet loads a background image from the Unsplash image CDN (`images.unsplash.com`). When the browser loads that image, it makes a request to Unsplash. Unsplash and its infrastructure providers may receive technical request information, such as IP address, browser details, requested asset and request time, under their own policies.
+
+The project does not operate that CDN or control its data practices. Review the provider's privacy information at https://unsplash.com/privacy.
+
+The project repository and live site also link to GitHub and may link to other external resources. When you follow an external link, that destination's privacy policy and terms apply. The project does not control external websites.
 
 ## 8. Children's privacy
 
@@ -75,6 +80,7 @@ You can:
 - Disable or remove the service worker through browser site settings or developer tools.
 - Avoid submitting personal or sensitive information in public GitHub issues or discussions.
 - Use GitHub's account and privacy controls for information submitted to GitHub.
+- Use browser privacy controls or content-blocking tools to restrict third-party asset requests, understanding that some visual elements may not load.
 
 ## 11. Changes to this policy
 
