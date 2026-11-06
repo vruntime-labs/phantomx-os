@@ -1,63 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PhantomX OS v2.2.0</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0f172a">
-</head>
-<body>
-
-  <!-- Desktop Workspace -->
-  <div id="desktop">
-    
-    <!-- Terminal App Window -->
-    <div id="terminal-window" class="window" style="top: 80px; left: 200px;">
-      <div class="window-header" onmousedown="startDrag(event, 'terminal-window')">
-        <div class="window-title">⚡ Cyberdeck Terminal — v2.2.0</div>
-        <div class="window-controls">
-          <button class="window-dot yellow" onclick="minimizeWindow('terminal-window')"></button>
-          <button class="window-dot green" onclick="maximizeWindow('terminal-window')"></button>
-          <button class="window-dot red" onclick="closeWindow('terminal-window')"></button>
-        </div>
-      </div>
-      <div id="terminal-body" class="window-body">
-        <p>PhantomX OS [Version 2.2.0]</p>
-        <p>Type <b style="color:#34d399">help</b> to view available system commands.</p>
-      </div>
-      <div class="terminal-input-line">
-        <span class="prompt">user@phantomx:/$</span>
-        <input type="text" id="command-input" autofocus autocomplete="off" spellcheck="false">
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Taskbar & Start Menu -->
-  <div id="start-menu" class="start-menu">
-    <div class="start-header">PhantomX OS</div>
-    <ul>
-      <li onclick="openWindow('terminal-window'); toggleStartMenu();">💻 Terminal</li>
-    </ul>
-  </div>
-
-  <div id="taskbar">
-    <button class="start-btn" onclick="toggleStartMenu()">⚡ Start</button>
-    <div class="taskbar-apps">
-      <button class="taskbar-item" onclick="openWindow('terminal-window')">Terminal</button>
-    </div>
-    <div id="taskbar-clock" class="taskbar-clock">00:00</div>
-  </div>
-
-  <!-- Core Scripts -->
-  <script src="kernel.js"></script>
-  <script src="script.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js');
-    }
-  </script>
-</body>
-</html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PhantomX OS v2.2.0</title><link rel="stylesheet" href="style.css"><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0f172a"></head>
+<body><div id="desktop"><div id="terminal-window" class="window" style="top:80px;left:200px"><div class="window-header" onmousedown="startDrag(event, 'terminal-window')"><div class="window-title">⚡ Cyberdeck Terminal — v2.2.0</div><div class="window-controls"><button class="window-dot yellow" onclick="minimizeWindow('terminal-window')"></button><button class="window-dot green" onclick="maximizeWindow('terminal-window')"></button><button class="window-dot red" onclick="closeWindow('terminal-window')"></button></div></div><div id="terminal-body" class="window-body"><p>PhantomX OS [Version 2.2.0]</p><p>Type <b style="color:#34d399">help</b> to view available system commands.</p></div><div class="terminal-input-line"><span class="prompt">user@phantomx:/$</span><input type="text" id="command-input" autofocus autocomplete="off" spellcheck="false"></div></div></div>
+<div id="start-menu" class="start-menu"><div class="start-header">PhantomX OS</div><ul><li onclick="openWindow('terminal-window'); toggleStartMenu();">💻 Terminal</li></ul><div class="start-header">Project &amp; Documentation</div><nav class="start-links" aria-label="Project pages"><a href="./privacy/">Privacy Policy</a><a href="./contributors/">Contributors</a><a href="./legal/">Legal &amp; Policies</a><a href="./security/">Security Policy</a><a href="https://github.com/vruntime-labs/phantomx-os" target="_blank" rel="noopener noreferrer">Source Repository ↗</a></nav></div>
+<div id="taskbar"><button class="start-btn" onclick="toggleStartMenu()">⚡ Start</button><div class="taskbar-apps"><button class="taskbar-item" onclick="openWindow('terminal-window')">Terminal</button></div><div id="taskbar-clock" class="taskbar-clock">00:00</div></div>
+<script src="kernel.js"></script><script src="script.js"></script><script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js');}</script></body></html>

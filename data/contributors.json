@@ -19,9 +19,8 @@
     }
   ],
   "notes": [
-    "This file is the canonical, machine-readable contributor directory.",
-    "The Browser Edition may read this JSON file to display contributor acknowledgements in a future release.",
-    "Contributor records are maintained by project maintainers and are not an automated ranking or a complete GitHub contribution metric.",
+    "Canonical machine-readable contributor directory.",
+    "Records are manually maintained, not an automated ranking or complete GitHub contribution metric.",
     "Add or update entries only with appropriate attribution and contributor consent."
   ]
 }

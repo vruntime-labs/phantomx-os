@@ -1,0 +1,6 @@
+# PhantomX OS vulnerability disclosure contact
+Canonical: https://vruntime-labs.github.io/phantomx-os/.well-known/security.txt
+Contact: https://github.com/vruntime-labs/phantomx-os/security/advisories/new
+Policy: https://vruntime-labs.github.io/phantomx-os/security/
+Preferred-Languages: en
+Expires: 2027-11-05T00:00:00Z

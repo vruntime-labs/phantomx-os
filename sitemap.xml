@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/css" href="https://www.xml-sitemaps.com/css/sitemap.css"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
-  <url>
-       <loc>https://vruntime-labs.github.io/phantomx-os/</loc>
-       <lastmod>2026-09-21T14:28:10+00:00</lastmod>
-       <priority>1.0000</priority>
-  </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://vruntime-labs.github.io/phantomx-os/</loc><priority>1.0</priority></url>
+  <url><loc>https://vruntime-labs.github.io/phantomx-os/privacy/</loc><priority>0.6</priority></url>
+  <url><loc>https://vruntime-labs.github.io/phantomx-os/terms/</loc><priority>0.5</priority></url>
+  <url><loc>https://vruntime-labs.github.io/phantomx-os/cookies/</loc><priority>0.5</priority></url>
+  <url><loc>https://vruntime-labs.github.io/phantomx-os/disclaimer/</loc><priority>0.5</priority></url>
+  <url><loc>https://vruntime-labs.github.io/phantomx-os/acceptable-use/</loc><priority>0.4</priority></url>
+  <url><loc>https://vruntime-labs.github.io/phantomx-os/copyright/</loc><priority>0.4</priority></url>
+  <url><loc>https://vruntime-labs.github.io/phantomx-os/license/</loc><priority>0.5</priority></url>
+  <url><loc>https://vruntime-labs.github.io/phantomx-os/security/</loc><priority>0.5</priority></url>
+  <url><loc>https://vruntime-labs.github.io/phantomx-os/legal/</loc><priority>0.5</priority></url>
+  <url><loc>https://vruntime-labs.github.io/phantomx-os/contributors/</loc><priority>0.5</priority></url>
 </urlset>
