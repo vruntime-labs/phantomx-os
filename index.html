@@ -51,12 +51,13 @@
   <footer id="taskbar" aria-label="System taskbar">
     <button class="start-btn" type="button" aria-expanded="false" aria-controls="start-menu" onclick="toggleStartMenu()">⚡ Start</button>
     <div class="taskbar-apps">
-      <button class="taskbar-item is-active" type="button" data-window-launch="terminal-window" onclick="openWindow('terminal-window')">Terminal</button>
+      <button class="taskbar-item is-active" type="button" data-window-launch="terminal-window">Terminal</button>
     </div>
     <time id="taskbar-clock" class="taskbar-clock" aria-label="Local time">--:--</time>
   </footer>
 
   <script src="./kernel.js"></script>
+  <script src="./public-pages.js"></script>
   <script src="./script.js"></script>
   <script>
     if ('serviceWorker' in navigator) {

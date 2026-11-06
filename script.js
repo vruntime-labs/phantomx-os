@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const body = document.getElementById('terminal-body');
   const clock = document.getElementById('taskbar-clock');
   const kernel = window.PhantomKernel;
+  const publicPages = window.PhantomPublicPages;
 
   function updateClock() {
     if (!clock) return;
@@ -88,12 +89,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const command = tokens.shift().toLowerCase();
     const args = tokens;
 
+    // Public documentation commands are allowlisted and typo-tolerant.
+    const pageQuery = command === 'open' ? args.join(' ') : [command, ...args].join(' ');
+    const publicPage = publicPages?.resolve(pageQuery);
+    if (publicPage) {
+      publicPages.open(publicPage.id);
+      appendLine('Opening ' + publicPage.label + ' in a new tab...');
+      return;
+    }
+
     switch (command) {
       case 'help':
         appendLine([
           'Available commands:',
           '  help                 Show this help',
           '  about                Show system information',
+          '  open <page>          Open a public PhantomX page',
+          '  privacy / prvacy     Open the Privacy Policy (typos supported)',
+          '  terms, cookies, legal, security, license, etc.',
           '  pwd                  Print the current directory',
           '  ls [path]            List directory contents',
           '  cd [path]            Change directory',
@@ -110,6 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
         break;
       case 'about':
         appendLine('PhantomX OS v2.3.1 — browser desktop and cyberdeck simulation. No host shell or native OS access.');
+        break;
+      case 'open':
+        appendLine('Usage: open <page> (try privacy, contributors, terms, cookies, disclaimer, security, or legal)', 'terminal-error');
         break;
       case 'pwd':
         appendLine(currentPath);
