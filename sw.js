@@ -1,4 +1,4 @@
-const CACHE_NAME = 'phantomx-v2.3.1-simtools1';
+const CACHE_NAME = 'phantomx-v2.3.1-simtools2';
 const APP_SHELL = [
   './',
   './index.html',
