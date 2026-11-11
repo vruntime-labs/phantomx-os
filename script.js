@@ -186,6 +186,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if(explorerWindow?.style.display!=="none"&&event.path.startsWith(explorerPath==="/" ? "/" : explorerPath+"/")) renderExplorer();
   });
 
+  renderExplorer();
+
   if(startSearch) {
     startSearch.addEventListener("input",()=>{
       const query=startSearch.value.trim().toLowerCase();
