@@ -11,7 +11,7 @@
     ["/sys/kernel.conf",{type:"file",content:"edition=browser\nmode=simulation\nversion=2.3.1"}],
     ["/sys/network.cfg",{type:"file",content:"network=simulated\nexternal_access=disabled"}],
     ["/logs/auth.log",{type:"file",content:"[system] No authentication service is configured."}],
-    ["/logs/trace.log",{type:"file",content:"[system] Simulation trace initialized."}]
+    ["/logs/trace.log",{type:"file",content:"[system] Simulation trace initialized.\n[14:02:11.024] archive/status: ready revision=4\n[14:02:12.811] sensor/heartbeat: sequence=1842 signal=nominal\n[14:02:13.442] relay/maintenance: service-window token accepted by relay-node-18\n[14:02:14.093] gateway/session: analyst-guest rejected reason=session_expired"}]
   ]);
   const listeners=new Set();
   function normalizePath(path,currentPath="/") {

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'phantomx-v2.3.1-macdock1';
+const CACHE_NAME = 'phantomx-v2.3.1-macdock-story1';
 const APP_SHELL = [
   './',
   './index.html',
@@ -10,8 +10,10 @@ const APP_SHELL = [
   './vfs.js',
   './apps/core-apps.js',
   './apps/deck-settings.js',
+  './apps/story-engine.js',
   './apps/simulation-data.js',
   './apps/simulation-tools.js',
+  './apps/story-apps.js',
   './public-pages.js',
   './script.js',
   './manifest.json',

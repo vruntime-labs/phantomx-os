@@ -38,9 +38,10 @@
       radar.appendChild(group);
     });
   }
-  function selectRadarNode(id) {
+  function selectRadarNode(id, userAction = false) {
     const node=data.nodes.find((item)=>item.id===id);
     if(!node||!radarInfo) return;
+    if(userAction && id==="relay") global.PhantomStoryEngine?.recordEvidence("phantom.netradar","relay-topology");
     radar.querySelectorAll(".radar-node").forEach((item)=>item.classList.toggle("is-selected",item.dataset.nodeId===id));
     radarInfo.replaceChildren();
     const title=document.createElement("strong"); title.textContent=node.label;
@@ -57,15 +58,15 @@
   }
   radar?.addEventListener("click",(event)=>{
     const node=event.target.closest("[data-node-id]");
-    if(node) selectRadarNode(node.dataset.nodeId);
+    if(node) selectRadarNode(node.dataset.nodeId,true);
   });
   radar?.addEventListener("keydown",(event)=>{
     if(event.key!=="Enter"&&event.key!==" ") return;
     const node=event.target.closest("[data-node-id]");
-    if(node){event.preventDefault();selectRadarNode(node.dataset.nodeId);}
+    if(node){event.preventDefault();selectRadarNode(node.dataset.nodeId,true);}
   });
   renderRadar();
-  selectRadarNode("gateway");
+  selectRadarNode("gateway",false);
 
   // PacketSniffer: inspect and replay only local synthetic request fixtures.
   const packetList=byId("packet-list");
@@ -73,8 +74,9 @@
   const packetEditor=byId("packet-editor");
   const packetStatus=byId("packet-status");
   let selectedPacket=data.packets[0];
-  function showPacket(packet) {
+  function showPacket(packet, userAction = false) {
     selectedPacket=packet;
+    if(userAction && packet.id==="PKT-003") global.PhantomStoryEngine?.recordEvidence("phantom.packetsniffer","expired-session");
     packetList?.querySelectorAll("[data-packet-id]").forEach((row)=>row.classList.toggle("is-selected",row.dataset.packetId===packet.id));
     packetDetail.textContent=JSON.stringify({id:packet.id,time:packet.time,source:packet.source,destination:packet.destination,protocol:packet.protocol,method:packet.method,path:packet.path,status:packet.status,response:packet.response},null,2);
     packetEditor.value=JSON.stringify(packet.request,null,2);
@@ -92,7 +94,7 @@
     });
     packetList.addEventListener("click",(event)=>{
       const row=event.target.closest("[data-packet-id]");
-      if(row){const packet=data.packets.find((item)=>item.id===row.dataset.packetId);if(packet)showPacket(packet);}
+      if(row){const packet=data.packets.find((item)=>item.id===row.dataset.packetId);if(packet)showPacket(packet,true);}
     });
     showPacket(selectedPacket);
   }
@@ -192,7 +194,7 @@
       forensicStatus.textContent="FILE UNAVAILABLE";
     }
   }
-  forensicFile?.addEventListener("change",renderForensics);
+  forensicFile?.addEventListener("change",()=>{renderForensics();if(forensicFile.value==="/logs/trace.log")global.PhantomStoryEngine?.recordEvidence("phantom.hexscope","trace-anomaly");});
   forensicSearch?.addEventListener("input",renderForensics);
   renderForensics();
 
