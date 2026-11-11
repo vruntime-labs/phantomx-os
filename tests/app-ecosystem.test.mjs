@@ -7,8 +7,8 @@ function loadAppRuntime() {
   const opened=[];
   const window={
     PhantomKernel:{
-      getWindow(id){return ["terminal-window","vfs-explorer-window","cyberpad-window","netbrowser-window","deck-settings-window"].includes(id)?{id}:null;},
-      openWindow(id){opened.push(id);return ["terminal-window","vfs-explorer-window","cyberpad-window","netbrowser-window","deck-settings-window"].includes(id);}
+      getWindow(id){return ["terminal-window","vfs-explorer-window","cyberpad-window","netbrowser-window","deck-settings-window","netradar-window","packetsniffer-window","hashbreaker-window","hexscope-window","opencam-window"].includes(id)?{id}:null;},
+      openWindow(id){opened.push(id);return ["terminal-window","vfs-explorer-window","cyberpad-window","netbrowser-window","deck-settings-window","netradar-window","packetsniffer-window","hashbreaker-window","hexscope-window","opencam-window"].includes(id);}
     }
   };
   const context={window,console};
@@ -26,7 +26,10 @@ test("catalog registers the complete requested app ecosystem",()=>{
   assert.equal(window.PhantomAppRegistry.get("phantom.cyberpad").status,"available");
   assert.equal(window.PhantomAppRegistry.get("phantom.netbrowser").status,"available");
   assert.equal(window.PhantomAppRegistry.get("phantom.deck-settings").status,"available");
-  assert.equal(window.PhantomAppRegistry.get("phantom.opencam").status,"planned");
+  for (const id of ["phantom.netradar","phantom.packetsniffer","phantom.hashbreaker","phantom.hexscope","phantom.opencam"]) {
+    assert.equal(window.PhantomAppRegistry.get(id).status,"available");
+  }
+  assert.equal(window.PhantomAppRegistry.get("phantom.mission-control").status,"planned");
 });
 
 test("registry launches only apps with an available registered window",()=>{
@@ -36,8 +39,11 @@ test("registry launches only apps with an available registered window",()=>{
   assert.equal(window.PhantomAppRegistry.launch("phantom.cyberpad").ok,true);
   assert.equal(window.PhantomAppRegistry.launch("phantom.netbrowser").ok,true);
   assert.equal(window.PhantomAppRegistry.launch("phantom.deck-settings").ok,true);
+  for (const id of ["phantom.netradar","phantom.packetsniffer","phantom.hashbreaker","phantom.hexscope","phantom.opencam"]) {
+    assert.equal(window.PhantomAppRegistry.launch(id).ok,true);
+  }
   assert.equal(window.PhantomAppRegistry.launch("missing.app").reason,"unknown-app");
-  assert.deepEqual(opened,["terminal-window","vfs-explorer-window","cyberpad-window","netbrowser-window","deck-settings-window"]);
+  assert.deepEqual(opened,["terminal-window","vfs-explorer-window","cyberpad-window","netbrowser-window","deck-settings-window","netradar-window","packetsniffer-window","hashbreaker-window","hexscope-window","opencam-window"]);
 });
 
 test("Terminal and VFS Explorer share the same virtual files",()=>{
