@@ -202,67 +202,6 @@
   });
   navigate("intranet.phantom/");
 
-  // DeckSettings: capability-gated local preferences, stored only in this browser.
-  const settingsApp = "phantom.deck-settings";
-  const settingsKey = "phantomx.deck-settings.v1";
-  function requireSetting(capability) {
-    if (!registry.hasCapability(settingsApp, capability)) throw new Error("Permission denied: " + capability);
-  }
-  function readSettings() {
-    requireSetting("settings.read");
-    try {
-      const value = JSON.parse(global.localStorage.getItem(settingsKey) || "{}");
-      return {
-        theme: ["mint", "amber", "ice"].includes(value.theme) ? value.theme : "mint",
-        wallpaper: ["grid", "quiet", "scanlines"].includes(value.wallpaper) ? value.wallpaper : "grid",
-        sounds: value.sounds !== false
-      };
-    } catch {
-      return {theme:"mint", wallpaper:"grid", sounds:true};
-    }
-  }
-  function saveSettings(next) {
-    requireSetting("settings.write");
-    global.localStorage.setItem(settingsKey, JSON.stringify(next));
-    applySettings(next);
-  }
-  function applySettings(value) {
-    document.documentElement.dataset.phantomTheme = value.theme;
-    document.body.dataset.phantomWallpaper = value.wallpaper;
-  }
-  const themeSelect = byId("deck-theme");
-  const wallpaperSelect = byId("deck-wallpaper");
-  const soundToggle = byId("deck-sounds");
-  const settingsStatus = byId("deck-settings-status");
-  let preferences = readSettings();
-  applySettings(preferences);
-  if (themeSelect) themeSelect.value = preferences.theme;
-  if (wallpaperSelect) wallpaperSelect.value = preferences.wallpaper;
-  if (soundToggle) soundToggle.checked = preferences.sounds;
-  function updatePreference(key, value) {
-    preferences = {...preferences, [key]:value};
-    try {
-      saveSettings(preferences);
-      settingsStatus.textContent = "PREFERENCE SAVED IN THIS BROWSER";
-    } catch (error) {
-      settingsStatus.textContent = error.message.toUpperCase();
-    }
-  }
-  themeSelect?.addEventListener("change", () => updatePreference("theme", themeSelect.value));
-  wallpaperSelect?.addEventListener("change", () => updatePreference("wallpaper", wallpaperSelect.value));
-  soundToggle?.addEventListener("change", () => updatePreference("sounds", soundToggle.checked));
-  byId("deck-reset-settings")?.addEventListener("click", () => {
-    requireSetting("saves.manage");
-    if (!global.confirm("Reset PhantomX appearance and interface preferences stored in this browser?")) return;
-    global.localStorage.removeItem(settingsKey);
-    preferences = {theme:"mint", wallpaper:"grid", sounds:true};
-    applySettings(preferences);
-    if (themeSelect) themeSelect.value = preferences.theme;
-    if (wallpaperSelect) wallpaperSelect.value = preferences.wallpaper;
-    if (soundToggle) soundToggle.checked = preferences.sounds;
-    settingsStatus.textContent = "LOCAL PREFERENCES RESET";
-  });
-
   global.PhantomCoreApps = Object.freeze({
     open(appId) {
       const app = registry.get(appId);
