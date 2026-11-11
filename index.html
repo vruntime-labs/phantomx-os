@@ -77,17 +77,6 @@
             <span class="desktop-shortcut-icon mission-shortcut-icon">◇</span><span>Story Mode</span><small>PLANNED</small>
           </button>
         </div>
-        <section class="desktop-widget" aria-label="Session overview">
-          <div class="desktop-widget-heading"><span>PHANTOMX SESSION</span><span class="widget-live"><i></i> ACTIVE</span></div>
-          <h1>Cyberdeck workspace</h1>
-          <p>A desktop environment for browser-based tools and fictional security simulations.</p>
-          <div class="desktop-widget-stats">
-            <div><small>EDITION</small><strong>Browser</strong></div>
-            <div><small>SESSION</small><strong>Local</strong></div>
-            <div><small>HOST ACCESS</small><strong>Disabled</strong></div>
-          </div>
-          <div class="desktop-widget-footer">BUILD 2.3.1 <span>SIMULATION ENVIRONMENT</span></div>
-        </section>
       </div>
       <div class="workspace-content" id="overview">
         <section class="welcome" aria-labelledby="welcome-title">
@@ -140,13 +129,13 @@
       </div>
     </section>
 
-    <section id="terminal-window" class="window" aria-label="Cyberdeck Terminal" style="top:112px">
+    <section id="terminal-window" class="window" aria-label="Cyberdeck Terminal" aria-hidden="true" style="display:none; top:112px">
       <header class="window-header" data-window-drag-handle>
         <div class="window-title"><span class="terminal-title-mark" aria-hidden="true">PX</span><span>TERMINAL</span><span class="window-title-divider">/</span><span class="window-title-muted">SESSION 01</span></div>
         <div class="window-controls" aria-label="Window controls">
-          <button class="window-dot yellow" type="button" aria-label="Minimize Terminal" title="Minimize" onclick="minimizeWindow('terminal-window')"></button>
-          <button class="window-dot green" type="button" aria-label="Maximize Terminal" title="Maximize or restore" onclick="maximizeWindow('terminal-window')"></button>
-          <button class="window-dot red" type="button" aria-label="Close Terminal" title="Close" onclick="closeWindow('terminal-window')"></button>
+          <button class="window-dot yellow" type="button" aria-label="Minimize Terminal" title="Minimize" data-window-action="minimize"></button>
+          <button class="window-dot green" type="button" aria-label="Maximize Terminal" title="Maximize or restore" data-window-action="maximize"></button>
+          <button class="window-dot red" type="button" aria-label="Close Terminal" title="Close" data-window-action="close"></button>
         </div>
       </header>
       <div id="terminal-body" class="window-body" role="log" aria-live="polite" aria-relevant="additions text">
@@ -156,7 +145,7 @@
       </div>
       <form id="terminal-form" class="terminal-input-line" autocomplete="off">
         <label class="prompt" for="command-input">guest<span>@</span>phantomx:<b>/</b>$</label>
-        <input type="text" id="command-input" name="command" autofocus autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command">
+        <input type="text" id="command-input" name="command" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command">
       </form>
     </section>
   </main>
@@ -184,7 +173,7 @@
     <button class="start-btn" type="button" aria-expanded="false" aria-controls="start-menu" onclick="toggleStartMenu()"><span class="start-btn-mark" aria-hidden="true">PX</span><span>Launcher</span></button>
     <div class="taskbar-separator" aria-hidden="true"></div>
     <div class="taskbar-apps">
-      <button class="taskbar-item is-active" type="button" data-window-launch="terminal-window"><span class="taskbar-terminal-mark" aria-hidden="true">›_</span><span>Terminal</span></button>
+      <button class="taskbar-item" type="button" data-window-launch="terminal-window"><span class="taskbar-terminal-mark" aria-hidden="true">›_</span><span>Terminal</span></button>
     </div>
     <div class="taskbar-right"><span class="taskbar-session"><i></i> SIMULATED SESSION</span><time id="taskbar-clock" class="taskbar-clock" aria-label="Local time">--:--</time></div>
   </footer>
