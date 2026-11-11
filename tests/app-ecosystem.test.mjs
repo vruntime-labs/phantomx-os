@@ -7,8 +7,8 @@ function loadAppRuntime() {
   const opened=[];
   const window={
     PhantomKernel:{
-      getWindow(id){return id==="terminal-window"||id==="vfs-explorer-window"?{id}:null;},
-      openWindow(id){opened.push(id);return id==="terminal-window"||id==="vfs-explorer-window";}
+      getWindow(id){return ["terminal-window","vfs-explorer-window","cyberpad-window","netbrowser-window","deck-settings-window"].includes(id)?{id}:null;},
+      openWindow(id){opened.push(id);return ["terminal-window","vfs-explorer-window","cyberpad-window","netbrowser-window","deck-settings-window"].includes(id);}
     }
   };
   const context={window,console};
