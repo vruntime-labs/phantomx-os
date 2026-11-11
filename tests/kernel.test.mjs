@@ -23,7 +23,7 @@ function createWindow(id) {
     id, style: { display: 'flex', left: '200px', top: '80px', width: '580px', height: '380px' },
     dataset: {}, classList: makeClassList(), offsetLeft: 200, offsetTop: 80,
     offsetWidth: 580, offsetHeight: 380,
-    addEventListener() {}, querySelector() { return null; },
+    addEventListener() {}, setAttribute() {}, querySelector() { return null; },
     contains() { return false; }
   };
 }
@@ -52,7 +52,11 @@ function bootKernel() {
 
 test('opening and closing a window updates process state', () => {
   const { kernel, terminal } = bootKernel();
+  assert.equal(terminal.style.display, 'none');
+  assert.equal(kernel.activeProcesses.has('terminal-window'), false);
+  kernel.openWindow('terminal-window');
   assert.equal(kernel.activeProcesses.get('terminal-window').state, 'running');
+  assert.equal(terminal.style.display, 'flex');
   kernel.minimizeWindow('terminal-window');
   assert.equal(kernel.activeProcesses.get('terminal-window').state, 'minimized');
   assert.equal(terminal.style.display, 'none');
