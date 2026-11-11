@@ -208,17 +208,23 @@
       <footer class="netbrowser-footer">LOCAL INTRANET + DIRECT PUBLIC WEB <span>NO PROXY · EMBEDDING DEPENDS ON EACH WEBSITE</span></footer>
     </section>
 
-    <section id="deck-settings-window" class="window core-app-window" aria-label="DeckSettings" aria-hidden="true" style="display:none; top:95px; left:210px; width:min(760px, calc(100vw - 220px)); height:min(560px, calc(100vh - 150px))">
+    <section id="deck-settings-window" class="window core-app-window" aria-label="DeckSettings" aria-hidden="true" style="display:none; top:72px; left:190px; width:min(780px, calc(100vw - 200px)); height:min(650px, calc(100vh - 120px))">
       <header class="window-header" data-window-drag-handle>
-        <div class="window-title"><span class="terminal-title-mark">PX</span><span>DECK SETTINGS</span><span class="window-title-divider">/</span><span class="window-title-muted">LOCAL PREFERENCES</span></div>
+        <div class="window-title"><span class="terminal-title-mark">PX</span><span>DECK SETTINGS</span><span class="window-title-divider">/</span><span class="window-title-muted">SYSTEM PREFERENCES</span></div>
         <div class="window-controls"><button class="window-dot yellow" type="button" aria-label="Minimize DeckSettings" data-window-action="minimize"></button><button class="window-dot green" type="button" aria-label="Maximize DeckSettings" data-window-action="maximize"></button><button class="window-dot red" type="button" aria-label="Close DeckSettings" data-window-action="close"></button></div>
       </header>
       <div class="core-app-body settings-body">
-        <div class="core-app-intro"><strong>PERSONALIZE YOUR CYBERDECK</strong><span>Preferences are stored locally in this browser.</span></div>
-        <section class="settings-group"><div><h3>Interface theme</h3><p>Choose the accent used across the launcher.</p></div><select id="deck-theme" aria-label="Interface theme"><option value="mint">Phantom Mint</option><option value="ice">Arctic Ice</option><option value="amber">Signal Amber</option></select></section>
-        <section class="settings-group"><div><h3>Desktop texture</h3><p>Adjust the subtle desktop background treatment.</p></div><select id="deck-wallpaper" aria-label="Desktop texture"><option value="grid">Technical grid</option><option value="quiet">Quiet gradient</option><option value="scanlines">Scanlines</option></select></section>
-        <section class="settings-group"><div><h3>Interface sound preference</h3><p>This preference is saved; audio cues will be used as they are added to the shell.</p></div><label class="settings-toggle"><input id="deck-sounds" type="checkbox"><span>Enable</span></label></section>
-        <section class="settings-group settings-data"><div><h3>Local preferences</h3><p>Reset only PhantomX appearance and interface preferences. Virtual files currently reset when the page reloads.</p></div><button id="deck-reset-settings" type="button" class="danger-subtle">Reset preferences</button></section>
+        <div class="core-app-intro settings-intro"><strong>DECK SETTINGS</strong><span>Personalize the PhantomX workspace. Changes are saved in this browser only.</span></div>
+        <div class="settings-section-label">APPEARANCE</div>
+        <section class="settings-group"><div><h3>Accent theme</h3><p>Choose the interface highlight color.</p></div><select id="deck-theme" aria-label="Accent theme"><option value="mint">Phantom Mint</option><option value="ice">Arctic Ice</option><option value="amber">Signal Amber</option></select></section>
+        <section class="settings-group"><div><h3>Desktop texture</h3><p>Change the desktop canvas background treatment.</p></div><select id="deck-wallpaper" aria-label="Desktop texture"><option value="grid">Technical grid</option><option value="quiet">Quiet gradient</option><option value="scanlines">Scanlines</option></select></section>
+        <div class="settings-section-label">WORKSPACE</div>
+        <section class="settings-group"><div><h3>Dock magnification</h3><p>Enlarge dock icons while the pointer is over them.</p></div><label class="settings-toggle"><input id="deck-dock-magnification" type="checkbox"><span>On</span></label></section>
+        <section class="settings-group"><div><h3>Compact interface</h3><p>Use tighter spacing in application panels.</p></div><label class="settings-toggle"><input id="deck-compact-mode" type="checkbox"><span>On</span></label></section>
+        <section class="settings-group"><div><h3>Reduce motion</h3><p>Reduce interface transitions and animated effects.</p></div><label class="settings-toggle"><input id="deck-reduce-motion" type="checkbox"><span>On</span></label></section>
+        <section class="settings-group"><div><h3>Desktop status card</h3><p>Show or hide the information card on the desktop.</p></div><label class="settings-toggle"><input id="deck-show-widget" type="checkbox"><span>Show</span></label></section>
+        <div class="settings-section-label">ABOUT &amp; LOCAL DATA</div>
+        <section class="settings-group settings-data"><div><h3>Browser preferences</h3><p>Settings are stored locally. Virtual files currently reset when the page reloads. Audio cues are not implemented yet.</p></div><button id="deck-reset-settings" type="button" class="danger-subtle">Reset settings</button></section>
         <div id="deck-settings-status" class="core-app-status" role="status">READY</div>
       </div>
     </section>
@@ -316,10 +322,12 @@
     <div class="start-menu-footer">BROWSER EDITION <span>v2.3.1</span></div>
   </aside>
 
-  <footer id="taskbar" aria-label="Launcher taskbar">
-    <button class="start-btn" type="button" aria-expanded="false" aria-controls="start-menu" onclick="toggleStartMenu()"><span class="start-btn-mark" aria-hidden="true">PX</span><span>Launcher</span></button>
-    <div class="taskbar-separator" aria-hidden="true"></div>
-    <div id="taskbar-apps" class="taskbar-apps" aria-label="Running applications"></div>
+  <footer id="taskbar" aria-label="Launcher dock and session status">
+    <div class="taskbar-dock" role="toolbar" aria-label="Application dock">
+      <button class="start-btn" type="button" aria-label="Open Launcher" title="Launcher" aria-expanded="false" aria-controls="start-menu" onclick="toggleStartMenu()"><span class="start-btn-mark" aria-hidden="true">PX</span><span class="start-btn-label">Launcher</span></button>
+      <div class="taskbar-separator" aria-hidden="true"></div>
+      <div id="taskbar-apps" class="taskbar-apps" aria-label="Running applications"></div>
+    </div>
     <div class="taskbar-right"><span class="taskbar-session"><i></i> SIMULATED SESSION</span><time id="taskbar-clock" class="taskbar-clock" aria-label="Local time">--:--</time></div>
   </footer>
 

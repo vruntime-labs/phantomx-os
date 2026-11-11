@@ -897,3 +897,172 @@ body[data-phantom-wallpaper="scanlines"] .desktop-canvas::after {
   background-size: 100% 4px;
   mask-image: none;
 }
+
+
+/* Mac-inspired floating dock: only running or minimized apps are rendered here. */
+:root { --taskbar-height: 88px; }
+#taskbar {
+  position:fixed;
+  inset:auto 0 0;
+  z-index:1000;
+  display:block;
+  width:100%;
+  height:auto;
+  padding:0;
+  border:0;
+  background:transparent;
+  pointer-events:none;
+  backdrop-filter:none;
+}
+.taskbar-dock {
+  position:fixed;
+  left:50%;
+  bottom:14px;
+  display:flex;
+  align-items:flex-end;
+  gap:7px;
+  width:max-content;
+  max-width:calc(100vw - 28px);
+  min-height:66px;
+  padding:8px 10px;
+  transform:translateX(-50%);
+  border:1px solid rgba(196,220,224,.2);
+  border-radius:18px;
+  background:rgba(14,23,32,.76);
+  box-shadow:0 12px 42px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.07);
+  backdrop-filter:blur(22px) saturate(145%);
+  -webkit-backdrop-filter:blur(22px) saturate(145%);
+  pointer-events:auto;
+}
+.start-btn, .taskbar-item {
+  position:relative;
+  display:grid;
+  flex:0 0 48px;
+  width:48px;
+  height:48px;
+  min-height:48px;
+  place-items:center;
+  gap:0;
+  padding:4px;
+  overflow:visible;
+  border:1px solid rgba(198,220,220,.12);
+  border-radius:13px;
+  background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.025));
+  color:#dce9e5;
+  cursor:pointer;
+  transition:transform 160ms cubic-bezier(.2,.8,.2,1), background 160ms ease, border-color 160ms ease, opacity 160ms ease;
+}
+.start-btn:hover, .taskbar-item:hover {
+  transform:translateY(-7px) scale(1.08);
+  border-color:rgba(var(--phantom-accent-rgb,159,227,196),.42);
+  background:linear-gradient(145deg,rgba(255,255,255,.15),rgba(255,255,255,.055));
+  color:#fff;
+}
+.start-btn-mark, .taskbar-terminal-mark {
+  display:grid;
+  width:100%;
+  height:100%;
+  place-items:center;
+  border-radius:9px;
+  color:var(--mint);
+  font:700 16px var(--mono);
+  text-shadow:0 0 16px rgba(159,227,196,.25);
+}
+.start-btn-mark {
+  border:1px solid rgba(159,227,196,.25);
+  background:linear-gradient(145deg,rgba(159,227,196,.16),rgba(159,227,196,.035));
+  font-size:11px;
+}
+.start-btn-label, .taskbar-item-label { display:none; }
+.taskbar-separator { width:1px; height:36px; align-self:center; background:rgba(190,211,215,.18); }
+.taskbar-apps {
+  display:flex;
+  flex:0 1 auto;
+  align-items:flex-end;
+  gap:6px;
+  min-width:0;
+  max-width:min(66vw,760px);
+  overflow-x:auto;
+  overflow-y:visible;
+  padding:0 2px 4px;
+  scrollbar-width:none;
+}
+.taskbar-apps::-webkit-scrollbar { display:none; }
+.taskbar-item { flex:0 0 48px; }
+.taskbar-item.is-active { border-color:rgba(var(--phantom-accent-rgb,159,227,196),.36); background:linear-gradient(145deg,rgba(159,227,196,.19),rgba(159,227,196,.055)); }
+.taskbar-item.is-minimized { opacity:.58; }
+.taskbar-item.is-minimized:hover { opacity:1; }
+.taskbar-item.is-active::after, .taskbar-item.is-minimized::after {
+  position:absolute;
+  left:50%;
+  bottom:-7px;
+  width:4px;
+  height:4px;
+  content:"";
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:var(--mint);
+  box-shadow:0 0 8px rgba(159,227,196,.55);
+}
+.taskbar-item.is-minimized::after { opacity:.42; }
+.taskbar-right {
+  position:fixed;
+  right:22px;
+  bottom:27px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:0;
+  padding:9px 12px;
+  border:1px solid rgba(196,220,224,.12);
+  border-radius:12px;
+  background:rgba(14,23,32,.7);
+  color:#b5c2c2;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  pointer-events:auto;
+}
+.taskbar-session { font-size:7px; }
+.taskbar-clock { font-size:10px; }
+:root[data-phantom-dock-magnification="off"] .start-btn:hover,
+:root[data-phantom-dock-magnification="off"] .taskbar-item:hover { transform:none; }
+:root[data-phantom-density="compact"] .core-app-body { gap:8px; padding:12px; }
+:root[data-phantom-density="compact"] .settings-group { padding:10px 0; }
+:root[data-phantom-density="compact"] .window-header { min-height:38px; }
+:root[data-phantom-motion="reduced"] *, :root[data-phantom-motion="reduced"] *::before, :root[data-phantom-motion="reduced"] *::after {
+  scroll-behavior:auto !important;
+  animation-duration:.01ms !important;
+  animation-iteration-count:1 !important;
+  transition-duration:.01ms !important;
+}
+body[data-phantom-widget="hidden"] .desktop-widget { display:none; }
+.settings-intro { padding-bottom:5px; }
+.settings-section-label {
+  margin-top:5px;
+  padding:8px 0 5px;
+  border-bottom:1px solid var(--line);
+  color:var(--mint);
+  font:8px var(--mono);
+  letter-spacing:.16em;
+}
+.settings-group { min-height:58px; padding:12px 0; }
+.settings-group select { min-width:170px; }
+.settings-toggle { min-width:68px; justify-content:flex-end; cursor:pointer; }
+.settings-toggle input { width:15px; height:15px; }
+.settings-data { align-items:center; }
+@media (max-width:880px) {
+  :root { --taskbar-height:78px; }
+  .taskbar-dock { bottom:10px; min-height:58px; padding:6px 8px; gap:5px; }
+  .start-btn, .taskbar-item { flex-basis:44px; width:44px; height:44px; min-height:44px; }
+  .taskbar-right { right:12px; bottom:82px; padding:7px 9px; }
+  .taskbar-session { display:none; }
+  .taskbar-apps { max-width:calc(100vw - 150px); }
+}
+@media (max-width:520px) {
+  .taskbar-right { display:none; }
+  .taskbar-dock { max-width:calc(100vw - 16px); bottom:8px; }
+  .taskbar-apps { max-width:calc(100vw - 126px); }
+  .settings-group { flex-direction:row; align-items:center; }
+  .settings-group p { max-width:240px; }
+  .settings-group select { min-width:135px; }
+}

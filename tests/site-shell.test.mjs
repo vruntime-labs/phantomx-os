@@ -16,11 +16,12 @@ test('service worker precaches every local runtime script loaded by the page', (
   }
 });
 
-
-test('taskbar does not contain the full application catalogue at startup', () => {
+test('dock contains only a dynamic running-app mount, not a hard-coded app catalogue', () => {
   const taskbar = html.split('<footer id="taskbar"')[1]?.split('</footer>')[0] || '';
+  assert.ok(taskbar.includes('class="taskbar-dock"'));
   assert.ok(taskbar.includes('id="taskbar-apps"'));
   assert.equal(taskbar.includes('data-window-launch='), false);
+  assert.ok(taskbar.includes('id="taskbar-clock"'));
 });
 
 test('NetBrowser and OpenCam expose public website and OpenCCTV viewer surfaces', () => {
@@ -29,4 +30,10 @@ test('NetBrowser and OpenCam expose public website and OpenCCTV viewer surfaces'
   assert.ok(html.includes('id="opencam-player"'));
   assert.ok(html.includes('id="opencam-load-directory"'));
   assert.ok(serviceWorker.includes('./apps/browser-utils.js'));
+});
+
+test('expanded DeckSettings exposes all supported workspace controls', () => {
+  for (const id of ['deck-theme','deck-wallpaper','deck-dock-magnification','deck-compact-mode','deck-reduce-motion','deck-show-widget','deck-reset-settings']) {
+    assert.ok(html.includes('id="' + id + '"'), 'Missing settings control: ' + id);
+  }
 });

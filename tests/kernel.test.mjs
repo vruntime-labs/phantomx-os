@@ -46,8 +46,9 @@ function bootKernel() {
     querySelector(selector) { return selector === '.start-btn' ? startButton : null; },
     createElement() {
       return {
-        dataset: {}, classList: makeClassList(), children: [],
-        setAttribute() {}, addEventListener() {}, append(...nodes) { this.children.push(...nodes); }
+        dataset: {}, className: '', classList: makeClassList(), children: [], attributes: {},
+        setAttribute(name, value) { this.attributes[name] = value; },
+        addEventListener() {}, append(...nodes) { this.children.push(...nodes); }
       };
     },
     addEventListener(name, fn) { listeners.set(name, fn); },
@@ -55,7 +56,7 @@ function bootKernel() {
   };
   const window = {
     innerWidth: 1280, innerHeight: 800, addEventListener() {},
-    PhantomAppManifests: { apps: [{ legacyWindowId: 'terminal-window', name: 'PhantomTerm', icon: 'terminal' }] }
+    PhantomAppManifests: { apps: [{ id:'phantom.term', legacyWindowId: 'terminal-window', name: 'PhantomTerm', icon: 'terminal' }] }
   };
   const context = { window, document, console };
   vm.runInNewContext(fs.readFileSync(new URL('../kernel.js', import.meta.url), 'utf8'), context);
@@ -100,17 +101,22 @@ test('start menu exposes its accessible open state', () => {
   assert.equal(menu.classList.contains('open'), false);
 });
 
-
-test('taskbar contains only running or minimized applications', () => {
-  const { kernel, terminal, taskbarApps } = bootKernel();
+test('dock shows only running or minimized apps and marks their active state', () => {
+  const { kernel, taskbarApps } = bootKernel();
   assert.equal(taskbarApps.children.length, 0);
   kernel.openWindow('terminal-window');
   assert.equal(taskbarApps.children.length, 1);
-  assert.equal(taskbarApps.children[0].dataset.windowLaunch, 'terminal-window');
-  assert.equal(taskbarApps.children[0].classList.contains('is-active'), true);
+  const item = taskbarApps.children[0];
+  assert.equal(item.dataset.windowLaunch, 'terminal-window');
+  assert.equal(item.dataset.appId, 'phantom.term');
+  assert.equal(item.classList.contains('is-active'), true);
+  assert.equal(item.attributes['aria-pressed'], 'true');
+  assert.equal(item.children[0].textContent, '›_');
   kernel.minimizeWindow('terminal-window');
   assert.equal(taskbarApps.children.length, 1);
-  assert.equal(taskbarApps.children[0].classList.contains('is-minimized'), true);
+  const minimizedItem = taskbarApps.children[0];
+  assert.equal(minimizedItem.classList.contains('is-minimized'), true);
+  assert.equal(minimizedItem.attributes['aria-pressed'], 'false');
   kernel.closeWindow('terminal-window');
   assert.equal(taskbarApps.children.length, 0);
 });
