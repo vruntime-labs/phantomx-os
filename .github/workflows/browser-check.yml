@@ -10,7 +10,7 @@ on:
       - 'style.css'
       - 'manifest.json'
       - 'sw.js'
-      - 'assets/**'
+      - 'assets/**'\n      - 'apps/**'
       - 'tests/**'
       - '.github/workflows/browser-check.yml'
       - '.github/workflows/pages.yml'
