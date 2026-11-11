@@ -87,3 +87,18 @@ test('start menu exposes its accessible open state', () => {
   kernel.toggleStartMenu(false);
   assert.equal(menu.classList.contains('open'), false);
 });
+
+
+test('taskbar contains only running or minimized applications', () => {
+  const { kernel, terminal, taskbarApps } = bootKernel();
+  assert.equal(taskbarApps.children.length, 0);
+  kernel.openWindow('terminal-window');
+  assert.equal(taskbarApps.children.length, 1);
+  assert.equal(taskbarApps.children[0].dataset.windowLaunch, 'terminal-window');
+  assert.equal(taskbarApps.children[0].classList.contains('is-active'), true);
+  kernel.minimizeWindow('terminal-window');
+  assert.equal(taskbarApps.children.length, 1);
+  assert.equal(taskbarApps.children[0].classList.contains('is-minimized'), true);
+  kernel.closeWindow('terminal-window');
+  assert.equal(taskbarApps.children.length, 0);
+});
