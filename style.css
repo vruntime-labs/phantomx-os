@@ -430,7 +430,7 @@ a { color: inherit; }
 .start-btn:hover, .taskbar-item:hover { border-color: rgba(159, 227, 196, .16); background: rgba(159, 227, 196, .07); color: #e4efea; }
 .start-btn-mark { display: grid; width: 23px; height: 23px; place-items: center; border: 1px solid rgba(159, 227, 196, .3); border-radius: 6px 2px 6px 2px; color: var(--mint); font: 700 8px var(--mono); letter-spacing: -.08em; }
 .taskbar-separator { width: 1px; height: 22px; background: var(--line); }
-.taskbar-apps { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.taskbar-apps { display: flex; flex: 1 1 auto; align-items: center; gap: 6px; min-width: 0; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
 .taskbar-item { min-height: 34px; border-color: rgba(177, 201, 211, .08); }
 .taskbar-item.is-active { border-color: rgba(159, 227, 196, .2); background: rgba(159, 227, 196, .075); color: #d4e6dc; }
 .taskbar-item.is-minimized { opacity: .62; }
