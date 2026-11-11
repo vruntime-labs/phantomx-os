@@ -592,3 +592,40 @@ a { color: inherit; }
 .start-app:disabled:hover { border-color:rgba(159,227,196,.13); background:rgba(159,227,196,.055); }
 .start-app-name { min-width:0; }
 .start-app-state { white-space:nowrap; }
+
+
+/* VFS Explorer — native-feeling file manager inside the existing window shell. */
+.vfs-window { min-width:520px; min-height:340px; }
+.vfs-toolbar { display:flex; align-items:center; gap:7px; flex:0 0 auto; min-width:0; padding:9px 11px; border-bottom:1px solid var(--line); background:#0c1720; }
+.vfs-toolbar button, .vfs-preview-footer button { min-height:29px; padding:0 9px; border:1px solid rgba(159,227,196,.16); border-radius:4px; background:rgba(159,227,196,.055); color:#c6d7d1; font:9px var(--mono); cursor:pointer; }
+.vfs-toolbar button:hover, .vfs-preview-footer button:hover:not(:disabled) { border-color:rgba(159,227,196,.36); color:var(--mint); }
+.vfs-toolbar #vfs-current-path { flex:1 1 auto; min-width:70px; overflow:hidden; color:var(--mint); font:10px var(--mono); text-overflow:ellipsis; white-space:nowrap; }
+.vfs-toolbar input { width:145px; min-width:75px; min-height:29px; padding:0 8px; border:1px solid rgba(159,227,196,.14); border-radius:4px; background:#09121a; color:var(--text); font:9px var(--mono); }
+.vfs-content { display:flex; flex:1 1 auto; min-height:0; overflow:hidden; }
+.vfs-sidebar { display:flex; flex:0 0 132px; flex-direction:column; gap:4px; padding:12px 8px; border-right:1px solid var(--line); background:rgba(8,15,21,.48); }
+.vfs-sidebar button { padding:9px 10px; border:1px solid transparent; border-radius:4px; background:transparent; color:#8fa4a7; font-size:10px; text-align:left; cursor:pointer; }
+.vfs-sidebar button:hover { border-color:rgba(159,227,196,.14); background:rgba(159,227,196,.06); color:var(--mint); }
+.vfs-main { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); flex:1 1 auto; min-width:0; min-height:0; }
+.vfs-file-list-wrap { min-width:0; min-height:0; overflow:auto; border-right:1px solid var(--line); }
+.vfs-list-heading, .vfs-entry { display:grid; grid-template-columns:minmax(0,1fr) 62px 54px; align-items:center; gap:8px; }
+.vfs-list-heading { position:sticky; top:0; padding:10px 12px; border-bottom:1px solid var(--line); background:#101b25; color:#6e8589; font:8px var(--mono); letter-spacing:.1em; }
+.vfs-entry { width:100%; min-height:38px; padding:7px 12px; border:0; border-bottom:1px solid rgba(177,201,211,.055); background:transparent; color:#b6c6c3; font:9px var(--mono); text-align:left; cursor:pointer; }
+.vfs-entry:hover, .vfs-entry.is-selected { background:rgba(159,227,196,.07); color:#e0eee8; }
+.vfs-entry-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.vfs-entry span:nth-child(2), .vfs-entry span:nth-child(3) { color:#71878b; font-size:8px; }
+.vfs-empty { padding:18px 13px; color:#72878b; font:10px var(--mono); }
+.vfs-preview { display:flex; flex-direction:column; min-width:0; min-height:0; padding:11px; background:rgba(8,15,21,.3); }
+.vfs-preview-heading, .vfs-preview-footer { display:flex; align-items:center; justify-content:space-between; gap:8px; color:#748b8d; font:8px var(--mono); letter-spacing:.08em; }
+.vfs-preview-heading span:last-child { overflow:hidden; color:#9fb6ad; text-overflow:ellipsis; white-space:nowrap; }
+#vfs-preview-content { flex:1 1 auto; min-height:80px; width:100%; margin:10px 0; padding:10px; resize:none; border:1px solid rgba(159,227,196,.12); border-radius:4px; outline:0; background:#09121a; color:#c5d5d0; font:10px/1.65 var(--mono); }
+#vfs-preview-content:disabled { opacity:.65; }
+.vfs-preview-footer { flex-wrap:wrap; }
+.vfs-preview-footer button:disabled { opacity:.4; cursor:not-allowed; }
+@media (max-width:880px) {
+  .vfs-window { min-width:0; }
+  .vfs-toolbar { flex-wrap:wrap; }
+  .vfs-toolbar #vfs-current-path { flex-basis:calc(100% - 90px); }
+  .vfs-main { grid-template-columns:minmax(0,1fr); grid-template-rows:minmax(110px,1fr) minmax(120px,.8fr); }
+  .vfs-file-list-wrap { border-right:0; border-bottom:1px solid var(--line); }
+  .vfs-sidebar { flex-basis:76px; }
+}
