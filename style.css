@@ -583,3 +583,12 @@ a { color: inherit; }
   .desktop-widget-stats { gap:6px; }
   .desktop-widget-footer span { display:none; }
 }
+
+
+/* App catalog in the existing launcher menu. */
+.start-app-list { display:flex; flex-direction:column; gap:5px; }
+.app-tier-heading { margin-top:9px; }
+.start-app:disabled { opacity:.48; cursor:not-allowed; }
+.start-app:disabled:hover { border-color:rgba(159,227,196,.13); background:rgba(159,227,196,.055); }
+.start-app-name { min-width:0; }
+.start-app-state { white-space:nowrap; }
