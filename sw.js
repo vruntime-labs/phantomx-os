@@ -1,4 +1,4 @@
-const CACHE_NAME = 'phantomx-v2.3.1-story1';
+const CACHE_NAME = 'phantomx-v2.3.1-macdock-story1';
 const APP_SHELL = [
   './',
   './index.html',
