@@ -146,11 +146,41 @@ class Kernel {
   }
 
   updateTaskbar() {
-    document.querySelectorAll('[data-window-launch]').forEach((button) => {
-      const process = this.processes.get(button.dataset.windowLaunch);
-      button.classList.toggle('is-active', Boolean(process && process.state === 'running'));
-      button.classList.toggle('is-minimized', Boolean(process && process.state === 'minimized'));
+    const target = document.getElementById('taskbar-apps');
+    if (!target) return;
+
+    const catalog = window.PhantomAppManifests;
+    const glyphs = {
+      terminal: '›_', folder: '▣', 'file-edit': '▤', globe: '◎',
+      settings: '⚙', network: '⌘', activity: '≋', 'key-round': '#',
+      'scan-search': '⌕', cctv: '◉'
+    };
+    const buttons = [];
+
+    this.processes.forEach((process, windowId) => {
+      const app = catalog?.apps?.find((item) => item.legacyWindowId === windowId);
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'taskbar-item';
+      button.dataset.windowLaunch = windowId;
+      button.setAttribute('aria-label', (app?.name || windowId) + (process.state === 'minimized' ? ' (minimized)' : ''));
+      button.title = app?.name || windowId;
+
+      const mark = document.createElement('span');
+      mark.className = 'taskbar-terminal-mark';
+      mark.setAttribute('aria-hidden', 'true');
+      mark.textContent = glyphs[app?.icon] || '◇';
+
+      const label = document.createElement('span');
+      label.textContent = app?.name || windowId.replace(/-window$/, '');
+      button.append(mark, label);
+      button.classList.toggle('is-active', process.state === 'running');
+      button.classList.toggle('is-minimized', process.state === 'minimized');
+      button.addEventListener('click', () => this.openWindow(windowId));
+      buttons.push(button);
     });
+
+    target.replaceChildren(...buttons);
   }
 
   toggleStartMenu(force) {
