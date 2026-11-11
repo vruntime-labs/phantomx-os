@@ -11,7 +11,7 @@ on:
       - 'manifest.json'
       - 'sw.js'
       - 'assets/**'
-      - 'apps/**'\n      - 'apps/**'
+      - 'apps/**'
       - 'tests/**'
       - '.github/workflows/browser-check.yml'
       - '.github/workflows/pages.yml'
