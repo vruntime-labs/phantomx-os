@@ -1,23 +1,17 @@
 /**
  * App registry for the PhantomX browser desktop.
- * Permissions are simulation capabilities, never host-device access.
+ * Each service checks the app's declared capabilities at its boundary.
  */
 (function (global) {
   "use strict";
-  const catalog=global.PhantomAppManifests, kernel=global.PhantomKernel, grants=new Map();
+  const catalog=global.PhantomAppManifests;
   if(!catalog) throw new Error("Load app-manifests.js before app-registry.js");
   const apps=new Map(catalog.apps.map((app)=>[app.id,app]));
   function get(id){return apps.get(id)||null;}
   function list(options={}){return catalog.apps.filter((app)=>!options.tier||app.tier===options.tier);}
   function hasCapability(appId,capability) {
     const app=get(appId);
-    return Boolean(app&&app.status===catalog.APP_STATUS.AVAILABLE&&app.permissions.includes(capability)&&grants.get(appId)?.has(capability));
-  }
-  function requestCapability(appId,capability) {
-    const app=get(appId);
-    if(!app||app.status!==catalog.APP_STATUS.AVAILABLE||!app.permissions.includes(capability)) return false;
-    if(!grants.has(appId)) grants.set(appId,new Set());
-    grants.get(appId).add(capability); return true;
+    return Boolean(app&&app.status===catalog.APP_STATUS.AVAILABLE&&app.permissions.includes(capability));
   }
   function launch(appId) {
     const app=get(appId);
@@ -31,5 +25,5 @@
     const app=catalog.apps.find((item)=>item.legacyWindowId===windowId);
     return app?launch(app.id):{ok:Boolean(global.PhantomKernel?.openWindow(windowId)),reason:"legacy-window"};
   }
-  global.PhantomAppRegistry=Object.freeze({get,list,launch,launchByWindowId,hasCapability,requestCapability});
+  global.PhantomAppRegistry=Object.freeze({get,list,launch,launchByWindowId,hasCapability});
 })(window);
