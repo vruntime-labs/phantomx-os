@@ -19,7 +19,7 @@
   function isOpenCctvUrl(value) {
     try {
       const url = new URL(normalizeWebUrl(value));
-      const trustedHost = url.hostname === "opencctv.org" || url.hostname === "www.opencctv.org";
+      const trustedHost = url.protocol === "https:" && (url.hostname === "opencctv.org" || url.hostname === "www.opencctv.org");
       const directory = url.pathname === "/open-cameras" || url.pathname === "/open-cameras/";
       const cameraPage = url.pathname.startsWith("/cameras/");
       return trustedHost && (directory || cameraPage);
