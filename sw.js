@@ -10,6 +10,7 @@ const APP_SHELL = [
   './apps/core-apps.js',
   './apps/simulation-data.js',
   './apps/simulation-tools.js',
+  './public-pages.js',
   './script.js',
   './manifest.json',
   './assets/phantomx-icon.svg'
