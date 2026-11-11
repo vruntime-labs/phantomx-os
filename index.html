@@ -55,13 +55,40 @@
 
     <section class="workspace" aria-label="Launcher workspace">
       <header class="topbar">
-        <div class="breadcrumb"><span>PHANTOMX</span><span class="breadcrumb-slash">/</span><strong>OVERVIEW</strong></div>
+        <div class="breadcrumb"><span>PHANTOMX</span><span class="breadcrumb-slash">/</span><strong>DESKTOP</strong></div>
         <div class="topbar-right">
           <span class="environment-status"><span class="status-dot" aria-hidden="true"></span>SIMULATION ACTIVE</span>
           <span class="topbar-version">v2.3.1</span>
         </div>
       </header>
 
+      <div class="desktop-canvas" aria-label="PhantomX desktop">
+        <div class="desktop-shortcuts" aria-label="Desktop shortcuts">
+          <button class="desktop-shortcut" type="button" data-window-launch="terminal-window">
+            <span class="desktop-shortcut-icon terminal-shortcut-icon">›_</span><span>Terminal</span>
+          </button>
+          <a class="desktop-shortcut" href="./legal/">
+            <span class="desktop-shortcut-icon docs-shortcut-icon">▤</span><span>Legal &amp; Policies</span>
+          </a>
+          <a class="desktop-shortcut" href="https://github.com/vruntime-labs/phantomx-os" target="_blank" rel="noopener noreferrer">
+            <span class="desktop-shortcut-icon code-shortcut-icon">&lt;/&gt;</span><span>Source Code</span>
+          </a>
+          <button class="desktop-shortcut" type="button" disabled aria-label="Story Mode planned">
+            <span class="desktop-shortcut-icon mission-shortcut-icon">◇</span><span>Story Mode</span><small>PLANNED</small>
+          </button>
+        </div>
+        <section class="desktop-widget" aria-label="Session overview">
+          <div class="desktop-widget-heading"><span>PHANTOMX SESSION</span><span class="widget-live"><i></i> ACTIVE</span></div>
+          <h1>Cyberdeck workspace</h1>
+          <p>A desktop environment for browser-based tools and fictional security simulations.</p>
+          <div class="desktop-widget-stats">
+            <div><small>EDITION</small><strong>Browser</strong></div>
+            <div><small>SESSION</small><strong>Local</strong></div>
+            <div><small>HOST ACCESS</small><strong>Disabled</strong></div>
+          </div>
+          <div class="desktop-widget-footer">BUILD 2.3.1 <span>SIMULATION ENVIRONMENT</span></div>
+        </section>
+      </div>
       <div class="workspace-content" id="overview">
         <section class="welcome" aria-labelledby="welcome-title">
           <div class="eyebrow"><span class="eyebrow-line"></span>BROWSER-BASED CYBERDECK</div>
@@ -136,6 +163,8 @@
 
   <aside id="start-menu" class="start-menu" aria-label="Start menu" aria-hidden="true">
     <div class="start-menu-brand"><span class="brand-mark small" aria-hidden="true">PX</span><span><strong>PHANTOMX</strong><small>LAUNCHER MENU</small></span></div>
+    <label class="start-search-label" for="start-search">SEARCH APPLICATIONS</label>
+    <input id="start-search" class="start-search" type="search" placeholder="Search apps..." autocomplete="off">
     <div class="start-menu-section-label">APPLICATIONS</div>
     <button class="start-app" type="button" onclick="openWindow('terminal-window'); toggleStartMenu(false)">
       <span class="start-app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 7 5 5-5 5M12 17h7"/></svg></span><span>Cyberdeck Terminal</span><span class="start-app-state">AVAILABLE</span>
