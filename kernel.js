@@ -15,10 +15,25 @@ class Kernel {
     this.stopDrag = this.stopDrag.bind(this);
 
     document.querySelectorAll('.window').forEach((win) => {
-      if (win.style.display !== 'none') this.processes.set(win.id, { state: 'running' });
+      // Windows start closed. They are registered only when the user launches them.
+      win.style.display = 'none';
+      win.setAttribute('aria-hidden', 'true');
       win.addEventListener('pointerdown', () => this.bringToFront(win));
       const handle = win.querySelector('[data-window-drag-handle]');
       if (handle) handle.addEventListener('pointerdown', (event) => this.startDrag(event, win.id));
+    });
+
+    // Use delegated, data-driven controls instead of inline handlers so window
+    // lifecycle actions remain reliable when the launcher scripts are loaded.
+    document.addEventListener('click', (event) => {
+      const control = event.target.closest('[data-window-action]');
+      if (!control) return;
+      const win = control.closest('.window');
+      if (!win) return;
+      const action = control.dataset.windowAction;
+      if (action === 'close') this.closeWindow(win.id);
+      else if (action === 'minimize') this.minimizeWindow(win.id);
+      else if (action === 'maximize') this.maximizeWindow(win.id);
     });
 
     document.addEventListener('keydown', (event) => {
@@ -53,6 +68,7 @@ class Kernel {
     const win = this.getWindow(windowId);
     if (!win) return false;
     win.style.display = 'flex';
+    win.setAttribute('aria-hidden', 'false');
     this.processes.set(windowId, { state: 'running' });
     this.bringToFront(win);
     this.keepWindowInBounds(win);
@@ -68,6 +84,7 @@ class Kernel {
     const win = this.getWindow(windowId);
     if (!win) return false;
     win.style.display = 'none';
+    win.setAttribute('aria-hidden', 'true');
     win.classList.remove('maximized');
     this.processes.delete(windowId);
     if (this.activeWindow === win) this.stopDrag();
@@ -79,6 +96,7 @@ class Kernel {
     const win = this.getWindow(windowId);
     if (!win) return false;
     win.style.display = 'none';
+    win.setAttribute('aria-hidden', 'true');
     const process = this.processes.get(windowId);
     if (process) process.state = 'minimized';
     if (this.activeWindow === win) this.stopDrag();
@@ -113,7 +131,9 @@ class Kernel {
       win.style.width = '100%';
       win.style.height = '100%';
     }
+    win.setAttribute('aria-hidden', 'false');
     this.bringToFront(win);
+    this.updateTaskbar();
     return true;
   }
 
