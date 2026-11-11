@@ -76,8 +76,8 @@
           <button class="desktop-shortcut" type="button" data-window-launch="cyberpad-window"><span class="desktop-shortcut-icon docs-shortcut-icon">▤</span><span>CyberPad</span></button>
           <button class="desktop-shortcut" type="button" data-window-launch="netbrowser-window"><span class="desktop-shortcut-icon code-shortcut-icon">◎</span><span>NetBrowser</span></button>
           <button class="desktop-shortcut" type="button" data-window-launch="deck-settings-window"><span class="desktop-shortcut-icon mission-shortcut-icon">⚙</span><span>DeckSettings</span></button>
-          <button class="desktop-shortcut" type="button" disabled aria-label="Story Mode planned">
-            <span class="desktop-shortcut-icon mission-shortcut-icon">◇</span><span>Story Mode</span><small>PLANNED</small>
+          <button class="desktop-shortcut" type="button" data-window-launch="mission-control-window" aria-label="Open MissionControl">
+            <span class="desktop-shortcut-icon mission-shortcut-icon">◇</span><span>Story Mode</span><small>AVAILABLE</small>
           </button>
         </div>
       </div>
@@ -278,6 +278,57 @@
       <footer class="simulation-footer"><span>PUBLIC SOURCES ONLY · NO PRIVATE CAMERA DISCOVERY OR STREAM BYPASS</span><button id="opencam-open-catalog" type="button">Open OpenEye directory ↗</button></footer>
     </section>
 
+
+    <section id="mission-control-window" class="window story-window" aria-label="MissionControl" aria-hidden="true" style="display:none; top:58px; left:105px; width:min(1000px,calc(100vw - 180px)); height:min(680px,calc(100vh - 120px))">
+      <header class="window-header" data-window-drag-handle><div class="window-title"><span class="terminal-title-mark">PX</span><span>MISSIONCONTROL</span><span class="window-title-divider">/</span><span class="window-title-muted">PROJECT ASTER</span></div><div class="window-controls"><button class="window-dot yellow" type="button" aria-label="Minimize MissionControl" data-window-action="minimize"></button><button class="window-dot green" type="button" aria-label="Maximize MissionControl" data-window-action="maximize"></button><button class="window-dot red" type="button" aria-label="Close MissionControl" data-window-action="close"></button></div></header>
+      <div class="story-toolbar"><span>CONTRACT 01 / THE QUIET RELAY</span><span>SINGLE-PLAYER · LOCAL SAVE</span></div>
+      <div class="story-layout">
+        <main class="story-main">
+          <div class="story-kicker">FIELD ANALYSIS / PROJECT ASTER</div>
+          <h2>The Quiet Relay</h2>
+          <p class="story-briefing">A routine archive maintenance window was followed by an expired analyst session. Review the synthetic relay topology, compare the packet record and inspect the local trace. Decide whether the event is consistent with scheduled maintenance or should be escalated for review.</p>
+          <div class="story-boundary">FICTIONAL CASE DATA ONLY · NO REAL NETWORK ACCESS</div>
+          <div class="story-progress-head"><strong>CASE EVIDENCE</strong><span id="mission-progress-label">0 / 3 EVIDENCE ITEMS</span></div>
+          <progress id="mission-progress" max="3" value="0" aria-label="Mission evidence progress"></progress>
+          <div id="mission-objectives" class="story-objectives"></div>
+          <div id="mission-result" class="story-result" hidden></div>
+          <div id="mission-control-status" class="core-app-status" role="status">CONTRACT AVAILABLE · AWAITING ACCEPTANCE</div>
+        </main>
+        <aside class="story-brief-panel">
+          <span class="story-panel-label">CONTRACT DOSSIER</span>
+          <div><small>DIFFICULTY</small><strong>FIELD ANALYSIS</strong></div>
+          <div><small>ENVIRONMENT</small><strong>ASTER LAB / SIMULATED</strong></div>
+          <div><small>HANDLER</small><strong>ECHO / SHADOWCOMMS</strong></div>
+          <div><small>REQUIRED EVIDENCE</small><strong>03 RECORDS</strong></div>
+          <button id="mission-start" type="button" class="story-primary-action">ACCEPT CONTRACT</button>
+          <button id="mission-reset" type="button" class="story-reset-action" hidden>RESET CAMPAIGN</button>
+          <p>Progress is stored in this browser only. Clearing browser storage clears the local campaign save.</p>
+        </aside>
+      </div>
+      <footer class="simulation-footer">STORY MODE · FICTIONAL INVESTIGATION · SINGLE-PLAYER PREVIEW</footer>
+    </section>
+
+    <section id="shadow-comms-window" class="window story-window" aria-label="ShadowComms" aria-hidden="true" style="display:none; top:85px; left:185px; width:min(760px,calc(100vw - 220px)); height:min(580px,calc(100vh - 150px))">
+      <header class="window-header" data-window-drag-handle><div class="window-title"><span class="terminal-title-mark">PX</span><span>SHADOWCOMMS</span><span class="window-title-divider">/</span><span class="window-title-muted">HANDLER CHANNEL</span></div><div class="window-controls"><button class="window-dot yellow" type="button" aria-label="Minimize ShadowComms" data-window-action="minimize"></button><button class="window-dot green" type="button" aria-label="Maximize ShadowComms" data-window-action="maximize"></button><button class="window-dot red" type="button" aria-label="Close ShadowComms" data-window-action="close"></button></div></header>
+      <div class="story-toolbar"><span>CHANNEL ECHO-01</span><span>LOCAL NARRATIVE · NO REMOTE CHAT</span></div>
+      <div class="comms-body"><div id="shadow-comms-feed" class="comms-feed" aria-live="polite"></div><div id="shadow-comms-choices" class="comms-choices"></div><div id="shadow-comms-status" class="core-app-status" role="status">STANDBY</div></div>
+      <footer class="simulation-footer">FICTIONAL HANDLER DIALOGUE · NO MULTIPLAYER CONNECTION</footer>
+    </section>
+
+    <section id="sysguard-window" class="window story-window" aria-label="SysGuard" aria-hidden="true" style="display:none; top:115px; left:245px; width:min(720px,calc(100vw - 240px)); height:min(500px,calc(100vh - 170px))">
+      <header class="window-header" data-window-drag-handle><div class="window-title"><span class="terminal-title-mark">PX</span><span>SYSGUARD</span><span class="window-title-divider">/</span><span class="window-title-muted">SIMULATION HEALTH</span></div><div class="window-controls"><button class="window-dot yellow" type="button" aria-label="Minimize SysGuard" data-window-action="minimize"></button><button class="window-dot green" type="button" aria-label="Maximize SysGuard" data-window-action="maximize"></button><button class="window-dot red" type="button" aria-label="Close SysGuard" data-window-action="close"></button></div></header>
+      <div class="sysguard-body">
+        <div class="sysguard-banner"><span class="sysguard-live-dot"></span><div><strong id="sysguard-status">SIMULATED SESSION · STANDBY</strong><small id="sysguard-stage">IDLE / NO CONTRACT</small></div></div>
+        <section class="sysguard-metrics">
+          <div class="sysguard-metric"><div><span>SIMULATED CPU LOAD</span><strong id="sysguard-cpu-value">8%</strong></div><div class="sysguard-track"><i id="sysguard-cpu-bar" style="width:8%"></i></div></div>
+          <div class="sysguard-metric"><div><span>SIMULATED MEMORY</span><strong id="sysguard-memory-value">28%</strong></div><div class="sysguard-track"><i id="sysguard-memory-bar" style="width:28%"></i></div></div>
+          <div class="sysguard-metric"><div><span>SIMULATED TRACE LEVEL</span><strong id="sysguard-trace-value">0%</strong></div><div class="sysguard-track"><i id="sysguard-trace-bar" style="width:0%"></i></div></div>
+        </section>
+        <p class="sysguard-disclaimer">These deterministic indicators are generated from fictional mission progress. They do not measure your device, network, browser processes or real-world activity.</p>
+      </div>
+      <footer class="simulation-footer">SYNTHETIC TELEMETRY · NO HOST OR NETWORK MONITORING</footer>
+    </section>
+
     <section id="terminal-window" class="window" aria-label="Cyberdeck Terminal" aria-hidden="true" style="display:none; top:112px">
       <header class="window-header" data-window-drag-handle>
         <div class="window-title"><span class="terminal-title-mark" aria-hidden="true">PX</span><span>TERMINAL</span><span class="window-title-divider">/</span><span class="window-title-muted">SESSION 01</span></div>
@@ -330,8 +381,10 @@
   <script src="./vfs.js"></script>
   <script src="./apps/core-apps.js"></script>
   <script src="./apps/deck-settings.js"></script>
+  <script src="./apps/story-engine.js"></script>
   <script src="./apps/simulation-data.js"></script>
   <script src="./apps/simulation-tools.js"></script>
+  <script src="./apps/story-apps.js"></script>
   <script src="./public-pages.js"></script>
   <script src="./script.js"></script>
   <script>
