@@ -309,7 +309,7 @@
     else global.open("https://opencctv.org/open-cameras","_blank","noopener,noreferrer");
   });
   cameraPlayer?.addEventListener("load",()=>{
-    if(currentOpenCctvUrl) cameraPlayerStatus.textContent="PUBLIC CAMERA PAGE EMBEDDED · MEDIA STATUS IS CONTROLLED BY THE SOURCE";
+    if(currentOpenCctvUrl) cameraPlayerStatus.textContent="CAMERA PAGE REQUEST COMPLETED · VIDEO OR IMAGE AVAILABILITY IS CONTROLLED BY THE SOURCE";
   });
 
   global.PhantomSimulationTools = Object.freeze({selectRadarNode,loadCameras});
