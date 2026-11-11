@@ -1,6 +1,6 @@
 /**
  * PhantomX Tier 1 core applications.
- * NetBrowser is a local fictional intranet; it never fetches arbitrary URLs.
+ * NetBrowser keeps mission intranet routes local and embeds user-requested public websites directly.
  */
 (function (global) {
   "use strict";
@@ -95,6 +95,8 @@
   }
   function showLocalSite(route, site) {
     currentExternalUrl = "";
+    browserHistory.length = 0;
+    browserHistoryIndex = -1;
     frame.src = "about:blank";
     frameWrap.hidden = true;
     page.hidden = false;
