@@ -198,7 +198,7 @@
     if (currentExternalUrl) global.open(currentExternalUrl, "_blank", "noopener,noreferrer");
   });
   frame?.addEventListener("load", () => {
-    if (currentExternalUrl) browserStatus.textContent = "EMBED RESPONSE RECEIVED · " + new URL(currentExternalUrl).hostname.toUpperCase();
+    if (currentExternalUrl) browserStatus.textContent = "FRAME REQUEST COMPLETED · THE WEBSITE MAY STILL BLOCK EMBEDDING";
   });
   navigate("intranet.phantom/");
 
