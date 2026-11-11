@@ -163,8 +163,11 @@ class Kernel {
       button.type = 'button';
       button.className = 'taskbar-item';
       button.dataset.windowLaunch = windowId;
-      button.setAttribute('aria-label', (app?.name || windowId) + (process.state === 'minimized' ? ' (minimized)' : ''));
-      button.title = app?.name || windowId;
+      if (app?.id) button.dataset.appId = app.id;
+      const name = app?.name || windowId.replace(/-window$/, '');
+      button.setAttribute('aria-label', name + (process.state === 'minimized' ? ' (minimized)' : ''));
+      button.setAttribute('aria-pressed', process.state === 'running' ? 'true' : 'false');
+      button.title = name;
 
       const mark = document.createElement('span');
       mark.className = 'taskbar-terminal-mark';
@@ -172,7 +175,8 @@ class Kernel {
       mark.textContent = glyphs[app?.icon] || '◇';
 
       const label = document.createElement('span');
-      label.textContent = app?.name || windowId.replace(/-window$/, '');
+      label.className = 'taskbar-item-label';
+      label.textContent = name;
       button.append(mark, label);
       button.classList.toggle('is-active', process.state === 'running');
       button.classList.toggle('is-minimized', process.state === 'minimized');
