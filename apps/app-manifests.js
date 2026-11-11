@@ -53,7 +53,7 @@ export const PHANTOMX_APPS = Object.freeze([
     tier: 1,
     category: "Core",
     icon: "folder",
-    status: APP_STATUS.IN_DEVELOPMENT,
+    status: APP_STATUS.PLANNED,
     window: { width: 900, height: 580 },
     permissions: ["vfs.read", "vfs.write"]
   }),
