@@ -18,10 +18,11 @@ PhantomX is a browser-based cyberdeck launcher and simulation platform, not a na
 - HexScope: read-only inspection of virtual log files and a bounded hex preview; no trace wiping or evasion.
 - OpenCam Viewer: OpenEye free still-image previews plus an OpenCCTV.org public directory/camera-page viewer. OpenCCTV pages are restricted to the official directory host and are embedded only as publisher pages; the source determines whether a page contains live video, refreshed images or an unavailable feed. No camera discovery, private feeds, IP scanning, credentials, arbitrary RTSP/IP URLs, recording, tracking or access-control bypass.
 
-### Tier 3 — Story
-- MissionControl: contracts, objectives, environments and progression.
-- ShadowComms: fictional handlers, messages and branching dialogue.
-- SysGuard: simulated trace, CPU/RAM and session status.
+### Tier 3 — Story & Progression (single-player preview)
+- MissionControl: accepts the first Project Aster contract, opens evidence tools, tracks objectives and stores campaign progress in browser-local storage.
+- ShadowComms: local fictional handler dialogue and two report classifications that produce distinct chapter endings.
+- SysGuard: deterministic fictional CPU, memory and trace indicators derived from campaign progress; it does not inspect host resources.
+- Story Engine: a capability-checked local state machine. NetRadar, PacketSniffer and HexScope can record only their own defined evidence events while the contract is active.
 
 ## Runtime foundation
 
@@ -53,7 +54,7 @@ OpenCam Viewer uses OpenEye's anonymous public featured-catalog endpoint on expl
 4. CyberPad, NetBrowser and DeckSettings.
 5. One complete fictional mission and the Tier 2 simulation tools.
 6. OpenCam Viewer using a small curated set of verified free public previews.
-7. Story progression apps; multiplayer remains a separate design and security milestone.
+7. First playable single-player story slice: one contract, three evidence events, handler report and two outcomes. Multiplayer remains a separate design and security milestone.
 
 ## Compatibility and validation
 
