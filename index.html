@@ -187,10 +187,25 @@
         <div class="window-title"><span class="terminal-title-mark">PX</span><span>NETBROWSER</span><span class="window-title-divider">/</span><span class="window-title-muted">FICTIONAL INTRANET</span></div>
         <div class="window-controls"><button class="window-dot yellow" type="button" aria-label="Minimize NetBrowser" data-window-action="minimize"></button><button class="window-dot green" type="button" aria-label="Maximize NetBrowser" data-window-action="maximize"></button><button class="window-dot red" type="button" aria-label="Close NetBrowser" data-window-action="close"></button></div>
       </header>
-      <div class="netbrowser-toolbar"><span class="netbrowser-lock" aria-hidden="true">◇</span><input id="netbrowser-address" value="intranet.phantom/" aria-label="Fictional intranet address" spellcheck="false"><button id="netbrowser-go" type="button">Go</button></div>
-      <nav class="netbrowser-bookmarks" aria-label="Fictional intranet bookmarks"><button type="button" data-netbrowser-route="intranet.phantom/">Intranet</button><button type="button" data-netbrowser-route="wiki.phantom/">Research Wiki</button><button type="button" data-netbrowser-route="ops.phantom/">Operations</button></nav>
-      <div class="netbrowser-content"><div id="netbrowser-status" class="core-app-status" role="status">LOCAL SIMULATION</div><main id="netbrowser-page" class="netbrowser-page"></main></div>
-      <footer class="netbrowser-footer">LOCAL STORY DATA ONLY <span>EXTERNAL NETWORK ACCESS DISABLED</span></footer>
+      <div class="netbrowser-toolbar">
+        <button id="netbrowser-back" type="button" aria-label="Back" title="Back">←</button>
+        <button id="netbrowser-forward" type="button" aria-label="Forward" title="Forward">→</button>
+        <button id="netbrowser-reload" type="button" aria-label="Reload" title="Reload">↻</button>
+        <span class="netbrowser-lock" aria-hidden="true">◇</span>
+        <input id="netbrowser-address" value="intranet.phantom/" aria-label="Website address" spellcheck="false" autocomplete="url">
+        <button id="netbrowser-go" type="button">Go</button>
+        <button id="netbrowser-open-external" type="button">Open tab ↗</button>
+      </div>
+      <nav class="netbrowser-bookmarks" aria-label="NetBrowser bookmarks"><button type="button" data-netbrowser-route="intranet.phantom/">Intranet</button><button type="button" data-netbrowser-route="wiki.phantom/">Research Wiki</button><button type="button" data-netbrowser-route="ops.phantom/">Operations</button><button type="button" data-netbrowser-route="https://www.wikipedia.org/">Wikipedia</button><button type="button" data-netbrowser-route="https://www.google.com/">Google</button></nav>
+      <div class="netbrowser-content">
+        <div id="netbrowser-status" class="core-app-status" role="status">LOCAL SIMULATION</div>
+        <main id="netbrowser-page" class="netbrowser-page"></main>
+        <div id="netbrowser-frame-wrap" class="netbrowser-frame-wrap" hidden>
+          <iframe id="netbrowser-frame" title="External website" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen; autoplay; encrypted-media; picture-in-picture"></iframe>
+          <p class="netbrowser-frame-note">Websites load directly from their publishers. Some sites block embedding or restrict sign-in in embedded views. If the page is blank or incomplete, choose <strong>Open tab</strong>. PhantomX does not proxy or read the page contents.</p>
+        </div>
+      </div>
+      <footer class="netbrowser-footer">LOCAL INTRANET + DIRECT PUBLIC WEB <span>NO PROXY · EMBEDDING DEPENDS ON EACH WEBSITE</span></footer>
     </section>
 
     <section id="deck-settings-window" class="window core-app-window" aria-label="DeckSettings" aria-hidden="true" style="display:none; top:95px; left:210px; width:min(760px, calc(100vw - 220px)); height:min(560px, calc(100vh - 150px))">
@@ -244,9 +259,23 @@
 
     <section id="opencam-window" class="window simulation-window" aria-label="OpenCam Viewer" aria-hidden="true" style="display:none; top:45px; left:85px; width:min(1040px,calc(100vw - 160px)); height:min(700px,calc(100vh - 110px))">
       <header class="window-header" data-window-drag-handle><div class="window-title"><span class="terminal-title-mark">PX</span><span>OPENCAM VIEWER</span><span class="window-title-divider">/</span><span class="window-title-muted">PUBLIC CAMERA DIRECTORY</span></div><div class="window-controls"><button class="window-dot yellow" type="button" aria-label="Minimize OpenCam Viewer" data-window-action="minimize"></button><button class="window-dot green" type="button" aria-label="Maximize OpenCam Viewer" data-window-action="maximize"></button><button class="window-dot red" type="button" aria-label="Close OpenCam Viewer" data-window-action="close"></button></div></header>
-      <div class="opencam-toolbar"><div><strong>PUBLIC VIEWS</strong><span>Traffic, weather and scenic operator-published cameras</span></div><select id="opencam-category" aria-label="Filter camera category"><option value="all">All permitted categories</option><option value="traffic">Traffic</option><option value="weather">Weather</option><option value="park">Parks</option><option value="wildlife">Wildlife</option><option value="ski">Ski</option><option value="surf">Surf</option><option value="volcano">Volcano</option><option value="aurora">Aurora</option></select><button id="opencam-load" type="button">Load public feeds</button></div>
-      <div class="opencam-content"><div id="opencam-status" class="core-app-status" role="status">NO CAMERA DATA LOADED · SELECT LOAD PUBLIC FEEDS</div><div id="opencam-grid" class="opencam-grid"><p class="simulation-empty">Public camera previews load only after you request them. No location permission is needed.</p></div></div>
-      <footer class="simulation-footer"><span>FREE PUBLIC PREVIEWS ONLY · PER-FEED EMBED RIGHTS AND ATTRIBUTION ENFORCED</span><button id="opencam-open-catalog" type="button">Open OpenEye directory ↗</button></footer>
+      <div class="opencam-toolbar"><div><strong>PUBLIC CAMERA DIRECTORY</strong><span>Open operator-published cameras and verified preview feeds</span></div><select id="opencam-category" aria-label="Filter camera category"><option value="all">All permitted categories</option><option value="traffic">Traffic</option><option value="weather">Weather</option><option value="park">Parks</option><option value="wildlife">Wildlife</option><option value="ski">Ski</option><option value="surf">Surf</option><option value="volcano">Volcano</option><option value="aurora">Aurora</option></select><button id="opencam-load" type="button">Load image previews</button></div>
+      <div class="opencam-video-toolbar">
+        <input id="opencam-video-url" type="url" placeholder="Paste an OpenCCTV camera page URL…" aria-label="OpenCCTV camera page URL">
+        <button id="opencam-load-video" type="button">Load CCTV video</button>
+        <button id="opencam-load-directory" type="button">Browse OpenCCTV</button>
+        <button id="opencam-open-video-tab" type="button">Open source tab ↗</button>
+      </div>
+      <div class="opencam-content">
+        <div id="opencam-status" class="core-app-status" role="status">PUBLIC CAMERA VIEWER READY · LOAD A DIRECTORY OR A CAMERA PAGE</div>
+        <div id="opencam-player-wrap" class="opencam-player-wrap">
+          <div id="opencam-player-empty" class="simulation-empty">Browse the OpenCCTV public camera directory, then paste a camera page address here. Camera pages that provide an official embed can display their own live video or refreshed image. Availability and media type depend on the publisher.</div>
+          <iframe id="opencam-player" title="OpenCCTV public camera viewer" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen hidden></iframe>
+        </div>
+        <div class="opencam-section-heading"><strong>OPEN EYE · FREE PUBLIC PREVIEWS</strong><span>Still images, not continuous video</span></div>
+        <div id="opencam-grid" class="opencam-grid"><p class="simulation-empty">Public camera previews load only after you request them. No location permission is needed.</p></div>
+      </div>
+      <footer class="simulation-footer"><span>PUBLIC SOURCES ONLY · NO PRIVATE CAMERA DISCOVERY OR STREAM BYPASS</span><button id="opencam-open-catalog" type="button">Open OpenEye directory ↗</button></footer>
     </section>
 
     <section id="terminal-window" class="window" aria-label="Cyberdeck Terminal" aria-hidden="true" style="display:none; top:112px">
@@ -296,6 +325,7 @@
 
   <script src="./kernel.js"></script>
   <script src="./apps/app-manifests.js"></script>
+  <script src="./apps/browser-utils.js"></script>
   <script src="./app-registry.js"></script>
   <script src="./vfs.js"></script>
   <script src="./apps/core-apps.js"></script>
