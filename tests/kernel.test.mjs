@@ -32,22 +32,34 @@ function bootKernel() {
   const terminal = createWindow('terminal-window');
   const menu = { classList: makeClassList(), setAttribute() {}, contains() { return false; } };
   const startButton = { setAttribute() {}, contains() { return false; } };
+  const taskbarApps = { children: [], replaceChildren(...nodes) { this.children = nodes; } };
   const listeners = new Map();
   const document = {
     querySelectorAll(selector) {
       if (selector === '.window') return [terminal];
-      if (selector === '[data-window-launch]') return [];
+      if (selector === '[data-window-launch]') return taskbarApps.children;
       return [];
     },
-    getElementById(id) { return id === terminal.id ? terminal : id === 'start-menu' ? menu : null; },
+    getElementById(id) {
+      return id === terminal.id ? terminal : id === 'start-menu' ? menu : id === 'taskbar-apps' ? taskbarApps : null;
+    },
     querySelector(selector) { return selector === '.start-btn' ? startButton : null; },
+    createElement() {
+      return {
+        dataset: {}, classList: makeClassList(), children: [],
+        setAttribute() {}, addEventListener() {}, append(...nodes) { this.children.push(...nodes); }
+      };
+    },
     addEventListener(name, fn) { listeners.set(name, fn); },
     removeEventListener(name) { listeners.delete(name); }
   };
-  const window = { innerWidth: 1280, innerHeight: 800, addEventListener() {} };
+  const window = {
+    innerWidth: 1280, innerHeight: 800, addEventListener() {},
+    PhantomAppManifests: { apps: [{ legacyWindowId: 'terminal-window', name: 'PhantomTerm', icon: 'terminal' }] }
+  };
   const context = { window, document, console };
   vm.runInNewContext(fs.readFileSync(new URL('../kernel.js', import.meta.url), 'utf8'), context);
-  return { kernel: window.PhantomKernel, terminal, menu };
+  return { kernel: window.PhantomKernel, terminal, menu, taskbarApps };
 }
 
 test('opening and closing a window updates process state', () => {
