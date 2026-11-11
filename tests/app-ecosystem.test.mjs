@@ -36,7 +36,7 @@ test('registry launches only apps with an available registered window', () => {
 test('terminal app can create and read files through the shared VFS', () => {
   const { window } = loadAppRuntime();
   const terminal = window.PhantomVFS.forApp('phantom.term');
-  terminal.mkdir('shared');
+  terminal.mkdir('/home/shared');
   terminal.writeFile('/home/shared/mission.txt', 'mission data');
   assert.equal(terminal.readFile('/home/shared/mission.txt'), 'mission data');
   assert.equal(terminal.list('/home/shared')[0].name, 'mission.txt');
