@@ -798,3 +798,29 @@ body[data-phantom-wallpaper="scanlines"]::before { opacity:.22; background-image
   .opencam-grid { grid-template-columns:1fr; }
   .simulation-toolbar, .simulation-footer { align-items:flex-start; flex-direction:column; }
 }
+
+/* Direct public web browsing and OpenCCTV viewer */
+.netbrowser-toolbar { flex-wrap:wrap; }
+.netbrowser-toolbar button { flex:0 0 auto; min-width:31px; }
+.netbrowser-frame-wrap { display:flex; flex:1 1 auto; min-height:0; flex-direction:column; gap:8px; }
+.netbrowser-frame-wrap[hidden] { display:none !important; }
+.netbrowser-frame-wrap iframe { display:block; flex:1 1 auto; width:100%; min-height:220px; border:1px solid var(--line); border-radius:4px; background:#fff; }
+.netbrowser-frame-note { margin:0; color:#83999a; font:9px/1.6 var(--mono); }
+.netbrowser-frame-note strong { color:var(--mint); }
+.netbrowser-content > .netbrowser-page[hidden] { display:none !important; }
+.opencam-video-toolbar { display:flex; flex-wrap:wrap; gap:8px; padding:10px 14px; border-bottom:1px solid var(--line); background:rgba(9,16,23,.45); }
+.opencam-video-toolbar input { flex:1 1 280px; min-width:150px; min-height:32px; padding:0 10px; border:1px solid rgba(159,227,196,.16); border-radius:4px; background:#09121a; color:var(--text); font:9px var(--mono); }
+.opencam-video-toolbar button { min-height:31px; padding:0 10px; border:1px solid rgba(159,227,196,.22); border-radius:4px; background:rgba(159,227,196,.07); color:var(--mint); font:8px var(--mono); cursor:pointer; }
+.opencam-video-toolbar button:hover { background:rgba(159,227,196,.15); }
+.opencam-player-wrap { display:flex; min-height:0; flex-direction:column; }
+.opencam-player-wrap iframe { display:block; width:100%; min-height:320px; flex:1 1 auto; border:1px solid var(--line); border-radius:5px; background:#080f16; }
+.opencam-player-wrap iframe[hidden] { display:none !important; }
+.opencam-section-heading { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-top:4px; color:var(--mint); font:8px var(--mono); letter-spacing:.1em; }
+.opencam-section-heading span { color:var(--muted); letter-spacing:0; }
+@media (max-width:760px) {
+  .netbrowser-toolbar input { flex-basis:100%; order:5; }
+  .netbrowser-toolbar #netbrowser-go { order:6; }
+  .netbrowser-toolbar #netbrowser-open-external { order:7; }
+  .netbrowser-frame-wrap iframe { min-height:260px; }
+  .opencam-player-wrap iframe { min-height:240px; }
+}
