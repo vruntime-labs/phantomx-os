@@ -1,4 +1,4 @@
-const CACHE_NAME = 'phantomx-v2.3.1-apps1';
+const CACHE_NAME = 'phantomx-v2.3.1-coreapps1';
 const APP_SHELL = [
   './',
   './index.html',
@@ -6,7 +6,7 @@ const APP_SHELL = [
   './kernel.js',
   './apps/app-manifests.js',
   './app-registry.js',
-  './vfs.js',
+  './vfs.js',\n  './apps/core-apps.js',
   './script.js',
   './manifest.json',
   './assets/phantomx-icon.svg'
