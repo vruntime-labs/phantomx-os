@@ -81,7 +81,7 @@
     {stage:"MISSION 03 / MIRROR_VFS",title:"The mirrored filesystem",copy:"A synthetic virtual filesystem contains a mirror node that points to a fictional staging path. The incident monitor reports conflicting labels. Kai and Sora must identify the trusted snapshot and close the simulated bridge without touching host files.",evidence:["Inspect the virtual tree labels","Compare the snapshot manifest","Review the synthetic bridge event"],question:"What closes the incident safely?",choices:[["contain","Detach the fictional mirror, preserve the clean snapshot and record the incident for review."],["purge","Delete every entry, including the clean snapshot, to make the warning disappear."]],success:"The mirror is contained and the clean snapshot is preserved. The simulated bridge is closed.",failure:"The test flags evidence destruction as an unsafe response. The virtual case file is intact; try again."}
   ];
   let state = load();
-  function load(){try{const value=JSON.parse(localStorage.getItem(KEY)||"null");return value&&Number.isInteger(value.chapter)&&value.chapter>=0&&value.chapter<=3?{chapter:value.chapter,completed:Array.isArray(value.completed)?value.completed.filter(Number.isInteger):[],log:Array.isArray(value.log)?value.log.slice(-12):[]}: {chapter:0,completed:[],log:[]};}catch{return {chapter:0,completed:[],log:[]};}}
+  function load(){try{const value=JSON.parse(localStorage.getItem(KEY)||"null");return value&&Number.isInteger(value.chapter)&&value.chapter>=0&&value.chapter<=3?{chapter:value.chapter,completed:Array.isArray(value.completed)?value.completed.filter(Number.isInteger):[],reviewed:Array.isArray(value.reviewed)?value.reviewed.filter(Number.isInteger):[],log:Array.isArray(value.log)?value.log.slice(-12):[]}: {chapter:0,completed:[],reviewed:[],log:[]};}catch{return {chapter:0,completed:[],log:[]};}}
   function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{}}
   const el=id=>document.getElementById(id);
   function render(){
@@ -91,9 +91,9 @@
     log.textContent=state.log.length?state.log.join("\n"):"LOCAL CASE FILE · EMPTY";
     if(state.chapter>=3){stage.textContent="EPILOGUE / COMPLETE";title.textContent="Sandbox sealed";copy.textContent="Kai and Sora preserve the evidence, isolate the fictional bridge and publish a transparent incident note. Aegis closes the simulated alert. One question remains in the case file: who introduced the first unreviewed change?";status.textContent="PLAYTEST COMPLETE · LOCAL ENDING";const b=document.createElement("button");b.className="zd-choice";b.textContent="Replay from the beginning";b.addEventListener("click",reset);choices.append(b);return;}
     const chapter=chapters[state.chapter];stage.textContent=chapter.stage;title.textContent=chapter.title;copy.textContent=chapter.copy;
-    chapter.evidence.forEach((item,i)=>{const b=document.createElement("button");b.type="button";b.textContent=String(i+1).padStart(2,"0")+"  "+item;b.setAttribute("aria-pressed","true");b.disabled=true;evidence.append(b);});
+    chapter.evidence.forEach((item,i)=>{const b=document.createElement("button");b.type="button";b.textContent=(state.reviewed.includes(i)?"✓ ":"○ ")+String(i+1).padStart(2,"0")+"  "+item;b.setAttribute("aria-pressed",String(state.reviewed.includes(i)));b.addEventListener("click",()=>{state.reviewed=state.reviewed.includes(i)?state.reviewed.filter(value=>value!==i):[...state.reviewed,i];save();render();});evidence.append(b);});
     const q=document.createElement("p");q.className="zd-copy";q.textContent=chapter.question;choices.append(q);
-    chapter.choices.forEach(([id,label])=>{const b=document.createElement("button");b.type="button";b.className="zd-choice";b.textContent=label;b.addEventListener("click",()=>choose(id));choices.append(b);});
+    chapter.choices.forEach(([id,label])=>{const b=document.createElement("button");b.type="button";b.className="zd-choice";b.textContent=label;b.disabled=state.reviewed.length!==chapter.evidence.length;b.addEventListener("click",()=>choose(id));choices.append(b);});
     status.textContent=state.completed.includes(state.chapter)?"CHAPTER CLEARED · CONTINUE THE CASE":"AWAITING DECISION";
   }
   function choose(id){
@@ -104,7 +104,7 @@
     save();render();
     if(success&&state.chapter>0)el("zd-status").textContent=chapter.success;
   }
-  function reset(){state={chapter:0,completed:[],log:[]};try{localStorage.removeItem(KEY);}catch{}render();el("zd-status").textContent="PLAYTEST RESET · READY";}
+  function reset(){state={chapter:0,completed:[],reviewed:[],log:[]};try{localStorage.removeItem(KEY);}catch{}render();el("zd-status").textContent="PLAYTEST RESET · READY";}
   el("zd-reset").addEventListener("click",()=>{if(confirm("Clear this local ZERO-DAY SANDBOX playtest?"))reset();});
   render();
 })();
