@@ -76,8 +76,8 @@ test("DeckSettings reset restores defaults and clears stored preferences", () =>
 
 test("DeckSettings appearance modes have explicit desktop-canvas styling", () => {
   const css = fs.readFileSync(new URL("../style.css", import.meta.url), "utf8");
-  assert.match(css, /:root\\[data-phantom-theme="amber"\\]/);
-  assert.match(css, /body\\[data-phantom-wallpaper="scanlines"\\] \\.desktop-canvas::after/);
-  assert.match(css, /--phantom-accent-rgb/);
-  assert.match(css, /repeating-linear-gradient/);
+  assert.ok(css.includes(':root[data-phantom-theme="amber"]'));
+  assert.ok(css.includes('body[data-phantom-wallpaper="scanlines"] .desktop-canvas::after'));
+  assert.ok(css.includes("--phantom-accent-rgb"));
+  assert.ok(css.includes("repeating-linear-gradient"));
 });
