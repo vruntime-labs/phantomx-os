@@ -4,12 +4,14 @@ import vm from "node:vm";
 import fs from "node:fs";
 
 function bootSettings() {
-  const listeners = {};
-  const makeElement = (value = "") => ({
-    value, checked: false, textContent: "", dataset: {}, listeners,
-    addEventListener(type, callback) { (this.listeners[type] ||= []).push(callback); },
-    dispatch(type) { for (const callback of this.listeners[type] || []) callback({ target: this }); }
-  });
+  const makeElement = (value = "") => {
+    const listeners = {};
+    return {
+      value, checked: false, textContent: "", dataset: {}, listeners,
+      addEventListener(type, callback) { (listeners[type] ||= []).push(callback); },
+      dispatch(type) { for (const callback of listeners[type] || []) callback({ target: this }); }
+    };
+  };
   const elements = {
     "deck-theme": makeElement("mint"),
     "deck-wallpaper": makeElement("grid"),
