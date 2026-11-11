@@ -6,14 +6,12 @@ const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const serviceWorker = fs.readFileSync(new URL('../sw.js', import.meta.url), 'utf8');
 
 test('launcher HTML does not contain literal escaped newline text', () => {
-  assert.equal(html.includes(String.raw\`\\n\`), false);
+  assert.equal(html.includes(String.fromCharCode(92) + 'n'), false);
 });
 
 test('service worker precaches every local runtime script loaded by the page', () => {
-  const scripts = [...html.matchAll(/<script\\s+src=["']([^"']+)["']/g)]
-    .map((match) => match[1])
-    .filter((src) => src.startsWith('./'));
+  const scripts = html.split('<script src="').slice(1).map((part) => part.split('"')[0]);
   for (const src of scripts) {
-    assert.ok(serviceWorker.includes(src), `Missing from service-worker app shell: ${src}`);
+    assert.ok(serviceWorker.includes(src), 'Missing from service-worker app shell: ' + src);
   }
 });
