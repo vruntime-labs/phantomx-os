@@ -55,6 +55,137 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   renderAppMenu();
 
+  // VFS Explorer is a second real app backed by the same VFS as PhantomTerm.
+  const explorerFs=window.PhantomVFS.forApp("phantom.vfs-explorer");
+  const explorerWindow=document.getElementById("vfs-explorer-window");
+  const explorerList=document.getElementById("vfs-file-list");
+  const explorerPathLabel=document.getElementById("vfs-current-path");
+  const previewPath=document.getElementById("vfs-preview-path");
+  const previewContent=document.getElementById("vfs-preview-content");
+  const previewStatus=document.getElementById("vfs-preview-status");
+  const savePreview=document.getElementById("vfs-save-file");
+  const newItemName=document.getElementById("vfs-new-name");
+  let explorerPath="/";
+  let selectedFile=null;
+
+  function showPreview(path) {
+    selectedFile=path;
+    previewPath.textContent=path;
+    previewContent.disabled=false;
+    previewContent.value=explorerFs.readFile(path);
+    previewStatus.textContent="EDITING VIRTUAL FILE";
+    savePreview.disabled=false;
+  }
+
+  function renderExplorer() {
+    if(!explorerList) return;
+    explorerPathLabel.textContent=explorerPath;
+    explorerList.replaceChildren();
+    const entries=explorerFs.list(explorerPath);
+    if(!entries.length) {
+      const empty=document.createElement("p");
+      empty.className="vfs-empty";
+      empty.textContent="This folder is empty.";
+      explorerList.appendChild(empty);
+    }
+    entries.forEach((entry)=>{
+      const button=document.createElement("button");
+      button.type="button";
+      button.className="vfs-entry";
+      button.dataset.path=entry.path;
+      button.dataset.type=entry.type;
+      const name=document.createElement("span");
+      name.className="vfs-entry-name";
+      name.textContent=(entry.type==="dir"?"▰ ":"▤ ")+entry.name;
+      const type=document.createElement("span");
+      type.textContent=entry.type==="dir"?"FOLDER":"FILE";
+      const size=document.createElement("span");
+      size.textContent=entry.type==="dir"?"—":String(entry.size)+" B";
+      button.append(name,type,size);
+      explorerList.appendChild(button);
+    });
+    if(selectedFile&&!explorerFs.get(selectedFile)) {
+      selectedFile=null;
+      previewPath.textContent="NO FILE SELECTED";
+      previewContent.value="";
+      previewContent.disabled=true;
+      previewStatus.textContent="SELECT A FILE TO PREVIEW";
+      savePreview.disabled=true;
+    }
+  }
+
+  explorerList?.addEventListener("click",(event)=>{
+    const entry=event.target.closest("[data-path]");
+    if(!entry) return;
+    if(entry.dataset.type==="dir") {
+      explorerPath=entry.dataset.path;
+      selectedFile=null;
+      previewPath.textContent="NO FILE SELECTED";
+      previewContent.value="";
+      previewContent.disabled=true;
+      previewStatus.textContent="SELECT A FILE TO PREVIEW";
+      savePreview.disabled=true;
+      renderExplorer();
+    } else {
+      showPreview(entry.dataset.path);
+      explorerList.querySelectorAll(".vfs-entry").forEach((item)=>item.classList.toggle("is-selected",item===entry));
+    }
+  });
+
+  document.querySelectorAll("[data-vfs-navigate]").forEach((button)=>{
+    button.addEventListener("click",()=>{
+      explorerPath=button.dataset.vfsNavigate;
+      selectedFile=null;
+      previewPath.textContent="NO FILE SELECTED";
+      previewContent.value="";
+      previewContent.disabled=true;
+      previewStatus.textContent="SELECT A FILE TO PREVIEW";
+      savePreview.disabled=true;
+      renderExplorer();
+    });
+  });
+  document.querySelector("[data-vfs-up]")?.addEventListener("click",()=>{
+    if(explorerPath==="/") return;
+    explorerPath=explorerPath.slice(0,explorerPath.lastIndexOf("/"))||"/";
+    selectedFile=null;
+    previewPath.textContent="NO FILE SELECTED";
+    previewContent.value="";
+    previewContent.disabled=true;
+    previewStatus.textContent="SELECT A FILE TO PREVIEW";
+    savePreview.disabled=true;
+    renderExplorer();
+  });
+  document.querySelector("[data-vfs-refresh]")?.addEventListener("click",renderExplorer);
+  document.querySelectorAll("[data-vfs-create]").forEach((button)=>{
+    button.addEventListener("click",()=>{
+      const name=newItemName?.value.trim();
+      if(!name) { previewStatus.textContent="ENTER A NAME FIRST"; return; }
+      if(name.includes("/")||name==="."||name==="..") { previewStatus.textContent="USE A SIMPLE FILE OR FOLDER NAME"; return; }
+      try {
+        const path=button.dataset.vfsCreate==="folder"?explorerFs.mkdir(name,explorerPath):explorerFs.touch(name,explorerPath);
+        if(newItemName) newItemName.value="";
+        renderExplorer();
+        if(button.dataset.vfsCreate==="file") showPreview(path);
+        else previewStatus.textContent="FOLDER CREATED";
+      } catch(error) {
+        previewStatus.textContent=error.message.toUpperCase();
+      }
+    });
+  });
+  savePreview?.addEventListener("click",()=>{
+    if(!selectedFile) return;
+    try {
+      explorerFs.writeFile(selectedFile,previewContent.value);
+      previewStatus.textContent="SAVED";
+      renderExplorer();
+    } catch(error) {
+      previewStatus.textContent=error.message.toUpperCase();
+    }
+  });
+  window.PhantomVFS.subscribe((event)=>{
+    if(explorerWindow?.style.display!=="none"&&event.path.startsWith(explorerPath==="/" ? "/" : explorerPath+"/")) renderExplorer();
+  });
+
   if(startSearch) {
     startSearch.addEventListener("input",()=>{
       const query=startSearch.value.trim().toLowerCase();
