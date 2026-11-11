@@ -1,14 +1,14 @@
 {
   "id": "./",
-  "name": "PhantomX OS",
+  "name": "PhantomX Cyberdeck Launcher",
   "short_name": "PhantomX",
-  "description": "Experimental browser-first desktop and cyberdeck simulation.",
+  "description": "A browser-based cyberdeck launcher and simulation platform.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#0b1220",
-  "theme_color": "#0f172a",
+  "background_color": "#080e16",
+  "theme_color": "#080e16",
   "icons": [
     {
       "src": "./assets/phantomx-icon.svg",
