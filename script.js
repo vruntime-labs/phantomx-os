@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const icon=document.createElement("span");
         icon.className="start-app-icon";
         icon.setAttribute("aria-hidden","true");
-        icon.textContent=app.name==="PhantomTerm"?"›_":app.name==="VFS Explorer"?"▣":app.name==="OpenCam Viewer"?"◉":"◇";
+        icon.textContent=app.name==="PhantomTerm"?"›_":app.name==="VFS Explorer"?"▣":app.name==="OpenCam Viewer"?"◉":app.id==="phantom.mission-control"?"◎":app.id==="phantom.shadow-comms"?"▤":app.id==="phantom.sysguard"?"▥":"◇";
         const name=document.createElement("span");
         name.className="start-app-name";
         name.textContent=app.name;
