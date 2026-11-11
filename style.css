@@ -457,7 +457,7 @@ a { color: inherit; }
   .welcome, .quick-access { width: min(350px, 37%); min-width: 290px; }
   .window { left: calc(var(--sidebar-width) + min(36vw, 370px)); width: min(560px, calc(100vw - var(--sidebar-width) - min(36vw, 370px) - 24px)); }
 }
-@media (max-width: 760px) {
+@media (max-width: 880px) {
   :root { --taskbar-height: 54px; }
   #desktop { grid-template-columns: minmax(0, 1fr); }
   .launcher-sidebar { display: none; }
