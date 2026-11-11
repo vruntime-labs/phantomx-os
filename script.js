@@ -58,13 +58,16 @@ document.addEventListener("DOMContentLoaded", () => {
   if(startSearch) {
     startSearch.addEventListener("input",()=>{
       const query=startSearch.value.trim().toLowerCase();
-      document.querySelectorAll("#start-app-list .start-app, #start-app-list .app-tier-heading, #start-menu .start-links a").forEach((item)=>{
-        if(item.classList.contains("app-tier-heading")) {
-          const next=item.nextElementSibling;
-          item.hidden=Boolean(query)&&(!next||next.hidden);
-        } else {
-          item.hidden=Boolean(query)&&!item.textContent.toLowerCase().includes(query);
+      document.querySelectorAll("#start-app-list .start-app, #start-menu .start-links a").forEach((item)=>{
+        item.hidden=Boolean(query)&&!item.textContent.toLowerCase().includes(query);
+      });
+      document.querySelectorAll("#start-app-list .app-tier-heading").forEach((heading)=>{
+        let next=heading.nextElementSibling, hasVisibleApp=false;
+        while(next&&!next.classList.contains("app-tier-heading")) {
+          if(!next.hidden) hasVisibleApp=true;
+          next=next.nextElementSibling;
         }
+        heading.hidden=Boolean(query)&&!hasVisibleApp;
       });
     });
   }
