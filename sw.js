@@ -1,4 +1,4 @@
-const CACHE_NAME = 'phantomx-v2.3.1-webcam2';
+const CACHE_NAME = 'phantomx-v2.3.1-decksettings1';
 const APP_SHELL = [
   './',
   './index.html',

@@ -824,3 +824,76 @@ body[data-phantom-wallpaper="scanlines"]::before { opacity:.22; background-image
   .netbrowser-frame-wrap iframe { min-height:260px; }
   .opencam-player-wrap iframe { min-height:240px; }
 }
+
+
+/* DeckSettings: high-visibility appearance tokens and desktop texture modes. */
+:root {
+  --phantom-accent-rgb: 159, 227, 196;
+  --phantom-accent-glow: rgba(159, 227, 196, .2);
+}
+:root[data-phantom-theme="ice"] {
+  --phantom-accent-rgb: 168, 217, 238;
+  --phantom-accent-glow: rgba(118, 199, 231, .24);
+}
+:root[data-phantom-theme="amber"] {
+  --phantom-accent-rgb: 232, 189, 121;
+  --phantom-accent-glow: rgba(223, 169, 87, .28);
+}
+.topbar {
+  border-bottom: 1px solid rgba(var(--phantom-accent-rgb), .2);
+}
+.desktop-canvas {
+  background:
+    radial-gradient(ellipse at 68% 34%, rgba(var(--phantom-accent-rgb), .2), transparent 46%),
+    linear-gradient(135deg, rgba(9,17,24,.2), rgba(8,14,22,.08));
+}
+.desktop-canvas::after {
+  opacity: .16;
+  background-image:
+    linear-gradient(rgba(var(--phantom-accent-rgb), .2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--phantom-accent-rgb), .2) 1px, transparent 1px);
+}
+.desktop-shortcut:hover,
+.desktop-shortcut:focus-visible {
+  border-color: rgba(var(--phantom-accent-rgb), .42);
+  background: rgba(var(--phantom-accent-rgb), .12);
+}
+.desktop-shortcut-icon {
+  border-color: rgba(var(--phantom-accent-rgb), .42);
+  background: rgba(var(--phantom-accent-rgb), .14);
+  box-shadow: 0 8px 24px rgba(0,0,0,.18), 0 0 22px var(--phantom-accent-glow);
+}
+.desktop-widget {
+  border-color: rgba(var(--phantom-accent-rgb), .34);
+  box-shadow: 0 22px 65px rgba(0,0,0,.26), 0 0 34px var(--phantom-accent-glow);
+}
+.widget-live { color: var(--mint); }
+.widget-live i { box-shadow: 0 0 12px var(--phantom-accent-glow); }
+
+/* The texture is applied to the actual desktop canvas, not only the page margin. */
+body[data-phantom-wallpaper="grid"] .desktop-canvas::after {
+  opacity: .16;
+  background-image:
+    linear-gradient(rgba(var(--phantom-accent-rgb), .2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--phantom-accent-rgb), .2) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at 70% 40%, #000, transparent 75%);
+}
+body[data-phantom-wallpaper="quiet"] .desktop-canvas::after {
+  opacity: .035;
+  background-image: none;
+  mask-image: none;
+}
+body[data-phantom-wallpaper="scanlines"] .desktop-canvas::after {
+  z-index: 2;
+  opacity: .42;
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(190, 215, 207, .2) 0,
+    rgba(190, 215, 207, .2) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  background-size: 100% 4px;
+  mask-image: none;
+}

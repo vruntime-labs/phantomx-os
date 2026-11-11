@@ -72,3 +72,12 @@ test("DeckSettings reset restores defaults and clears stored preferences", () =>
   assert.equal(rootStyle.get("--mint"), "#9fe3c4");
   assert.equal(elements["deck-theme"].value, "mint");
 });
+
+
+test("DeckSettings appearance modes have explicit desktop-canvas styling", () => {
+  const css = fs.readFileSync(new URL("../style.css", import.meta.url), "utf8");
+  assert.ok(css.includes(':root[data-phantom-theme="amber"]'));
+  assert.ok(css.includes('body[data-phantom-wallpaper="scanlines"] .desktop-canvas::after'));
+  assert.ok(css.includes("--phantom-accent-rgb"));
+  assert.ok(css.includes("repeating-linear-gradient"));
+});
