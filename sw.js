@@ -6,7 +6,8 @@ const APP_SHELL = [
   './kernel.js',
   './apps/app-manifests.js',
   './app-registry.js',
-  './vfs.js',\n  './apps/core-apps.js',
+  './vfs.js',
+  './apps/core-apps.js',
   './script.js',
   './manifest.json',
   './assets/phantomx-icon.svg'
