@@ -23,6 +23,15 @@ class Kernel {
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') this.toggleStartMenu(false);
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        this.toggleStartMenu(true);
+        document.getElementById('start-search')?.focus();
+      }
+      if ((event.ctrlKey || event.metaKey) && event.altKey && event.key.toLowerCase() === 't') {
+        event.preventDefault();
+        this.openWindow('terminal-window');
+      }
     });
     document.addEventListener('pointerdown', (event) => {
       const menu = document.getElementById('start-menu');
