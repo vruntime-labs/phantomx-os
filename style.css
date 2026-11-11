@@ -504,3 +504,82 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
+
+
+/* Desktop shell evolution: preserve the existing launcher components while presenting them as a desktop. */
+#desktop { grid-template-columns: minmax(0, 1fr); }
+.launcher-sidebar { display: none; }
+.workspace { min-height: 0; }
+.topbar { height: 42px; padding: 0 22px; background: rgba(8,14,22,.76); }
+.workspace-content { display: none; }
+.desktop-canvas {
+  position: absolute;
+  inset: 42px 0 0;
+  overflow: hidden;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse at 68% 34%, rgba(39,104,87,.16), transparent 42%),
+    linear-gradient(135deg, rgba(9,17,24,.2), rgba(8,14,22,.08));
+}
+.desktop-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .11;
+  background-image: linear-gradient(rgba(151,190,180,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(151,190,180,.12) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at 70% 40%, #000, transparent 75%);
+}
+.desktop-shortcuts { position: relative; z-index: 1; display: grid; grid-auto-flow: row; grid-template-columns: 86px; gap: 12px; width: 96px; }
+.desktop-shortcut {
+  display: flex; min-height: 84px; flex-direction: column; align-items: center; justify-content: center; gap: 7px;
+  padding: 8px 4px; border: 1px solid transparent; border-radius: 7px; background: transparent;
+  color: #b9c9c8; font-size: 10px; text-decoration: none; cursor: pointer;
+}
+.desktop-shortcut:hover, .desktop-shortcut:focus-visible { border-color: rgba(159,227,196,.2); background: rgba(159,227,196,.075); }
+.desktop-shortcut:disabled { opacity: .48; cursor: not-allowed; }
+.desktop-shortcut-icon {
+  display: grid; width: 42px; height: 42px; place-items: center; border: 1px solid rgba(159,227,196,.22);
+  border-radius: 10px 4px 10px 4px; background: rgba(159,227,196,.08); color: var(--mint);
+  font: 700 15px var(--mono); box-shadow: 0 8px 24px rgba(0,0,0,.18);
+}
+.docs-shortcut-icon { color: var(--amber); border-color: rgba(228,183,122,.22); background: rgba(228,183,122,.08); }
+.code-shortcut-icon { color: #a9c6df; border-color: rgba(169,198,223,.22); background: rgba(169,198,223,.08); font-size: 12px; }
+.mission-shortcut-icon { color: #9fb8c9; }
+.desktop-shortcut small { color: #748891; font: 7px var(--mono); letter-spacing: .12em; }
+.desktop-widget {
+  position: absolute; z-index: 1; right: 34px; bottom: 34px; width: min(370px, calc(100% - 150px));
+  padding: 20px; border: 1px solid rgba(159,227,196,.17); border-radius: 9px;
+  background: linear-gradient(145deg, rgba(17,30,39,.92), rgba(10,19,27,.9));
+  box-shadow: 0 22px 65px rgba(0,0,0,.26); backdrop-filter: blur(16px);
+}
+.desktop-widget-heading, .desktop-widget-footer { display:flex; align-items:center; justify-content:space-between; gap:12px; color:#7f9a98; font:8px var(--mono); letter-spacing:.13em; }
+.widget-live { display:flex; align-items:center; gap:6px; color:#9fe3c4; }
+.widget-live i { width:5px; height:5px; border-radius:50%; background:var(--mint-strong); box-shadow:0 0 9px rgba(107,213,166,.5); }
+.desktop-widget h1 { margin:20px 0 8px; color:#e7f0ed; font-size:21px; font-weight:550; letter-spacing:-.045em; }
+.desktop-widget p { max-width:290px; margin:0; color:#91a4a8; font-size:11px; line-height:1.7; }
+.desktop-widget-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:22px; padding:14px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.desktop-widget-stats div { display:flex; flex-direction:column; gap:6px; min-width:0; }
+.desktop-widget-stats small { color:#657b81; font:7px var(--mono); letter-spacing:.1em; }
+.desktop-widget-stats strong { color:#c5d5d1; font-size:10px; font-weight:550; }
+.desktop-widget-footer { margin-top:14px; font-size:7px; }
+.window { left: clamp(150px, 28vw, 390px); top: 92px; width: min(620px, calc(100vw - 430px)); height: min(500px, calc(100vh - 180px)); resize: both; }
+.window-header { user-select: none; }
+.start-search-label { margin: 8px 2px 0; color:#627780; font:8px var(--mono); letter-spacing:.14em; }
+.start-search { width:100%; min-height:36px; padding:0 10px; border:1px solid rgba(159,227,196,.18); border-radius:5px; background:#0b151d; color:var(--text); font-size:11px; }
+.start-search::placeholder { color:#637780; }
+@media (max-width: 880px) {
+  .topbar { height:48px; }
+  .desktop-canvas { inset:48px 0 0; padding:14px; }
+  .desktop-widget { right:14px; bottom:14px; width:min(330px, calc(100% - 120px)); padding:15px; }
+  .desktop-widget h1 { font-size:17px; }
+  .window { left:12px !important; top:auto !important; bottom:12px; width:calc(100vw - 24px) !important; height:min(46vh,360px); resize:none; }
+}
+@media (max-width: 520px) {
+  .desktop-shortcuts { grid-template-columns:repeat(2,76px); grid-auto-flow:row; gap:6px; }
+  .desktop-shortcut { min-height:72px; }
+  .desktop-widget { left:14px; right:14px; bottom:14px; width:auto; }
+  .desktop-widget-stats { gap:6px; }
+  .desktop-widget-footer span { display:none; }
+}
