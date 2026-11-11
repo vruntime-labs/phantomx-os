@@ -35,7 +35,7 @@ The manifest is not itself authorization. Every VFS operation checks the calling
 
 ## Shared VFS contract
 
-The initial VFS is intentionally in-memory and resets on reload, matching the existing terminal behavior. PhantomTerm and VFS Explorer already share the same VFS instance. It provides normalized paths, directory listing, file reads/writes, directory/file creation and change subscriptions. Access is app-scoped; the service rejects undeclared or unavailable app capabilities. IndexedDB persistence is a separate follow-up after shared behavior is verified; this migration does not silently change data lifetime.
+The initial VFS is intentionally in-memory and resets on reload, matching the existing terminal behavior. PhantomTerm, VFS Explorer and CyberPad share the same VFS instance. HexScope has read-only access to the virtual logs. It provides normalized paths, directory listing, file reads/writes, directory/file creation and change subscriptions. Access is app-scoped; the service rejects undeclared or unavailable app capabilities. IndexedDB persistence is a separate follow-up after shared behavior is verified; this migration does not silently change data lifetime.
 
 ## Launcher behavior
 
@@ -43,7 +43,7 @@ The Start Menu renders the catalog grouped into Core Shell, Simulation Tools, an
 
 ## Public camera integration
 
-OpenCam Viewer is a public-webcam viewer, not a surveillance scanner. Prefer official operator feeds and directories that explicitly permit public display. OpenEye's public catalog may be evaluated for metadata and display instructions. Windy's Webcams API is an optional keyed source; free access is limited and may return expiring still-image URLs. Do not promise continuous video where only refreshed images are available. Display operator attribution, feed type and freshness when supplied. Do not request geolocation by default.
+OpenCam Viewer uses OpenEye's anonymous public featured-catalog endpoint on explicit user action. It filters to free, recent, image previews that carry per-camera embed permission and HTTPS attribution; it does not poll or request geolocation. The displayed image may be a periodically refreshed still, not continuous video. Feed freshness and publisher credit are shown. The app never calls paid frame, live-video, analysis or subscription endpoints. Windy's Webcams API is not embedded directly because its API key must remain secret and cannot safely be shipped in a public static site.
 
 ## Delivery order
 
