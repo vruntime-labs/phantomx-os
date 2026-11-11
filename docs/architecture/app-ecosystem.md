@@ -39,7 +39,7 @@ The initial VFS is intentionally in-memory and resets on reload, matching the ex
 
 ## Launcher behavior
 
-The Start Menu renders the catalog grouped into Core Shell, Simulation Tools, and Story & Progression. PhantomTerm and VFS Explorer are launchable in this milestone. Future apps remain visible but disabled and labelled PLANNED; they are not represented as completed features. Planned apps remain visible but disabled and labelled PLANNED; they are not represented as completed features. Search filters the app catalog.
+The Start Menu renders the catalog grouped into Core Shell, Simulation Tools, and Story & Progression. PhantomTerm, VFS Explorer, CyberPad, NetBrowser and DeckSettings are launchable in this milestone. Future apps remain visible but disabled and labelled PLANNED; they are not represented as completed features. Planned apps remain visible but disabled and labelled PLANNED; they are not represented as completed features. Search filters the app catalog.
 
 ## Public camera integration
 
