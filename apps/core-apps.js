@@ -44,7 +44,7 @@
   });
   loadPadFile();
 
-  // NetBrowser: deliberately local route table with no network navigation.
+  // NetBrowser: fictional intranet plus direct, user-initiated public web navigation.
   const sites = {
     "intranet.phantom": {
       title: "Phantom Research Network",
@@ -80,25 +80,24 @@
   const address = byId("netbrowser-address");
   const page = byId("netbrowser-page");
   const browserStatus = byId("netbrowser-status");
+  const frameWrap = byId("netbrowser-frame-wrap");
+  const frame = byId("netbrowser-frame");
   const routeButtons = document.querySelectorAll("[data-netbrowser-route]");
+  const browserHistory = [];
+  let browserHistoryIndex = -1;
+  let currentExternalUrl = "";
+
   function normalizeRoute(value) {
     let route = String(value || "intranet.phantom/").trim().toLowerCase();
     route = route.replace(/^https?:\/\//, "").split(/[?#]/)[0];
     route = route.replace(/\/+$/, "");
     return route || "intranet.phantom";
   }
-  function navigate(value) {
-    const route = normalizeRoute(value);
-    const site = sites[route];
-    if (!site) {
-      browserStatus.textContent = "LOCAL ROUTE NOT FOUND · EXTERNAL NETWORK ACCESS DISABLED";
-      page.replaceChildren();
-      const notice = document.createElement("div");
-      notice.className = "netbrowser-notice";
-      notice.textContent = "This address is not part of the fictional intranet. NetBrowser does not connect to public websites or arbitrary URLs.";
-      page.appendChild(notice);
-      return;
-    }
+  function showLocalSite(route, site) {
+    currentExternalUrl = "";
+    frame.src = "about:blank";
+    frameWrap.hidden = true;
+    page.hidden = false;
     address.value = route + "/";
     browserStatus.textContent = "LOCAL SIMULATION · " + route.toUpperCase();
     page.replaceChildren();
@@ -132,6 +131,45 @@
     });
     page.appendChild(nav);
   }
+  function loadExternalSite(value, addHistory = true) {
+    let url;
+    try {
+      url = global.PhantomBrowserUtils.normalizeWebUrl(value);
+    } catch (error) {
+      browserStatus.textContent = "INVALID ADDRESS";
+      page.hidden = false;
+      frameWrap.hidden = true;
+      page.replaceChildren();
+      const notice = document.createElement("div");
+      notice.className = "netbrowser-notice";
+      notice.textContent = error.message;
+      page.appendChild(notice);
+      return false;
+    }
+    if (addHistory) {
+      browserHistory.splice(browserHistoryIndex + 1);
+      browserHistory.push(url);
+      browserHistoryIndex = browserHistory.length - 1;
+    }
+    currentExternalUrl = url;
+    address.value = url;
+    page.hidden = true;
+    frameWrap.hidden = false;
+    browserStatus.textContent = "EXTERNAL WEBSITE · LOADING " + new URL(url).hostname.toUpperCase();
+    frame.src = url;
+    return true;
+  }
+  function navigate(value, addHistory = true) {
+    const raw = String(value || "").trim();
+    const route = normalizeRoute(raw);
+    const site = sites[route];
+    if (site) {
+      showLocalSite(route, site);
+      return true;
+    }
+    return loadExternalSite(raw, addHistory);
+  }
+
   byId("netbrowser-go")?.addEventListener("click", () => navigate(address.value));
   address?.addEventListener("keydown", (event) => {
     if (event.key === "Enter") navigate(address.value);
@@ -140,6 +178,25 @@
   page?.addEventListener("click", (event) => {
     const link = event.target.closest("[data-netbrowser-route]");
     if (link) navigate(link.dataset.netbrowserRoute);
+  });
+  byId("netbrowser-back")?.addEventListener("click", () => {
+    if (browserHistoryIndex <= 0) return;
+    browserHistoryIndex -= 1;
+    loadExternalSite(browserHistory[browserHistoryIndex], false);
+  });
+  byId("netbrowser-forward")?.addEventListener("click", () => {
+    if (browserHistoryIndex >= browserHistory.length - 1) return;
+    browserHistoryIndex += 1;
+    loadExternalSite(browserHistory[browserHistoryIndex], false);
+  });
+  byId("netbrowser-reload")?.addEventListener("click", () => {
+    if (currentExternalUrl) frame.src = currentExternalUrl;
+  });
+  byId("netbrowser-open-external")?.addEventListener("click", () => {
+    if (currentExternalUrl) global.open(currentExternalUrl, "_blank", "noopener,noreferrer");
+  });
+  frame?.addEventListener("load", () => {
+    if (currentExternalUrl) browserStatus.textContent = "EMBED RESPONSE RECEIVED · " + new URL(currentExternalUrl).hostname.toUpperCase();
   });
   navigate("intranet.phantom/");
 
