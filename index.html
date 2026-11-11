@@ -290,18 +290,7 @@
   <footer id="taskbar" aria-label="Launcher taskbar">
     <button class="start-btn" type="button" aria-expanded="false" aria-controls="start-menu" onclick="toggleStartMenu()"><span class="start-btn-mark" aria-hidden="true">PX</span><span>Launcher</span></button>
     <div class="taskbar-separator" aria-hidden="true"></div>
-    <div class="taskbar-apps">
-      <button class="taskbar-item" type="button" data-window-launch="terminal-window"><span class="taskbar-terminal-mark" aria-hidden="true">›_</span><span>Terminal</span></button>
-      <button class="taskbar-item" type="button" data-window-launch="vfs-explorer-window"><span class="taskbar-terminal-mark" aria-hidden="true">▣</span><span>VFS Explorer</span></button>
-      <button class="taskbar-item" type="button" data-window-launch="cyberpad-window"><span class="taskbar-terminal-mark" aria-hidden="true">▤</span><span>CyberPad</span></button>
-      <button class="taskbar-item" type="button" data-window-launch="netbrowser-window"><span class="taskbar-terminal-mark" aria-hidden="true">◎</span><span>NetBrowser</span></button>
-      <button class="taskbar-item" type="button" data-window-launch="deck-settings-window"><span class="taskbar-terminal-mark" aria-hidden="true">⚙</span><span>Settings</span></button>
-      <button class="taskbar-item" type="button" data-window-launch="netradar-window"><span class="taskbar-terminal-mark" aria-hidden="true">⌘</span><span>NetRadar</span></button>
-      <button class="taskbar-item" type="button" data-window-launch="packetsniffer-window"><span class="taskbar-terminal-mark" aria-hidden="true">≋</span><span>Packets</span></button>
-      <button class="taskbar-item" type="button" data-window-launch="hashbreaker-window"><span class="taskbar-terminal-mark" aria-hidden="true">#</span><span>Hash Lab</span></button>
-      <button class="taskbar-item" type="button" data-window-launch="hexscope-window"><span class="taskbar-terminal-mark" aria-hidden="true">⌕</span><span>HexScope</span></button>
-      <button class="taskbar-item" type="button" data-window-launch="opencam-window"><span class="taskbar-terminal-mark" aria-hidden="true">◉</span><span>OpenCam</span></button>
-    </div>
+    <div id="taskbar-apps" class="taskbar-apps" aria-label="Running applications"></div>
     <div class="taskbar-right"><span class="taskbar-session"><i></i> SIMULATED SESSION</span><time id="taskbar-clock" class="taskbar-clock" aria-label="Local time">--:--</time></div>
   </footer>
 
