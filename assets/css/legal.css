@@ -44,3 +44,36 @@
 @media(prefers-reduced-motion:reduce){
   .policy-link,.policy-arrow{transition:none}
 }
+
+/* Legal hub refinement: clearer grouping, restrained notices, and compact navigation. */
+.legal-index .site-header nav{gap:22px}
+.legal-summary{display:grid;grid-template-columns:110px minmax(0,1fr);column-gap:22px;row-gap:7px;margin:-20px 0 58px;padding:20px 0;border-top:1px solid #29403d;border-bottom:1px solid #29403d}
+.summary-label{grid-row:1 / span 2;margin:4px 0 0;color:#50dcae;font:10px ui-monospace,monospace;letter-spacing:.14em}
+.legal-summary>p:nth-child(2){max-width:760px;margin:0;color:#c0cec9;font-size:14px;line-height:1.75}
+.legal-summary .summary-meta{margin:0;color:#7f928b;font:11px ui-monospace,monospace}
+.category-heading{align-items:end;margin:0 0 12px}
+.category-heading>div{display:grid;gap:5px}
+.category-index{margin:0;color:#50dcae;font:10px ui-monospace,monospace;letter-spacing:.13em}
+.category-heading h2{margin:0;color:#e7f0ed;font-size:22px;font-weight:550;letter-spacing:-.035em}
+.category-heading>span{padding-bottom:3px}
+.secondary-policy-section{margin-top:58px}
+.security-policy-link .policy-action{justify-self:end;color:#9db6ad;font:10px ui-monospace,monospace;white-space:nowrap}
+.security-policy-link:hover .policy-action{color:#50dcae}
+.security-shortcut{margin:14px 0 0;color:#82958e;font-size:12px}
+.security-shortcut a,.policy-note a{color:#b6f3df;text-decoration:underline;text-underline-offset:3px}
+.security-shortcut a:hover,.policy-note a:hover{color:#fff}
+.policy-notes{margin-top:64px}
+.policy-note p{max-width:470px}
+.policy-note .note-separator{padding:0 5px;color:#526762}
+@media(max-width:760px){
+  .legal-summary{grid-template-columns:1fr;gap:8px;margin:-10px 0 44px;padding:17px 0}
+  .summary-label{grid-row:auto;margin:0}
+  .legal-summary>p:nth-child(2){font-size:13px}
+  .category-heading h2{font-size:20px}
+  .secondary-policy-section{margin-top:44px}
+  .security-policy-link{grid-template-columns:28px minmax(0,1fr)}
+  .security-policy-link .policy-action{grid-column:2;justify-self:start;padding:0 0 2px}
+}
+@media(max-width:420px){
+  .category-heading{align-items:start;flex-direction:column;gap:8px}
+}
