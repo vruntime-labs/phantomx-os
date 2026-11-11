@@ -1,10 +1,11 @@
-const CACHE_NAME = 'phantomx-v2.3.1-simtools2';
+const CACHE_NAME = 'phantomx-v2.3.1-webcam1';
 const APP_SHELL = [
   './',
   './index.html',
   './style.css',
   './kernel.js',
   './apps/app-manifests.js',
+  './apps/browser-utils.js',
   './app-registry.js',
   './vfs.js',
   './apps/core-apps.js',
