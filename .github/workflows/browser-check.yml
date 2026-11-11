@@ -48,6 +48,8 @@ jobs:
           node --check kernel.js
           node --check apps/app-manifests.js
           node --check apps/core-apps.js
+          node --check apps/simulation-data.js
+          node --check apps/simulation-tools.js
           node --check app-registry.js
           node --check vfs.js
           node --check script.js
