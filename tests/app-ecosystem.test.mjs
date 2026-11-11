@@ -76,7 +76,7 @@ test("VFS normalizes relative paths and rejects missing parent directories",()=>
 
 test("desktop shortcuts remain valid HTML text nodes, not escaped newline literals",()=>{
   const html=fs.readFileSync(new URL("../index.html",import.meta.url),"utf8");
-  assert.doesNotMatch(html,/\\\\n\\s*<button class="desktop-shortcut"/);
+  assert.equal(html.includes("\\n          <button class=\"desktop-shortcut\""),false);
   for(const id of ["cyberpad-window","netbrowser-window","deck-settings-window","netradar-window","packetsniffer-window","hashbreaker-window","hexscope-window","opencam-window"]) {
     assert.ok(html.includes('id="'+id+'"'),"missing window "+id);
   }
