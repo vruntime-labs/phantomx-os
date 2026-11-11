@@ -11,6 +11,7 @@ on:
       - 'manifest.json'
       - 'sw.js'
       - 'assets/**'
+      - 'apps/**'
       - 'tests/**'
       - '.github/workflows/browser-check.yml'
       - '.github/workflows/pages.yml'
@@ -23,6 +24,7 @@ on:
       - 'manifest.json'
       - 'sw.js'
       - 'assets/**'
+      - 'apps/**'
       - 'tests/**'
       - '.github/workflows/browser-check.yml'
       - '.github/workflows/pages.yml'
@@ -44,6 +46,12 @@ jobs:
       - name: Check JavaScript syntax
         run: |
           node --check kernel.js
+          node --check apps/app-manifests.js
+          node --check apps/core-apps.js
+          node --check apps/simulation-data.js
+          node --check apps/simulation-tools.js
+          node --check app-registry.js
+          node --check vfs.js
           node --check script.js
           node --check public-pages.js
           node --check sw.js

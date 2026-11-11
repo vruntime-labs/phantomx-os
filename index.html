@@ -73,6 +73,9 @@
           <a class="desktop-shortcut" href="https://github.com/vruntime-labs/phantomx-os" target="_blank" rel="noopener noreferrer">
             <span class="desktop-shortcut-icon code-shortcut-icon">&lt;/&gt;</span><span>Source Code</span>
           </a>
+          <button class="desktop-shortcut" type="button" data-window-launch="cyberpad-window"><span class="desktop-shortcut-icon docs-shortcut-icon">▤</span><span>CyberPad</span></button>
+          <button class="desktop-shortcut" type="button" data-window-launch="netbrowser-window"><span class="desktop-shortcut-icon code-shortcut-icon">◎</span><span>NetBrowser</span></button>
+          <button class="desktop-shortcut" type="button" data-window-launch="deck-settings-window"><span class="desktop-shortcut-icon mission-shortcut-icon">⚙</span><span>DeckSettings</span></button>
           <button class="desktop-shortcut" type="button" disabled aria-label="Story Mode planned">
             <span class="desktop-shortcut-icon mission-shortcut-icon">◇</span><span>Story Mode</span><small>PLANNED</small>
           </button>
@@ -170,6 +173,82 @@
       </div>
     </section>
 
+    <section id="cyberpad-window" class="window core-app-window" aria-label="CyberPad" aria-hidden="true" style="display:none; top:70px; left:150px; width:min(900px, calc(100vw - 220px)); height:min(620px, calc(100vh - 140px))">
+      <header class="window-header" data-window-drag-handle>
+        <div class="window-title"><span class="terminal-title-mark">PX</span><span>CYBERPAD</span><span class="window-title-divider">/</span><span class="window-title-muted">VIRTUAL NOTEBOOK</span></div>
+        <div class="window-controls"><button class="window-dot yellow" type="button" aria-label="Minimize CyberPad" data-window-action="minimize"></button><button class="window-dot green" type="button" aria-label="Maximize CyberPad" data-window-action="maximize"></button><button class="window-dot red" type="button" aria-label="Close CyberPad" data-window-action="close"></button></div>
+      </header>
+      <div class="core-app-toolbar"><label for="cyberpad-path">VIRTUAL FILE</label><input id="cyberpad-path" value="/home/mission-notes.md" spellcheck="false"><button id="cyberpad-load" type="button">Open</button><button id="cyberpad-save" type="button">Save</button></div>
+      <div class="core-app-body cyberpad-body"><div class="core-app-intro"><strong>SIMULATION NOTEBOOK</strong><span>Edits are stored in the shared virtual filesystem, not on your device.</span></div><textarea id="cyberpad-editor" spellcheck="false" aria-label="Virtual file editor"></textarea><div id="cyberpad-status" class="core-app-status" role="status">READY</div></div>
+    </section>
+
+    <section id="netbrowser-window" class="window core-app-window" aria-label="NetBrowser" aria-hidden="true" style="display:none; top:58px; left:110px; width:min(1020px, calc(100vw - 200px)); height:min(680px, calc(100vh - 130px))">
+      <header class="window-header" data-window-drag-handle>
+        <div class="window-title"><span class="terminal-title-mark">PX</span><span>NETBROWSER</span><span class="window-title-divider">/</span><span class="window-title-muted">FICTIONAL INTRANET</span></div>
+        <div class="window-controls"><button class="window-dot yellow" type="button" aria-label="Minimize NetBrowser" data-window-action="minimize"></button><button class="window-dot green" type="button" aria-label="Maximize NetBrowser" data-window-action="maximize"></button><button class="window-dot red" type="button" aria-label="Close NetBrowser" data-window-action="close"></button></div>
+      </header>
+      <div class="netbrowser-toolbar"><span class="netbrowser-lock" aria-hidden="true">◇</span><input id="netbrowser-address" value="intranet.phantom/" aria-label="Fictional intranet address" spellcheck="false"><button id="netbrowser-go" type="button">Go</button></div>
+      <nav class="netbrowser-bookmarks" aria-label="Fictional intranet bookmarks"><button type="button" data-netbrowser-route="intranet.phantom/">Intranet</button><button type="button" data-netbrowser-route="wiki.phantom/">Research Wiki</button><button type="button" data-netbrowser-route="ops.phantom/">Operations</button></nav>
+      <div class="netbrowser-content"><div id="netbrowser-status" class="core-app-status" role="status">LOCAL SIMULATION</div><main id="netbrowser-page" class="netbrowser-page"></main></div>
+      <footer class="netbrowser-footer">LOCAL STORY DATA ONLY <span>EXTERNAL NETWORK ACCESS DISABLED</span></footer>
+    </section>
+
+    <section id="deck-settings-window" class="window core-app-window" aria-label="DeckSettings" aria-hidden="true" style="display:none; top:95px; left:210px; width:min(760px, calc(100vw - 220px)); height:min(560px, calc(100vh - 150px))">
+      <header class="window-header" data-window-drag-handle>
+        <div class="window-title"><span class="terminal-title-mark">PX</span><span>DECK SETTINGS</span><span class="window-title-divider">/</span><span class="window-title-muted">LOCAL PREFERENCES</span></div>
+        <div class="window-controls"><button class="window-dot yellow" type="button" aria-label="Minimize DeckSettings" data-window-action="minimize"></button><button class="window-dot green" type="button" aria-label="Maximize DeckSettings" data-window-action="maximize"></button><button class="window-dot red" type="button" aria-label="Close DeckSettings" data-window-action="close"></button></div>
+      </header>
+      <div class="core-app-body settings-body">
+        <div class="core-app-intro"><strong>PERSONALIZE YOUR CYBERDECK</strong><span>Preferences are stored locally in this browser.</span></div>
+        <section class="settings-group"><div><h3>Interface theme</h3><p>Choose the accent used across the launcher.</p></div><select id="deck-theme" aria-label="Interface theme"><option value="mint">Phantom Mint</option><option value="ice">Arctic Ice</option><option value="amber">Signal Amber</option></select></section>
+        <section class="settings-group"><div><h3>Desktop texture</h3><p>Adjust the subtle desktop background treatment.</p></div><select id="deck-wallpaper" aria-label="Desktop texture"><option value="grid">Technical grid</option><option value="quiet">Quiet gradient</option><option value="scanlines">Scanlines</option></select></section>
+        <section class="settings-group"><div><h3>Interface sound preference</h3><p>This preference is saved; audio cues will be used as they are added to the shell.</p></div><label class="settings-toggle"><input id="deck-sounds" type="checkbox"><span>Enable</span></label></section>
+        <section class="settings-group settings-data"><div><h3>Local preferences</h3><p>Reset only PhantomX appearance and interface preferences. Virtual files currently reset when the page reloads.</p></div><button id="deck-reset-settings" type="button" class="danger-subtle">Reset preferences</button></section>
+        <div id="deck-settings-status" class="core-app-status" role="status">READY</div>
+      </div>
+    </section>
+
+    <section id="netradar-window" class="window simulation-window" aria-label="NetRadar" aria-hidden="true" style="display:none; top:65px; left:135px; width:min(980px,calc(100vw - 190px)); height:min(640px,calc(100vh - 130px))">
+      <header class="window-header" data-window-drag-handle><div class="window-title"><span class="terminal-title-mark">PX</span><span>NETRADAR</span><span class="window-title-divider">/</span><span class="window-title-muted">SIMULATED TOPOLOGY</span></div><div class="window-controls"><button class="window-dot yellow" type="button" aria-label="Minimize NetRadar" data-window-action="minimize"></button><button class="window-dot green" type="button" aria-label="Maximize NetRadar" data-window-action="maximize"></button><button class="window-dot red" type="button" aria-label="Close NetRadar" data-window-action="close"></button></div></header>
+      <div class="simulation-toolbar"><span>PROJECT ASTER / LAB NETWORK</span><span>4 NODES · SYNTHETIC DATA</span></div>
+      <div class="simulation-split"><div class="radar-stage"><svg id="netradar-map" viewBox="0 0 590 330" role="group" aria-label="Fictional network topology"></svg></div><aside id="netradar-details" class="simulation-detail"></aside></div>
+      <footer class="simulation-footer">FICTIONAL PRIVATE ADDRESS SPACE · NO PACKETS SENT · NO LIVE HOST SCANNING</footer>
+    </section>
+
+    <section id="packetsniffer-window" class="window simulation-window" aria-label="PacketSniffer" aria-hidden="true" style="display:none; top:55px; left:100px; width:min(1020px,calc(100vw - 180px)); height:min(660px,calc(100vh - 120px))">
+      <header class="window-header" data-window-drag-handle><div class="window-title"><span class="terminal-title-mark">PX</span><span>PACKET SNIFFER</span><span class="window-title-divider">/</span><span class="window-title-muted">SYNTHETIC TRAFFIC</span></div><div class="window-controls"><button class="window-dot yellow" type="button" aria-label="Minimize PacketSniffer" data-window-action="minimize"></button><button class="window-dot green" type="button" aria-label="Maximize PacketSniffer" data-window-action="maximize"></button><button class="window-dot red" type="button" aria-label="Close PacketSniffer" data-window-action="close"></button></div></header>
+      <div class="simulation-toolbar"><span>CAPTURE: ASTER-LAB-01</span><span>4 SYNTHETIC RECORDS</span></div>
+      <div class="packet-layout"><div class="packet-list-wrap"><div class="packet-list-head"><span>TIME</span><span>SOURCE</span><span>DESTINATION</span><span>REQUEST</span><span>CODE</span></div><div id="packet-list" class="packet-list"></div></div>
+        <section class="packet-inspector"><div class="simulation-subhead">SELECTED PACKET</div><pre id="packet-detail" class="packet-detail"></pre><label for="packet-editor">EDIT SYNTHETIC REQUEST JSON</label><textarea id="packet-editor" spellcheck="false"></textarea><div class="packet-actions"><button id="packet-replay" type="button">Replay in sandbox</button><span id="packet-status" class="core-app-status">READY</span></div></section></div>
+      <footer class="simulation-footer">LOCAL FIXTURES ONLY · REPLAY NEVER SENDS A NETWORK REQUEST</footer>
+    </section>
+
+    <section id="hashbreaker-window" class="window simulation-window" aria-label="HashBreaker" aria-hidden="true" style="display:none; top:80px; left:175px; width:min(900px,calc(100vw - 220px)); height:min(620px,calc(100vh - 150px))">
+      <header class="window-header" data-window-drag-handle><div class="window-title"><span class="terminal-title-mark">PX</span><span>HASHBREAKER</span><span class="window-title-divider">/</span><span class="window-title-muted">ENCODING LAB</span></div><div class="window-controls"><button class="window-dot yellow" type="button" aria-label="Minimize HashBreaker" data-window-action="minimize"></button><button class="window-dot green" type="button" aria-label="Maximize HashBreaker" data-window-action="maximize"></button><button class="window-dot red" type="button" aria-label="Close HashBreaker" data-window-action="close"></button></div></header>
+      <div class="core-app-body hashbreaker-body"><div class="core-app-intro"><strong>ENCODING &amp; HASH VERIFICATION</strong><span>Base64 and Caesar are reversible encodings. A cryptographic hash is checked against a candidate; it is not decrypted.</span></div>
+        <label for="hash-input">INPUT / CANDIDATE TEXT</label><textarea id="hash-input" spellcheck="false" placeholder="Enter text or a Base64 value"></textarea>
+        <div class="hash-controls"><div><label for="hash-shift">CAESAR SHIFT</label><input id="hash-shift" type="number" min="0" max="25" value="3"></div><div class="hash-buttons"><button id="hash-b64-encode" type="button">Base64 encode</button><button id="hash-b64-decode" type="button">Base64 decode</button><button id="hash-caesar-encode" type="button">Caesar encode</button><button id="hash-caesar-decode" type="button">Caesar decode</button></div></div>
+        <label for="hash-output">OUTPUT / DIGEST</label><textarea id="hash-output" readonly spellcheck="false" placeholder="Result appears here"></textarea>
+        <section class="hash-challenge"><div><strong>SHA-256 CANDIDATE CHECK</strong><p id="hash-hint"></p><code id="hash-target"></code></div><button id="hash-verify" type="button">Check one candidate</button><button id="hash-load-challenge" type="button">Reset challenge</button></section>
+        <div id="hash-status" class="core-app-status" role="status">READY · NO BRUTE-FORCE ROUTINES</div>
+      </div>
+      <footer class="simulation-footer">OFFLINE EXERCISES · NO CREDENTIAL ATTACKS · NO HASH DECRYPTION</footer>
+    </section>
+
+    <section id="hexscope-window" class="window simulation-window" aria-label="HexScope" aria-hidden="true" style="display:none; top:85px; left:155px; width:min(1020px,calc(100vw - 200px)); height:min(660px,calc(100vh - 140px))">
+      <header class="window-header" data-window-drag-handle><div class="window-title"><span class="terminal-title-mark">PX</span><span>HEXSCOPE</span><span class="window-title-divider">/</span><span class="window-title-muted">READ-ONLY FORENSICS</span></div><div class="window-controls"><button class="window-dot yellow" type="button" aria-label="Minimize HexScope" data-window-action="minimize"></button><button class="window-dot green" type="button" aria-label="Maximize HexScope" data-window-action="maximize"></button><button class="window-dot red" type="button" aria-label="Close HexScope" data-window-action="close"></button></div></header>
+      <div class="core-app-toolbar"><label for="hexscope-file">VIRTUAL LOG</label><select id="hexscope-file"><option value="/logs/auth.log">auth.log</option><option value="/logs/trace.log">trace.log</option></select><input id="hexscope-search" placeholder="Filter log lines..." aria-label="Filter log lines"></div>
+      <div class="hexscope-layout"><section><div class="simulation-subhead">TEXT VIEW</div><pre id="hexscope-text" class="hexscope-text"></pre></section><section><div class="simulation-subhead">HEX VIEW · FIRST 256 BYTES</div><pre id="hexscope-hex" class="hexscope-hex"></pre></section></div>
+      <footer class="simulation-footer"><span id="hexscope-status" class="core-app-status">READ ONLY</span> · NO TRACE WIPING OR EVIDENCE MODIFICATION</footer>
+    </section>
+
+    <section id="opencam-window" class="window simulation-window" aria-label="OpenCam Viewer" aria-hidden="true" style="display:none; top:45px; left:85px; width:min(1040px,calc(100vw - 160px)); height:min(700px,calc(100vh - 110px))">
+      <header class="window-header" data-window-drag-handle><div class="window-title"><span class="terminal-title-mark">PX</span><span>OPENCAM VIEWER</span><span class="window-title-divider">/</span><span class="window-title-muted">PUBLIC CAMERA DIRECTORY</span></div><div class="window-controls"><button class="window-dot yellow" type="button" aria-label="Minimize OpenCam Viewer" data-window-action="minimize"></button><button class="window-dot green" type="button" aria-label="Maximize OpenCam Viewer" data-window-action="maximize"></button><button class="window-dot red" type="button" aria-label="Close OpenCam Viewer" data-window-action="close"></button></div></header>
+      <div class="opencam-toolbar"><div><strong>PUBLIC VIEWS</strong><span>Traffic, weather and scenic operator-published cameras</span></div><select id="opencam-category" aria-label="Filter camera category"><option value="all">All permitted categories</option><option value="traffic">Traffic</option><option value="weather">Weather</option><option value="park">Parks</option><option value="wildlife">Wildlife</option><option value="ski">Ski</option><option value="surf">Surf</option><option value="volcano">Volcano</option><option value="aurora">Aurora</option></select><button id="opencam-load" type="button">Load public feeds</button></div>
+      <div class="opencam-content"><div id="opencam-status" class="core-app-status" role="status">NO CAMERA DATA LOADED · SELECT LOAD PUBLIC FEEDS</div><div id="opencam-grid" class="opencam-grid"><p class="simulation-empty">Public camera previews load only after you request them. No location permission is needed.</p></div></div>
+      <footer class="simulation-footer"><span>FREE PUBLIC PREVIEWS ONLY · PER-FEED EMBED RIGHTS AND ATTRIBUTION ENFORCED</span><button id="opencam-open-catalog" type="button">Open OpenEye directory ↗</button></footer>
+    </section>
+
     <section id="terminal-window" class="window" aria-label="Cyberdeck Terminal" aria-hidden="true" style="display:none; top:112px">
       <header class="window-header" data-window-drag-handle>
         <div class="window-title"><span class="terminal-title-mark" aria-hidden="true">PX</span><span>TERMINAL</span><span class="window-title-divider">/</span><span class="window-title-muted">SESSION 01</span></div>
@@ -213,7 +292,12 @@
     <div class="taskbar-separator" aria-hidden="true"></div>
     <div class="taskbar-apps">
       <button class="taskbar-item" type="button" data-window-launch="terminal-window"><span class="taskbar-terminal-mark" aria-hidden="true">›_</span><span>Terminal</span></button>
-      <button class="taskbar-item" type="button" data-window-launch="vfs-explorer-window"><span class="taskbar-terminal-mark" aria-hidden="true">▣</span><span>VFS Explorer</span></button>
+      <button class="taskbar-item" type="button" data-window-launch="vfs-explorer-window"><span class="taskbar-terminal-mark" aria-hidden="true">▣</span><span>VFS Explorer</span></button>\n      <button class="taskbar-item" type="button" data-window-launch="cyberpad-window"><span class="taskbar-terminal-mark" aria-hidden="true">▤</span><span>CyberPad</span></button>\n      <button class="taskbar-item" type="button" data-window-launch="netbrowser-window"><span class="taskbar-terminal-mark" aria-hidden="true">◎</span><span>NetBrowser</span></button>\n      <button class="taskbar-item" type="button" data-window-launch="deck-settings-window"><span class="taskbar-terminal-mark" aria-hidden="true">⚙</span><span>Settings</span></button>
+      <button class="taskbar-item" type="button" data-window-launch="netradar-window"><span class="taskbar-terminal-mark" aria-hidden="true">⌘</span><span>NetRadar</span></button>
+      <button class="taskbar-item" type="button" data-window-launch="packetsniffer-window"><span class="taskbar-terminal-mark" aria-hidden="true">≋</span><span>Packets</span></button>
+      <button class="taskbar-item" type="button" data-window-launch="hashbreaker-window"><span class="taskbar-terminal-mark" aria-hidden="true">#</span><span>Hash Lab</span></button>
+      <button class="taskbar-item" type="button" data-window-launch="hexscope-window"><span class="taskbar-terminal-mark" aria-hidden="true">⌕</span><span>HexScope</span></button>
+      <button class="taskbar-item" type="button" data-window-launch="opencam-window"><span class="taskbar-terminal-mark" aria-hidden="true">◉</span><span>OpenCam</span></button>
     </div>
     <div class="taskbar-right"><span class="taskbar-session"><i></i> SIMULATED SESSION</span><time id="taskbar-clock" class="taskbar-clock" aria-label="Local time">--:--</time></div>
   </footer>
@@ -221,7 +305,9 @@
   <script src="./kernel.js"></script>
   <script src="./apps/app-manifests.js"></script>
   <script src="./app-registry.js"></script>
-  <script src="./vfs.js"></script>
+  <script src="./vfs.js"></script>\n  <script src="./apps/core-apps.js"></script>
+  <script src="./apps/simulation-data.js"></script>
+  <script src="./apps/simulation-tools.js"></script>
   <script src="./public-pages.js"></script>
   <script src="./script.js"></script>
   <script>
