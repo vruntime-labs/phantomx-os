@@ -30,3 +30,17 @@ test('NetBrowser and OpenCam expose public website and OpenCCTV viewer surfaces'
   assert.ok(html.includes('id="opencam-load-directory"'));
   assert.ok(serviceWorker.includes('./apps/browser-utils.js'));
 });
+
+
+test('Tier 3 story modules are loaded and precached by the offline shell', () => {
+  for (const src of ['./apps/story-engine.js', './apps/story-apps.js']) {
+    assert.ok(html.includes('<script src="' + src + '">'));
+    assert.ok(serviceWorker.includes("'" + src + "'"));
+  }
+  for (const id of ['mission-control-window', 'shadow-comms-window', 'sysguard-window']) {
+    assert.ok(html.includes('id="' + id + '"'));
+  }
+  assert.ok(html.includes('id="mission-objectives"'));
+  assert.ok(html.includes('id="shadow-comms-choices"'));
+  assert.ok(html.includes('id="sysguard-trace-bar"'));
+});
