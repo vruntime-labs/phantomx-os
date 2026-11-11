@@ -629,3 +629,76 @@ a { color: inherit; }
   .vfs-file-list-wrap { border-right:0; border-bottom:1px solid var(--line); }
   .vfs-sidebar { flex-basis:76px; }
 }
+
+
+/* Tier 1 core application windows */
+.core-app-window { min-width:0; min-height:0; overflow:hidden; }
+.core-app-toolbar, .netbrowser-toolbar, .netbrowser-bookmarks {
+  display:flex; align-items:center; gap:9px; min-height:46px; padding:8px 13px;
+  border-bottom:1px solid var(--line); background:rgba(10,17,25,.9);
+}
+.core-app-toolbar label { color:#71878b; font:9px var(--mono); letter-spacing:.1em; white-space:nowrap; }
+.core-app-toolbar input, .netbrowser-toolbar input {
+  flex:1 1 auto; min-width:0; min-height:31px; padding:0 10px;
+  border:1px solid rgba(159,227,196,.16); border-radius:4px;
+  outline:0; background:#09121a; color:var(--text); font:10px var(--mono);
+}
+.core-app-toolbar button, .netbrowser-toolbar button, .netbrowser-bookmarks button,
+.core-app-body button, .netbrowser-local-links button {
+  min-height:30px; padding:0 11px; border:1px solid rgba(159,227,196,.2);
+  border-radius:4px; background:rgba(159,227,196,.07); color:var(--mint);
+  font:9px var(--mono); cursor:pointer;
+}
+.core-app-toolbar button:hover, .netbrowser-toolbar button:hover,
+.netbrowser-bookmarks button:hover, .core-app-body button:hover,
+.netbrowser-local-links button:hover { background:rgba(159,227,196,.14); }
+.core-app-body { display:flex; flex:1 1 auto; min-height:0; flex-direction:column; gap:12px; padding:16px; overflow:auto; }
+.core-app-intro { display:flex; flex-direction:column; gap:5px; }
+.core-app-intro strong { color:var(--mint); font:10px var(--mono); letter-spacing:.13em; }
+.core-app-intro span { color:var(--muted); font-size:11px; }
+.cyberpad-body textarea {
+  width:100%; flex:1 1 auto; min-height:180px; resize:none; padding:15px;
+  border:1px solid var(--line); border-radius:5px; outline:0;
+  background:#09121a; color:#d4e1dc; font:11px/1.75 var(--mono);
+}
+.cyberpad-body textarea:focus, .core-app-toolbar input:focus, .netbrowser-toolbar input:focus {
+  border-color:rgba(159,227,196,.45);
+}
+.core-app-status { color:#7f9994; font:9px var(--mono); letter-spacing:.08em; }
+.netbrowser-toolbar { min-height:48px; }
+.netbrowser-lock { color:var(--mint); font-size:16px; }
+.netbrowser-bookmarks { min-height:38px; padding-top:5px; padding-bottom:5px; }
+.netbrowser-bookmarks button { min-height:25px; padding:0 9px; font-size:8px; }
+.netbrowser-content { display:flex; flex:1 1 auto; min-height:0; flex-direction:column; overflow:auto; padding:12px 16px 18px; }
+.netbrowser-page { width:min(760px,100%); margin:16px auto 24px; }
+.netbrowser-page-heading { padding:20px 0 17px; border-bottom:1px solid var(--line); }
+.netbrowser-page-heading h2 { margin:0 0 8px; color:#e5f0eb; font-size:23px; font-weight:550; }
+.netbrowser-page-heading p { margin:0; color:var(--mint); font:9px var(--mono); letter-spacing:.12em; }
+.netbrowser-card { margin-top:12px; padding:15px 16px; border:1px solid var(--line); border-radius:5px; background:rgba(18,31,41,.7); }
+.netbrowser-card h3 { margin:0 0 8px; color:#d9e7e1; font-size:12px; }
+.netbrowser-card p, .netbrowser-notice { margin:0; color:#9eafb1; font-size:11px; line-height:1.7; }
+.netbrowser-notice { margin:18px auto; padding:18px; border:1px solid rgba(228,183,122,.28); border-radius:5px; color:#e4b77a; }
+.netbrowser-local-links { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+.netbrowser-footer { display:flex; justify-content:space-between; gap:10px; padding:9px 14px; border-top:1px solid var(--line); color:#72878b; font:8px var(--mono); letter-spacing:.08em; }
+.settings-body { gap:0; }
+.settings-group { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:17px 0; border-bottom:1px solid var(--line); }
+.settings-group h3 { margin:0 0 5px; color:#dce8e3; font-size:12px; font-weight:550; }
+.settings-group p { max-width:440px; margin:0; color:var(--muted); font-size:10px; line-height:1.6; }
+.settings-group select { min-width:155px; min-height:34px; padding:0 9px; border:1px solid rgba(159,227,196,.18); border-radius:4px; background:#0b151e; color:var(--text); font-size:10px; }
+.settings-toggle { display:flex; align-items:center; gap:8px; color:#b8c9c4; font:10px var(--mono); white-space:nowrap; }
+.settings-toggle input { accent-color:var(--mint-strong); }
+.settings-data { margin-top:5px; }
+.core-app-body .danger-subtle { border-color:rgba(220,124,112,.3); background:rgba(220,124,112,.07); color:#e29b91; }
+:root[data-phantom-theme="ice"] { --mint:#a8d9ee; --mint-strong:#76c7e7; --amber:#e4c78d; }
+:root[data-phantom-theme="amber"] { --mint:#e8bd79; --mint-strong:#dfa957; --amber:#e8bd79; }
+body[data-phantom-wallpaper="quiet"]::before { opacity:.07; background-image:radial-gradient(ellipse at 78% 14%,rgba(87,151,137,.25),transparent 48%); background-size:100% 100%; }
+body[data-phantom-wallpaper="scanlines"]::before { opacity:.22; background-image:repeating-linear-gradient(0deg,rgba(150,186,183,.09) 0,rgba(150,186,183,.09) 1px,transparent 1px,transparent 4px); background-size:100% 4px; }
+@media (max-width:760px) {
+  .core-app-window { width:calc(100vw - 18px) !important; left:9px !important; }
+  .core-app-toolbar { flex-wrap:wrap; }
+  .core-app-toolbar input { flex-basis:100%; order:2; }
+  .core-app-toolbar label { order:1; }
+  .core-app-toolbar button { order:3; }
+  .settings-group { align-items:flex-start; flex-direction:column; gap:10px; }
+  .netbrowser-footer { flex-direction:column; }
+}
