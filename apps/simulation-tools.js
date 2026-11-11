@@ -63,7 +63,7 @@
   radar?.addEventListener("keydown",(event)=>{
     if(event.key!=="Enter"&&event.key!==" ") return;
     const node=event.target.closest("[data-node-id]");
-    if(node){event.preventDefault();selectRadarNode(node.dataset.nodeId);}
+    if(node){event.preventDefault();selectRadarNode(node.dataset.nodeId,true);}
   });
   renderRadar();
   selectRadarNode("gateway",false);
@@ -94,7 +94,7 @@
     });
     packetList.addEventListener("click",(event)=>{
       const row=event.target.closest("[data-packet-id]");
-      if(row){const packet=data.packets.find((item)=>item.id===row.dataset.packetId);if(packet)showPacket(packet);}
+      if(row){const packet=data.packets.find((item)=>item.id===row.dataset.packetId);if(packet)showPacket(packet,true);}
     });
     showPacket(selectedPacket);
   }
