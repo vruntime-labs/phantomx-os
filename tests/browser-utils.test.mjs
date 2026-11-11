@@ -29,5 +29,6 @@ test("OpenCam accepts only OpenCCTV public directory and camera pages", () => {
   assert.equal(utils.isOpenCctvUrl("https://opencctv.org/cameras/india/example"), true);
   assert.equal(utils.isOpenCctvUrl("https://example.com/cameras/india/example"), false);
   assert.equal(utils.isOpenCctvUrl("https://opencctv.org/about"), false);
+  assert.equal(utils.isOpenCctvUrl("http://opencctv.org/open-cameras"), false);
   assert.equal(utils.isOpenCctvUrl("javascript:alert(1)"), false);
 });
