@@ -22,3 +22,11 @@ test('taskbar does not contain the full application catalogue at startup', () =>
   assert.ok(taskbar.includes('id="taskbar-apps"'));
   assert.equal(taskbar.includes('data-window-launch='), false);
 });
+
+test('NetBrowser and OpenCam expose public website and OpenCCTV viewer surfaces', () => {
+  assert.ok(html.includes('id="netbrowser-frame"'));
+  assert.ok(html.includes('id="netbrowser-open-external"'));
+  assert.ok(html.includes('id="opencam-player"'));
+  assert.ok(html.includes('id="opencam-load-directory"'));
+  assert.ok(serviceWorker.includes('./apps/browser-utils.js'));
+});

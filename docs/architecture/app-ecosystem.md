@@ -8,7 +8,7 @@ PhantomX is a browser-based cyberdeck launcher and simulation platform, not a na
 - PhantomTerm: simulated CLI, history, autocomplete and safe app-launch commands.
 - VFS Explorer: browse, create folders/files, preview and edit the shared virtual filesystem.
 - CyberPad: edit mission notes and virtual files.
-- NetBrowser: fictional, locally hosted mission intranet.
+- NetBrowser: fictional mission intranet plus direct public website embedding in an iframe, with an open-in-new-tab fallback when a publisher blocks framing. It does not proxy or inspect external page content.
 - DeckSettings: theme, wallpaper, sound and save-data preferences.
 
 ### Tier 2 — Simulation
@@ -16,7 +16,7 @@ PhantomX is a browser-based cyberdeck launcher and simulation platform, not a na
 - PacketSniffer: synthetic HTTP/MQTT request/response fixtures; editing and replay remain local to the simulation.
 - HashBreaker: reversible Base64/Caesar exercises and one-candidate SHA-256 comparison. Hashes are not decrypted and there is no brute-force routine.
 - HexScope: read-only inspection of virtual log files and a bounded hex preview; no trace wiping or evasion.
-- OpenCam Viewer: free public catalogue previews only when `is_free`, `live`, category allowlist, `view.render=image`, `redistribution.preview_embed=true` and HTTPS publisher attribution are all present. No camera discovery, private feeds, IP scanning, credentials, arbitrary RTSP/IP URLs, recording, tracking or access-control bypass.
+- OpenCam Viewer: OpenEye free still-image previews plus an OpenCCTV.org public directory/camera-page viewer. OpenCCTV pages are restricted to the official directory host and are embedded only as publisher pages; the source determines whether a page contains live video, refreshed images or an unavailable feed. No camera discovery, private feeds, IP scanning, credentials, arbitrary RTSP/IP URLs, recording, tracking or access-control bypass.
 
 ### Tier 3 — Story
 - MissionControl: contracts, objectives, environments and progression.
@@ -43,7 +43,7 @@ The Start Menu renders the catalog grouped into Core Shell, Simulation Tools, an
 
 ## Public camera integration
 
-OpenCam Viewer uses OpenEye's anonymous public featured-catalog endpoint on explicit user action. It filters to free, recent, image previews that carry per-camera embed permission and HTTPS attribution; it does not poll or request geolocation. The displayed image may be a periodically refreshed still, not continuous video. Feed freshness and publisher credit are shown. The app never calls paid frame, live-video, analysis or subscription endpoints. Windy's Webcams API is not embedded directly because its API key must remain secret and cannot safely be shipped in a public static site.
+OpenCam Viewer uses OpenEye's anonymous public featured-catalog endpoint on explicit user action. It filters to free, recent, image previews that carry per-camera embed permission and HTTPS attribution; it does not poll or request geolocation. These cards remain still-image previews, not continuous video. A separate OpenCCTV.org viewer accepts only the provider's public directory and camera-page URLs; the provider page may display a permitted live video, a refreshed image, or an offline state. The app never calls OpenEye's metered WHEP/live-video, frame, analysis or subscription endpoints. Windy's Webcams API is not embedded directly because its API key must remain secret and cannot safely be shipped in a public static site.
 
 ## Delivery order
 

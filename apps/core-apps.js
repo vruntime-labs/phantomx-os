@@ -1,6 +1,6 @@
 /**
  * PhantomX Tier 1 core applications.
- * NetBrowser is a local fictional intranet; it never fetches arbitrary URLs.
+ * NetBrowser keeps mission intranet routes local and embeds user-requested public websites directly.
  */
 (function (global) {
   "use strict";
@@ -44,7 +44,7 @@
   });
   loadPadFile();
 
-  // NetBrowser: deliberately local route table with no network navigation.
+  // NetBrowser: fictional intranet plus direct, user-initiated public web navigation.
   const sites = {
     "intranet.phantom": {
       title: "Phantom Research Network",
@@ -80,25 +80,26 @@
   const address = byId("netbrowser-address");
   const page = byId("netbrowser-page");
   const browserStatus = byId("netbrowser-status");
+  const frameWrap = byId("netbrowser-frame-wrap");
+  const frame = byId("netbrowser-frame");
   const routeButtons = document.querySelectorAll("[data-netbrowser-route]");
+  const browserHistory = [];
+  let browserHistoryIndex = -1;
+  let currentExternalUrl = "";
+
   function normalizeRoute(value) {
     let route = String(value || "intranet.phantom/").trim().toLowerCase();
     route = route.replace(/^https?:\/\//, "").split(/[?#]/)[0];
     route = route.replace(/\/+$/, "");
     return route || "intranet.phantom";
   }
-  function navigate(value) {
-    const route = normalizeRoute(value);
-    const site = sites[route];
-    if (!site) {
-      browserStatus.textContent = "LOCAL ROUTE NOT FOUND · EXTERNAL NETWORK ACCESS DISABLED";
-      page.replaceChildren();
-      const notice = document.createElement("div");
-      notice.className = "netbrowser-notice";
-      notice.textContent = "This address is not part of the fictional intranet. NetBrowser does not connect to public websites or arbitrary URLs.";
-      page.appendChild(notice);
-      return;
-    }
+  function showLocalSite(route, site) {
+    currentExternalUrl = "";
+    browserHistory.length = 0;
+    browserHistoryIndex = -1;
+    frame.src = "about:blank";
+    frameWrap.hidden = true;
+    page.hidden = false;
     address.value = route + "/";
     browserStatus.textContent = "LOCAL SIMULATION · " + route.toUpperCase();
     page.replaceChildren();
@@ -132,6 +133,45 @@
     });
     page.appendChild(nav);
   }
+  function loadExternalSite(value, addHistory = true) {
+    let url;
+    try {
+      url = global.PhantomBrowserUtils.normalizeWebUrl(value);
+    } catch (error) {
+      browserStatus.textContent = "INVALID ADDRESS";
+      page.hidden = false;
+      frameWrap.hidden = true;
+      page.replaceChildren();
+      const notice = document.createElement("div");
+      notice.className = "netbrowser-notice";
+      notice.textContent = error.message;
+      page.appendChild(notice);
+      return false;
+    }
+    if (addHistory) {
+      browserHistory.splice(browserHistoryIndex + 1);
+      browserHistory.push(url);
+      browserHistoryIndex = browserHistory.length - 1;
+    }
+    currentExternalUrl = url;
+    address.value = url;
+    page.hidden = true;
+    frameWrap.hidden = false;
+    browserStatus.textContent = "EXTERNAL WEBSITE · LOADING " + new URL(url).hostname.toUpperCase();
+    frame.src = url;
+    return true;
+  }
+  function navigate(value, addHistory = true) {
+    const raw = String(value || "").trim();
+    const route = normalizeRoute(raw);
+    const site = sites[route];
+    if (site) {
+      showLocalSite(route, site);
+      return true;
+    }
+    return loadExternalSite(raw, addHistory);
+  }
+
   byId("netbrowser-go")?.addEventListener("click", () => navigate(address.value));
   address?.addEventListener("keydown", (event) => {
     if (event.key === "Enter") navigate(address.value);
@@ -141,68 +181,26 @@
     const link = event.target.closest("[data-netbrowser-route]");
     if (link) navigate(link.dataset.netbrowserRoute);
   });
-  navigate("intranet.phantom/");
-
-  // DeckSettings: capability-gated local preferences, stored only in this browser.
-  const settingsApp = "phantom.deck-settings";
-  const settingsKey = "phantomx.deck-settings.v1";
-  function requireSetting(capability) {
-    if (!registry.hasCapability(settingsApp, capability)) throw new Error("Permission denied: " + capability);
-  }
-  function readSettings() {
-    requireSetting("settings.read");
-    try {
-      const value = JSON.parse(global.localStorage.getItem(settingsKey) || "{}");
-      return {
-        theme: ["mint", "amber", "ice"].includes(value.theme) ? value.theme : "mint",
-        wallpaper: ["grid", "quiet", "scanlines"].includes(value.wallpaper) ? value.wallpaper : "grid",
-        sounds: value.sounds !== false
-      };
-    } catch {
-      return {theme:"mint", wallpaper:"grid", sounds:true};
-    }
-  }
-  function saveSettings(next) {
-    requireSetting("settings.write");
-    global.localStorage.setItem(settingsKey, JSON.stringify(next));
-    applySettings(next);
-  }
-  function applySettings(value) {
-    document.documentElement.dataset.phantomTheme = value.theme;
-    document.body.dataset.phantomWallpaper = value.wallpaper;
-  }
-  const themeSelect = byId("deck-theme");
-  const wallpaperSelect = byId("deck-wallpaper");
-  const soundToggle = byId("deck-sounds");
-  const settingsStatus = byId("deck-settings-status");
-  let preferences = readSettings();
-  applySettings(preferences);
-  if (themeSelect) themeSelect.value = preferences.theme;
-  if (wallpaperSelect) wallpaperSelect.value = preferences.wallpaper;
-  if (soundToggle) soundToggle.checked = preferences.sounds;
-  function updatePreference(key, value) {
-    preferences = {...preferences, [key]:value};
-    try {
-      saveSettings(preferences);
-      settingsStatus.textContent = "PREFERENCE SAVED IN THIS BROWSER";
-    } catch (error) {
-      settingsStatus.textContent = error.message.toUpperCase();
-    }
-  }
-  themeSelect?.addEventListener("change", () => updatePreference("theme", themeSelect.value));
-  wallpaperSelect?.addEventListener("change", () => updatePreference("wallpaper", wallpaperSelect.value));
-  soundToggle?.addEventListener("change", () => updatePreference("sounds", soundToggle.checked));
-  byId("deck-reset-settings")?.addEventListener("click", () => {
-    requireSetting("saves.manage");
-    if (!global.confirm("Reset PhantomX appearance and interface preferences stored in this browser?")) return;
-    global.localStorage.removeItem(settingsKey);
-    preferences = {theme:"mint", wallpaper:"grid", sounds:true};
-    applySettings(preferences);
-    if (themeSelect) themeSelect.value = preferences.theme;
-    if (wallpaperSelect) wallpaperSelect.value = preferences.wallpaper;
-    if (soundToggle) soundToggle.checked = preferences.sounds;
-    settingsStatus.textContent = "LOCAL PREFERENCES RESET";
+  byId("netbrowser-back")?.addEventListener("click", () => {
+    if (browserHistoryIndex <= 0) return;
+    browserHistoryIndex -= 1;
+    loadExternalSite(browserHistory[browserHistoryIndex], false);
   });
+  byId("netbrowser-forward")?.addEventListener("click", () => {
+    if (browserHistoryIndex >= browserHistory.length - 1) return;
+    browserHistoryIndex += 1;
+    loadExternalSite(browserHistory[browserHistoryIndex], false);
+  });
+  byId("netbrowser-reload")?.addEventListener("click", () => {
+    if (currentExternalUrl) frame.src = currentExternalUrl;
+  });
+  byId("netbrowser-open-external")?.addEventListener("click", () => {
+    if (currentExternalUrl) global.open(currentExternalUrl, "_blank", "noopener,noreferrer");
+  });
+  frame?.addEventListener("load", () => {
+    if (currentExternalUrl) browserStatus.textContent = "FRAME REQUEST COMPLETED · THE WEBSITE MAY STILL BLOCK EMBEDDING";
+  });
+  navigate("intranet.phantom/");
 
   global.PhantomCoreApps = Object.freeze({
     open(appId) {

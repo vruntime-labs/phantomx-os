@@ -272,5 +272,45 @@
   cameraCategory?.addEventListener("change",renderCameras);
   byId("opencam-open-catalog")?.addEventListener("click",()=>global.open("https://openeye.cam/","_blank","noopener,noreferrer"));
 
+  // OpenCCTV: load only camera pages from the public OpenCCTV directory.
+  const cameraPageInput=byId("opencam-video-url");
+  const cameraPlayer=byId("opencam-player");
+  const cameraPlayerEmpty=byId("opencam-player-empty");
+  const cameraPlayerStatus=byId("opencam-status");
+  let currentOpenCctvUrl="";
+  function loadOpenCctvPage(value) {
+    const url=global.PhantomBrowserUtils.normalizeWebUrl(value);
+    if(!global.PhantomBrowserUtils.isOpenCctvUrl(url)) {
+      throw new Error("Use an OpenCCTV.org public directory or camera page URL.");
+    }
+    currentOpenCctvUrl=url;
+    cameraPageInput.value=url;
+    cameraPlayer.hidden=false;
+    cameraPlayerEmpty.hidden=true;
+    cameraPlayer.src=url;
+    cameraPlayerStatus.textContent="OPEN CCTV PAGE LOADING · " + new URL(url).pathname.toUpperCase();
+  }
+  byId("opencam-load-video")?.addEventListener("click",()=>{
+    try { loadOpenCctvPage(cameraPageInput.value); }
+    catch(error) { cameraPlayerStatus.textContent=error.message.toUpperCase(); }
+  });
+  cameraPageInput?.addEventListener("keydown",(event)=>{
+    if(event.key==="Enter") {
+      event.preventDefault();
+      byId("opencam-load-video")?.click();
+    }
+  });
+  byId("opencam-load-directory")?.addEventListener("click",()=>{
+    try { loadOpenCctvPage("https://opencctv.org/open-cameras"); }
+    catch(error) { cameraPlayerStatus.textContent=error.message.toUpperCase(); }
+  });
+  byId("opencam-open-video-tab")?.addEventListener("click",()=>{
+    if(currentOpenCctvUrl) global.open(currentOpenCctvUrl,"_blank","noopener,noreferrer");
+    else global.open("https://opencctv.org/open-cameras","_blank","noopener,noreferrer");
+  });
+  cameraPlayer?.addEventListener("load",()=>{
+    if(currentOpenCctvUrl) cameraPlayerStatus.textContent="CAMERA PAGE REQUEST COMPLETED · VIDEO OR IMAGE AVAILABILITY IS CONTROLLED BY THE SOURCE";
+  });
+
   global.PhantomSimulationTools = Object.freeze({selectRadarNode,loadCameras});
 })(window);

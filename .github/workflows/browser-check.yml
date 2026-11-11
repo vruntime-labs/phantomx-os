@@ -47,7 +47,9 @@ jobs:
         run: |
           node --check kernel.js
           node --check apps/app-manifests.js
+          node --check apps/browser-utils.js
           node --check apps/core-apps.js
+          node --check apps/deck-settings.js
           node --check apps/simulation-data.js
           node --check apps/simulation-tools.js
           node --check app-registry.js
