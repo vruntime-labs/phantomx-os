@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="assets/readme/phantomx-header.gif" alt="Animated PhantomX OS cyberdeck terminal banner" width="100%">
+<img src="assets/readme/phantomx-header.gif" alt="Animated PhantomX cyberdeck launcher banner" width="100%">
 
-**A lightweight, open-source browser desktop and cyberdeck simulation.**
+**A futuristic, browser-based cyberdeck launcher and simulation platform.**
 
 [Live Demo](https://vruntime-labs.github.io/phantomx-os/) · [Documentation](docs/) · [Contributors](https://vruntime-labs.github.io/phantomx-os/contributors/) · [Policies](https://vruntime-labs.github.io/phantomx-os/legal/)
 
@@ -10,69 +10,89 @@
 
 ---
 
-## System overview
+## What is PhantomX?
 
-PhantomX OS is an experimental, browser-first operating environment maintained by **VRuntime Labs**. The current Browser Edition combines a small desktop workspace, a windowed terminal, a simulated command environment and an offline application shell.
+**PhantomX OS** is an open-source, browser-based cyberdeck launcher created by **VRuntime Labs**. It brings a customizable desktop-style interface together with simulated cybersecurity experiences and story-driven missions.
 
-> **Simulation boundary:** Hacking-themed interfaces are intended for fictional systems and controlled learning experiences, not unauthorized access to real devices or networks.
+Despite the name, PhantomX is **not a real operating system**. It does not boot hardware, manage a computer's actual memory or processes, install native drivers, or provide a host operating-system shell. It runs as a web application inside the user's browser.
 
-## Current Browser Edition
+The goal is to create an immersive launcher and simulation experience, not to recreate a general-purpose OS.
 
-- Desktop workspace with taskbar, Start menu and terminal window.
-- JavaScript window/kernel module for window lifecycle, focus and process tracking.
-- Simulated terminal with help, about, ls, ps and clear commands.
-- Example in-memory virtual directory structure.
-- Service worker and web app manifest for application-shell caching.
+> **Simulation boundary:** Hacking-themed tools and terminal commands operate within fictional or controlled simulation environments. They are not intended for unauthorized access to real devices, accounts or networks.
 
-These are lightweight browser-side simulations, not a general-purpose operating system. The terminal does not execute arbitrary host commands and the example filesystem is not persistent user storage.
+## Core experiences
 
-## Project modes
-
-| Mode | Purpose | Status |
+| Experience | What it is | Status |
 |---|---|---|
-| Browser Mode | Browser desktop and web-app environment | **Early implementation** |
-| Hacking Mode | Fictional cyberdeck and controlled security simulations | **Planned / evolving** |
-| Story Mode | Mission-driven narrative experience | **Planned** |
+| **Launcher Mode** | The main cyberdeck interface: desktop workspace, app launcher, taskbar, windows and shortcuts. | Existing foundation; evolving |
+| **Browser Mode** | The browser-based application environment that hosts the launcher and its web experiences. | Available; evolving |
+| **Hacking Mode** | A fictional cybersecurity simulation with a themed CLI, visual network tools and guided challenges. | In development |
+| **Story Mode** | Mission-based experiences with branching narrative and progression. | Planned |
+| **Multiplayer** | Shared or cooperative story experiences, with real-time and asynchronous possibilities. | Planned |
 
-## Architecture
+Launcher Mode is the primary interface. Browser Mode is the platform it runs on. Hacking Mode and Story Mode are experiences launched from that interface.
 
-**Browser Edition:** HTML5, CSS3, vanilla JavaScript (ES6+), Service Worker and Web App Manifest APIs. No mandatory frontend framework or package dependency.
+## Current features
 
-**Native Edition:** Separate long-term direction based on Rust and a no_std kernel foundation. Assembly is reserved for boot- and hardware-level work where required. The current Rust workspace is an early foundation, **not a bootable Native Edition**.
+The current browser edition includes:
+
+- Desktop-style workspace with taskbar, Start menu and application windows.
+- Window focus, movement and lifecycle handling.
+- A simulated terminal with a limited set of built-in commands.
+- An example in-memory virtual directory structure.
+- Public project pages that can be opened through terminal shortcuts.
+- Web app manifest and service-worker application-shell caching.
+
+These features are browser-side application behavior. The simulated terminal does not execute arbitrary host commands, and the example filesystem is not a real disk or persistent user-storage system.
+
+## Technology
+
+The current launcher is built with:
+
+- HTML5
+- CSS3
+- Vanilla JavaScript (ES modules)
+- Browser APIs, including Service Worker and Web App Manifest
+
+The browser edition is designed to remain lightweight and does not require a frontend framework.
 
 ## Roadmap
 
-1. **Phase 0 — Repository and architecture audit**
-2. **Phase 1 — Browser foundation:** kernel lifecycle, process/window management, filesystem and persistence.
-3. **Phase 2 — Hacking Mode CLI:** tokenizer/parser, pipelines, output redirection and safe simulated handlers.
-4. **Phase 3 — Simulation and Threat Matrix:** simulation state, event dispatch, procedural Canvas visuals and network displays.
-5. **Phase 4 — PhantomX Chronicles:** versioned JSON story packs, branching missions and save recovery.
-6. **Phase 5 — Mission Control and Cyberdeck Profiles**
-7. **Phase 6 — Mobile Companion:** QR pairing, WebRTC data channel, remote CLI, virtual trackpad and telemetry HUD.
-8. **Phase 7 — Multiplayer:** real-time and asynchronous experiences, identity, persistence and moderation.
-9. **Phase 8 — Native Edition:** long-term Rust kernel and low-level development.
+1. **Launcher foundation** — refine the desktop shell, app launching, window management, settings and responsive behavior.
+2. **Application system** — define app metadata, launch lifecycle, permissions and persistent user preferences.
+3. **Hacking Mode simulation** — build a safe command parser, simulated tools, challenge scenarios and visual threat/network displays.
+4. **Story Mode** — introduce versioned story packs, branching missions, progression and save recovery.
+5. **Mission Control and profiles** — add mission selection, cyberdeck profiles and configurable simulation environments.
+6. **Multiplayer experiences** — explore cooperative and asynchronous missions, identity, synchronization, persistence and moderation.
+7. **Mobile companion** — investigate optional QR pairing, WebRTC communication and companion controls.
 
-Roadmap items remain proposed until implemented and verified.
+Roadmap items are proposals until implemented and verified. Multiplayer, hosted services and other network features will require their own privacy, security and moderation review before release.
+
+## Project principles
+
+- **Launcher first:** build a polished, useful application launcher rather than a pretend operating system.
+- **Preserve working features:** improve the existing project incrementally; avoid unnecessary ground-up rewrites.
+- **Simulation, not intrusion:** keep cybersecurity experiences fictional, authorized and safely contained.
+- **Lightweight by design:** prefer browser-native capabilities and avoid mandatory dependencies where practical.
+- **Transparent status:** distinguish implemented features from prototypes and roadmap ideas.
+- **Approval before major changes:** discuss broad architectural changes before implementation.
 
 ## Repository layout
 
-- .github/ — GitHub workflows
-- .well-known/ — Security disclosure metadata
-- assets/css/ — Shared public-page styles
-- assets/readme/ — README media
-- acceptable-use/, contributors/, cookies/, copyright/, disclaimer/, legal/, license/, privacy/, security/, terms/ — Public static pages
-- data/ — Public structured project data
-- docs/architecture/ — Architecture notes
-- docs/legal/ — Markdown policy source
-- docs/project/ — Maintainer and AI context
-- crates/ — Early Rust kernel foundation
-- index.html, kernel.js, script.js, style.css, sw.js, manifest.json — Browser Edition runtime files
+- `.github/` — GitHub workflows
+- `.well-known/` — security disclosure metadata
+- `assets/` — styles and README media
+- `docs/architecture/` — architecture notes
+- `docs/legal/` — Markdown policy sources
+- `docs/project/` — maintainer and project context
+- `crates/` — experimental Rust code; not required by or used as a real OS kernel for the browser launcher
+- `index.html`, `kernel.js`, `script.js`, `style.css`, `sw.js`, `manifest.json` — browser launcher runtime
 
 Runtime entry files remain at the repository root to preserve existing relative paths, PWA behavior and GitHub Pages deployment.
 
 ## Development
 
-The Browser Edition is static and dependency-free. Serve the repository root through a local HTTP server so the service worker and fetch-based contributor directory work as expected.
+The browser edition is static. Serve the repository root through a local HTTP server so service-worker behavior and fetch-based features work as expected. No native operating-system installation is required.
 
 ## Privacy, policies and security
 
@@ -86,20 +106,18 @@ The Browser Edition is static and dependency-free. Serve the repository root thr
 - [Security Policy](https://vruntime-labs.github.io/phantomx-os/security/)
 - [security.txt](https://vruntime-labs.github.io/phantomx-os/.well-known/security.txt)
 
-The inspected source does not show an account system, analytics integration, advertising SDK or project-operated application backend. The site does request a third-party Unsplash image and uses browser cache storage. No optional analytics/advertising cookies are currently used, so no cookie-consent banner is displayed.
-
-A separate proprietary EULA is not currently used because the repository is distributed under MIT and the Browser Edition is not a proprietary downloadable desktop client. The Acceptable Use page covers safe simulation and public project participation; feature-specific moderation rules must be expanded before uploads, chat, hosted user content or multiplayer launch.
+The current project is a static browser application. Review the Privacy Policy for the current data practices and third-party resources. Any future accounts, analytics, hosted user content, uploads or multiplayer services will require an updated privacy and security review.
 
 ## Contributing
 
-1. Read the project context in docs/project/context.md and architecture notes before proposing structural changes.
+1. Read the project context in `docs/project/context.md` and the architecture notes before proposing structural changes.
 2. Check existing issues and avoid duplicating work.
 3. Describe the problem, proposed change, affected files and testing approach.
 4. Keep changes focused and preserve existing working behavior.
 5. Do not add paid services, mandatory external dependencies or broad permissions without maintainer approval.
 6. Keep Hacking Mode within authorized, fictional simulation boundaries.
 
-See the [Contributors page](https://vruntime-labs.github.io/phantomx-os/contributors/) and canonical contributors data in data/contributors.json.
+See the [Contributors page](https://vruntime-labs.github.io/phantomx-os/contributors/) and canonical contributors data in `data/contributors.json`.
 
 ## License
 
@@ -109,6 +127,6 @@ See the [Contributors page](https://vruntime-labs.github.io/phantomx-os/contribu
 
 **BUILD WITH INTENT. SIMULATE RESPONSIBLY.**
 
-<sub>PhantomX OS · Maintained by VRuntime Labs</sub>
+<sub>PhantomX OS · A cyberdeck launcher by VRuntime Labs</sub>
 
 </div>
