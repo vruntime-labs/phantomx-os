@@ -6,7 +6,7 @@ PhantomX is a browser-based cyberdeck launcher and simulation platform, not a na
 
 ### Tier 1 — Core shell
 - PhantomTerm: simulated CLI, history, autocomplete and safe app-launch commands.
-- VFS Explorer: browse/search/preview the shared virtual filesystem.
+- VFS Explorer: browse, create folders/files, preview and edit the shared virtual filesystem.
 - CyberPad: edit mission notes and virtual files.
 - NetBrowser: fictional, locally hosted mission intranet.
 - DeckSettings: theme, wallpaper, sound and save-data preferences.
@@ -35,7 +35,7 @@ The manifest is not itself authorization. Every VFS operation checks the calling
 
 ## Shared VFS contract
 
-The initial VFS is intentionally in-memory and resets on reload, matching the existing terminal behavior. It provides normalized paths, directory listing, file reads/writes, directory/file creation and change subscriptions. Access is app-scoped; the service rejects undeclared or unavailable app capabilities. IndexedDB persistence is a separate follow-up after shared behavior is verified; this migration does not silently change data lifetime.
+The initial VFS is intentionally in-memory and resets on reload, matching the existing terminal behavior. PhantomTerm and VFS Explorer already share the same VFS instance. It provides normalized paths, directory listing, file reads/writes, directory/file creation and change subscriptions. Access is app-scoped; the service rejects undeclared or unavailable app capabilities. IndexedDB persistence is a separate follow-up after shared behavior is verified; this migration does not silently change data lifetime.
 
 ## Launcher behavior
 
@@ -49,7 +49,7 @@ OpenCam Viewer is a public-webcam viewer, not a surveillance scanner. Prefer off
 
 1. App manifests and registry.
 2. Shared VFS migration with unchanged terminal command behavior.
-3. VFS Explorer; verify terminal-created files appear in Explorer and vice versa.
+3. Extend VFS Explorer; verify terminal-created files appear in Explorer and vice versa.
 4. CyberPad, NetBrowser and DeckSettings.
 5. One complete fictional mission, then the Tier 2 simulation tools.
 6. OpenCam Viewer using a small curated set of verified public feeds.
