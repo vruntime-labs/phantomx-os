@@ -5,6 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const clock = document.getElementById('taskbar-clock');
   const kernel = window.PhantomKernel;
   const publicPages = window.PhantomPublicPages;
+  const startSearch = document.getElementById('start-search');
+
+  if (startSearch) {
+    startSearch.addEventListener('input', () => {
+      const query = startSearch.value.trim().toLowerCase();
+      document.querySelectorAll('#start-menu .start-app, #start-menu .start-links a').forEach((item) => {
+        item.hidden = Boolean(query) && !item.textContent.toLowerCase().includes(query);
+      });
+    });
+  }
 
   function updateClock() {
     if (!clock) return;
