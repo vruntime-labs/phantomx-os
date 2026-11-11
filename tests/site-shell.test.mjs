@@ -15,3 +15,10 @@ test('service worker precaches every local runtime script loaded by the page', (
     assert.ok(serviceWorker.includes(src), 'Missing from service-worker app shell: ' + src);
   }
 });
+
+
+test('taskbar does not contain the full application catalogue at startup', () => {
+  const taskbar = html.split('<footer id="taskbar"')[1]?.split('</footer>')[0] || '';
+  assert.ok(taskbar.includes('id="taskbar-apps"'));
+  assert.equal(taskbar.includes('data-window-launch='), false);
+});
