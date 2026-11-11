@@ -129,6 +129,47 @@
       </div>
     </section>
 
+    <section id="vfs-explorer-window" class="window vfs-window" aria-label="VFS Explorer" aria-hidden="true" style="display:none; top:88px; left:180px; width:min(900px, calc(100vw - 220px)); height:min(590px, calc(100vh - 150px))">
+      <header class="window-header" data-window-drag-handle>
+        <div class="window-title"><span class="terminal-title-mark" aria-hidden="true">PX</span><span>VFS EXPLORER</span><span class="window-title-divider">/</span><span class="window-title-muted">VIRTUAL FILESYSTEM</span></div>
+        <div class="window-controls" aria-label="Window controls">
+          <button class="window-dot yellow" type="button" aria-label="Minimize VFS Explorer" title="Minimize" data-window-action="minimize"></button>
+          <button class="window-dot green" type="button" aria-label="Maximize VFS Explorer" title="Maximize or restore" data-window-action="maximize"></button>
+          <button class="window-dot red" type="button" aria-label="Close VFS Explorer" title="Close" data-window-action="close"></button>
+        </div>
+      </header>
+      <div class="vfs-toolbar">
+        <button type="button" data-vfs-up aria-label="Go to parent folder" title="Up">↑</button>
+        <button type="button" data-vfs-refresh aria-label="Refresh files" title="Refresh">↻</button>
+        <span id="vfs-current-path">/</span>
+        <input id="vfs-new-name" type="text" placeholder="New item name" aria-label="New file or folder name">
+        <button type="button" data-vfs-create="file">New file</button>
+        <button type="button" data-vfs-create="folder">New folder</button>
+      </div>
+      <div class="vfs-content">
+        <nav class="vfs-sidebar" aria-label="Virtual filesystem locations">
+          <button type="button" data-vfs-navigate="/">Root</button>
+          <button type="button" data-vfs-navigate="/home">Home</button>
+          <button type="button" data-vfs-navigate="/sys">System</button>
+          <button type="button" data-vfs-navigate="/logs">Logs</button>
+        </nav>
+        <div class="vfs-main">
+          <div class="vfs-file-list-wrap">
+            <div class="vfs-list-heading"><span>NAME</span><span>TYPE</span><span>SIZE</span></div>
+            <div id="vfs-file-list" class="vfs-file-list" role="list" aria-label="Files and folders"></div>
+          </div>
+          <aside class="vfs-preview">
+            <div class="vfs-preview-heading"><span>PREVIEW</span><span id="vfs-preview-path">NO FILE SELECTED</span></div>
+            <textarea id="vfs-preview-content" spellcheck="false" aria-label="Selected virtual file contents" placeholder="Select a file to preview its contents." disabled></textarea>
+            <div class="vfs-preview-footer">
+              <span id="vfs-preview-status">READ ONLY UNTIL A FILE IS SELECTED</span>
+              <button type="button" id="vfs-save-file" disabled>Save changes</button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
     <section id="terminal-window" class="window" aria-label="Cyberdeck Terminal" aria-hidden="true" style="display:none; top:112px">
       <header class="window-header" data-window-drag-handle>
         <div class="window-title"><span class="terminal-title-mark" aria-hidden="true">PX</span><span>TERMINAL</span><span class="window-title-divider">/</span><span class="window-title-muted">SESSION 01</span></div>
@@ -155,9 +196,7 @@
     <label class="start-search-label" for="start-search">SEARCH APPLICATIONS</label>
     <input id="start-search" class="start-search" type="search" placeholder="Search apps..." autocomplete="off">
     <div class="start-menu-section-label">APPLICATIONS</div>
-    <button class="start-app" type="button" onclick="openWindow('terminal-window'); toggleStartMenu(false)">
-      <span class="start-app-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 7 5 5-5 5M12 17h7"/></svg></span><span>Cyberdeck Terminal</span><span class="start-app-state">AVAILABLE</span>
-    </button>
+    <div id="start-app-list" class="start-app-list" aria-label="Registered applications"></div>
     <div class="start-menu-section-label start-links-heading">PROJECT RESOURCES</div>
     <nav class="start-links" aria-label="Project pages">
       <a href="./privacy/">Privacy Policy</a>
@@ -174,11 +213,15 @@
     <div class="taskbar-separator" aria-hidden="true"></div>
     <div class="taskbar-apps">
       <button class="taskbar-item" type="button" data-window-launch="terminal-window"><span class="taskbar-terminal-mark" aria-hidden="true">›_</span><span>Terminal</span></button>
+      <button class="taskbar-item" type="button" data-window-launch="vfs-explorer-window"><span class="taskbar-terminal-mark" aria-hidden="true">▣</span><span>VFS Explorer</span></button>
     </div>
     <div class="taskbar-right"><span class="taskbar-session"><i></i> SIMULATED SESSION</span><time id="taskbar-clock" class="taskbar-clock" aria-label="Local time">--:--</time></div>
   </footer>
 
   <script src="./kernel.js"></script>
+  <script src="./apps/app-manifests.js"></script>
+  <script src="./app-registry.js"></script>
+  <script src="./vfs.js"></script>
   <script src="./public-pages.js"></script>
   <script src="./script.js"></script>
   <script>
