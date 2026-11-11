@@ -22,17 +22,17 @@ test("catalog registers the complete requested app ecosystem",()=>{
   const {window}=loadAppRuntime();
   assert.equal(window.PhantomAppRegistry.list().length,13);
   assert.equal(window.PhantomAppRegistry.get("phantom.term").status,"available");
-  assert.equal(window.PhantomAppRegistry.get("phantom.vfs-explorer").status,"available");
+  assert.equal(window.PhantomAppRegistry.get("phantom.vfs-explorer").status,"available");\n  assert.equal(window.PhantomAppRegistry.get("phantom.cyberpad").status,"available");\n  assert.equal(window.PhantomAppRegistry.get("phantom.netbrowser").status,"available");\n  assert.equal(window.PhantomAppRegistry.get("phantom.deck-settings").status,"available");
   assert.equal(window.PhantomAppRegistry.get("phantom.opencam").status,"planned");
 });
 
 test("registry launches only apps with an available registered window",()=>{
   const {window,opened}=loadAppRuntime();
   assert.equal(window.PhantomAppRegistry.launch("phantom.term").ok,true);
-  assert.equal(window.PhantomAppRegistry.launch("phantom.vfs-explorer").ok,true);
+  assert.equal(window.PhantomAppRegistry.launch("phantom.vfs-explorer").ok,true);\n  assert.equal(window.PhantomAppRegistry.launch("phantom.cyberpad").ok,true);\n  assert.equal(window.PhantomAppRegistry.launch("phantom.netbrowser").ok,true);\n  assert.equal(window.PhantomAppRegistry.launch("phantom.deck-settings").ok,true);
   assert.equal(window.PhantomAppRegistry.launch("phantom.cyberpad").reason,"not-implemented");
   assert.equal(window.PhantomAppRegistry.launch("missing.app").reason,"unknown-app");
-  assert.deepEqual(opened,["terminal-window","vfs-explorer-window"]);
+  assert.deepEqual(opened,["terminal-window","vfs-explorer-window","cyberpad-window","netbrowser-window","deck-settings-window"]);
 });
 
 test("Terminal and VFS Explorer share the same virtual files",()=>{
