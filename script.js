@@ -331,7 +331,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const destination=args[redirectIndex+1];
           if(!destination) return appendLine("Usage: echo <text> > <file>","terminal-error");
           const value=args.slice(0,redirectIndex).join(" ");
-          const path=fileSystem.writeFile(destination,value+(args[redirectIndex]===">>"?"\\n":""),{currentPath,append:args[redirectIndex]===">>"});
+          const path=fileSystem.writeFile(destination,value+(args[redirectIndex]===">>"?"\n":""),{currentPath,append:args[redirectIndex]===">>"});
           appendLine("Wrote "+path);
           break;
         }
