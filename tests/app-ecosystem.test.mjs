@@ -8,7 +8,7 @@ function loadAppRuntime() {
   const window={
     PhantomKernel:{
       getWindow(id){return ["terminal-window","vfs-explorer-window","cyberpad-window","netbrowser-window","deck-settings-window","netradar-window","packetsniffer-window","hashbreaker-window","hexscope-window","opencam-window","mission-control-window","shadow-comms-window","sysguard-window"].includes(id)?{id}:null;},
-      openWindow(id){opened.push(id);return ["terminal-window","vfs-explorer-window","cyberpad-window","netbrowser-window","deck-settings-window","netradar-window","packetsniffer-window","hashbreaker-window","hexscope-window","opencam-window"].includes(id);}
+      openWindow(id){opened.push(id);return ["terminal-window","vfs-explorer-window","cyberpad-window","netbrowser-window","deck-settings-window","netradar-window","packetsniffer-window","hashbreaker-window","hexscope-window","opencam-window","mission-control-window","shadow-comms-window","sysguard-window"].includes(id);}
     }
   };
   const context={window,console};
