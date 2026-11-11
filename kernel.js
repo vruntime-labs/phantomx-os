@@ -17,7 +17,7 @@ class Kernel {
     document.querySelectorAll('.window').forEach((win) => {
       // Windows start closed. They are registered only when the user launches them.
       win.style.display = 'none';
-      win.setAttribute('aria-hidden', 'true');
+      win.setAttribute?.('aria-hidden', 'true');
       win.addEventListener('pointerdown', () => this.bringToFront(win));
       const handle = win.querySelector('[data-window-drag-handle]');
       if (handle) handle.addEventListener('pointerdown', (event) => this.startDrag(event, win.id));
@@ -68,7 +68,7 @@ class Kernel {
     const win = this.getWindow(windowId);
     if (!win) return false;
     win.style.display = 'flex';
-    win.setAttribute('aria-hidden', 'false');
+    win.setAttribute?.('aria-hidden', 'false');
     this.processes.set(windowId, { state: 'running' });
     this.bringToFront(win);
     this.keepWindowInBounds(win);
@@ -84,7 +84,7 @@ class Kernel {
     const win = this.getWindow(windowId);
     if (!win) return false;
     win.style.display = 'none';
-    win.setAttribute('aria-hidden', 'true');
+    win.setAttribute?.('aria-hidden', 'true');
     win.classList.remove('maximized');
     this.processes.delete(windowId);
     if (this.activeWindow === win) this.stopDrag();
@@ -96,7 +96,7 @@ class Kernel {
     const win = this.getWindow(windowId);
     if (!win) return false;
     win.style.display = 'none';
-    win.setAttribute('aria-hidden', 'true');
+    win.setAttribute?.('aria-hidden', 'true');
     const process = this.processes.get(windowId);
     if (process) process.state = 'minimized';
     if (this.activeWindow === win) this.stopDrag();
@@ -131,7 +131,7 @@ class Kernel {
       win.style.width = '100%';
       win.style.height = '100%';
     }
-    win.setAttribute('aria-hidden', 'false');
+    win.setAttribute?.('aria-hidden', 'false');
     this.bringToFront(win);
     this.updateTaskbar();
     return true;
