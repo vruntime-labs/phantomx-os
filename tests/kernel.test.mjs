@@ -114,8 +114,9 @@ test('dock shows only running or minimized apps and marks their active state', (
   assert.equal(item.children[0].textContent, '›_');
   kernel.minimizeWindow('terminal-window');
   assert.equal(taskbarApps.children.length, 1);
-  assert.equal(item.classList.contains('is-minimized'), true);
-  assert.equal(item.attributes['aria-pressed'], 'false');
+  const minimizedItem = taskbarApps.children[0];
+  assert.equal(minimizedItem.classList.contains('is-minimized'), true);
+  assert.equal(minimizedItem.attributes['aria-pressed'], 'false');
   kernel.closeWindow('terminal-window');
   assert.equal(taskbarApps.children.length, 0);
 });
