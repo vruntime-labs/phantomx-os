@@ -23,7 +23,7 @@ test("story runtime parses and stores only local progress",()=>{
 });
 
 test("missions have objectives, evidence collection, hints, and branching trust",()=>{
-  for(const id of ["message","manifest","signature","thread","patch","sora","snapshots","marker","contain"]) assert.ok(script.includes('"'+id+'"'));
+  for(const id of ["message","manifest","signature","thread","patch","sora","snapshotA","snapshotB","marker","contain"]) assert.ok(script.includes('"'+id+'"'));
   assert.match(script,/function addClue/);
   assert.match(script,/function requestHint/);
   assert.match(script,/decodeMarker/);
