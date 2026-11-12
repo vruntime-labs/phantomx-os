@@ -100,7 +100,7 @@
     const chapter=chapters[state.chapter],choice=chapter.choices.find(item=>item[0]===id);if(!choice)return;
     const success=(id==="isolate"||id==="quarantine"||id==="contain");
     state.log.push(chapter.stage+" · "+(success?"SAFE DECISION":"UNSAFE DECISION")+" · "+choice[1]);
-    if(success){state.completed=[...new Set([...state.completed,state.chapter])];state.chapter+=1;el("zd-status").textContent=chapter.success;}else{el("zd-status").textContent=chapter.failure;}
+    if(success){state.completed=[...new Set([...state.completed,state.chapter])];state.chapter+=1;state.reviewed=[];el("zd-status").textContent=chapter.success;}else{el("zd-status").textContent=chapter.failure;}
     save();render();
     if(success&&state.chapter>0)el("zd-status").textContent=chapter.success;
   }
