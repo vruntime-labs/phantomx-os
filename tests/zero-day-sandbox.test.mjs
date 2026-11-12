@@ -26,6 +26,10 @@ test("missions have objectives, evidence collection, hints, and branching trust"
   for(const id of ["message","manifest","signature","thread","patch","sora","snapshots","marker","contain"]) assert.ok(script.includes('"'+id+'"'));
   assert.match(script,/function addClue/);
   assert.match(script,/function requestHint/);
+  assert.match(script,/decodeMarker/);
+  assert.match(script,/containSafe/);
+  assert.match(script,/containPurge/);
+  assert.match(script,/askSnapshot/);
   assert.match(script,/state\.trust\+\+/);
   assert.match(script,/state\.trust--/);
 });
