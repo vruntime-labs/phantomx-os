@@ -11,7 +11,7 @@ test("ZERO-DAY SANDBOX is a playable investigation campaign",()=>{
   for(const view of ["messages","contacts","calls","notes","mail","files","browser","gallery","board"]) assert.match(html,new RegExp('data-view="'+view+'"'));
   assert.match(html,/Mission control/);
   assert.match(html,/Investigation board/);
-  assert.match(html,/Sandbox sealed/);
+  assert.match(script,/PARTNERSHIP ENDING/);
 });
 
 test("story runtime parses and stores only local progress",()=>{
