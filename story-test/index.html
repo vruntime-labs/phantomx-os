@@ -7,8 +7,8 @@
   <title>ZERO-DAY SANDBOX · PhantomX Story Test</title>
   <link rel="stylesheet" href="../style.css">
   <style>
-    body{min-height:100vh;background:#080e16;color:#e8f1f4;font-family:inherit}
-    .zd-shell{max-width:1120px;margin:0 auto;padding:32px 22px 70px}
+    html{height:auto;min-height:100%;overflow-x:hidden;overflow-y:auto;scroll-behavior:smooth}body{width:100%;height:auto;min-height:100vh;overflow-x:hidden;overflow-y:auto;background:#080e16;color:#e8f1f4;font-family:inherit}body::before{position:fixed;pointer-events:none}
+    .zd-shell{position:relative;z-index:1;width:100%;max-width:1120px;min-height:100vh;margin:0 auto;padding:32px 22px 90px}
     .zd-top{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid #263440;padding-bottom:18px}
     .zd-brand{font-size:12px;letter-spacing:.18em;color:#9eb3c1}.zd-brand strong{color:#b8f6df}
     .zd-back,.zd-action{border:1px solid #40515e;background:#101c27;color:#dce8ef;padding:10px 14px;text-decoration:none;cursor:pointer}
@@ -20,9 +20,9 @@
     .zd-panel{border:1px solid #263744;background:#0d1721;padding:22px}
     .zd-stage{font:11px monospace;color:#8bdcc4;letter-spacing:.14em}
     .zd-panel h2{font-size:26px;margin:12px 0}.zd-copy{color:#bdcbd3;line-height:1.75}
-    .zd-evidence{display:grid;gap:10px;margin:20px 0}.zd-evidence button,.zd-choice{width:100%;text-align:left;border:1px solid #344956;background:#111f2a;color:#e6f0f4;padding:14px;cursor:pointer}
+    .zd-evidence{display:grid;gap:10px;margin:20px 0}.zd-evidence button{min-height:48px;line-height:1.5}.zd-evidence button,.zd-choice{width:100%;text-align:left;border:1px solid #344956;background:#111f2a;color:#e6f0f4;padding:14px;cursor:pointer}
     .zd-evidence button:hover,.zd-choice:hover{border-color:#8bdcc4}.zd-evidence button[aria-pressed=true]{border-color:#70c6a9;background:#102a27}
-    .zd-choices{display:grid;gap:9px;margin-top:18px}.zd-status{min-height:24px;margin-top:16px;color:#a4d9c8;font:12px monospace}
+    .zd-choices{display:grid;gap:9px;margin-top:18px}.zd-choice{min-height:48px;line-height:1.55}.zd-choice:disabled{opacity:.42;cursor:not-allowed}.zd-choice:focus-visible,.zd-evidence button:focus-visible,.zd-action:focus-visible,.zd-back:focus-visible{outline:2px solid #8bdcc4;outline-offset:3px}.zd-status{min-height:24px;margin-top:16px;color:#a4d9c8;font:12px monospace}
     .zd-side h3{font-size:12px;letter-spacing:.13em;color:#9eb3c1}.zd-side dl{display:grid;gap:14px}.zd-side dt{font:10px monospace;color:#79909e}.zd-side dd{margin:4px 0 0;font-size:13px}
     .zd-progress{height:5px;background:#263744;margin:12px 0 20px}.zd-progress i{display:block;height:100%;width:0;background:#8bdcc4;transition:width .2s}
     .zd-log{margin-top:18px;border-top:1px solid #263744;padding-top:14px;color:#94a8b5;font:12px/1.7 monospace;white-space:pre-wrap}
@@ -92,7 +92,7 @@
     if(state.chapter>=3){stage.textContent="EPILOGUE / COMPLETE";title.textContent="Sandbox sealed";copy.textContent="Kai and Sora preserve the evidence, isolate the fictional bridge and publish a transparent incident note. Aegis closes the simulated alert. One question remains in the case file: who introduced the first unreviewed change?";status.textContent="PLAYTEST COMPLETE · LOCAL ENDING";const b=document.createElement("button");b.className="zd-choice";b.textContent="Replay from the beginning";b.addEventListener("click",reset);choices.append(b);return;}
     const chapter=chapters[state.chapter];stage.textContent=chapter.stage;title.textContent=chapter.title;copy.textContent=chapter.copy;
     chapter.evidence.forEach((item,i)=>{const b=document.createElement("button");b.type="button";b.textContent=(state.reviewed.includes(i)?"✓ ":"○ ")+String(i+1).padStart(2,"0")+"  "+item;b.setAttribute("aria-pressed",String(state.reviewed.includes(i)));b.addEventListener("click",()=>{state.reviewed=state.reviewed.includes(i)?state.reviewed.filter(value=>value!==i):[...state.reviewed,i];save();render();});evidence.append(b);});
-    const q=document.createElement("p");q.className="zd-copy";q.textContent=chapter.question;choices.append(q);
+    const q=document.createElement("p");q.className="zd-copy";q.textContent=chapter.question;choices.append(q);const hint=document.createElement("p");hint.className="zd-stage";hint.textContent="EVIDENCE REVIEW · "+state.reviewed.length+"/"+chapter.evidence.length+" REVIEWED · REVIEW ALL ITEMS TO UNLOCK DECISIONS";choices.append(hint);
     chapter.choices.forEach(([id,label])=>{const b=document.createElement("button");b.type="button";b.className="zd-choice";b.textContent=label;b.disabled=state.reviewed.length!==chapter.evidence.length;b.addEventListener("click",()=>choose(id));choices.append(b);});
     status.textContent=state.completed.includes(state.chapter)?"CHAPTER CLEARED · CONTINUE THE CASE":"AWAITING DECISION";
   }
@@ -100,9 +100,8 @@
     const chapter=chapters[state.chapter],choice=chapter.choices.find(item=>item[0]===id);if(!choice)return;
     const success=(id==="isolate"||id==="quarantine"||id==="contain");
     state.log.push(chapter.stage+" · "+(success?"SAFE DECISION":"UNSAFE DECISION")+" · "+choice[1]);
-    if(success){state.completed=[...new Set([...state.completed,state.chapter])];state.chapter+=1;state.reviewed=[];el("zd-status").textContent=chapter.success;}else{el("zd-status").textContent=chapter.failure;}
-    save();render();
-    if(success&&state.chapter>0)el("zd-status").textContent=chapter.success;
+    if(success){state.completed=[...new Set([...state.completed,state.chapter])];state.chapter+=1;state.reviewed=[];}
+    save();render();el("zd-status").textContent=success?chapter.success:chapter.failure;
   }
   function reset(){state={chapter:0,completed:[],reviewed:[],log:[]};try{localStorage.removeItem(KEY);}catch{}render();el("zd-status").textContent="PLAYTEST RESET · READY";}
   el("zd-reset").addEventListener("click",()=>{if(confirm("Clear this local ZERO-DAY SANDBOX playtest?"))reset();});
