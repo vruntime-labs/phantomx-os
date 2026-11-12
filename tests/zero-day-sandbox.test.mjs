@@ -26,5 +26,5 @@ test("playtest script parses and persists only browser-local progress",()=>{
 test("test campaign includes safe containment choices and reset control",()=>{
   for(const id of ["isolate","quarantine","contain"]) assert.ok(script.includes('"'+id+'"'));
   assert.match(html,/id="zd-reset"/);
-  assert.match(script,/confirm\(/);
+  assert.match(script,/confirm\(/);\n  assert.match(script,/state\\.reviewed=\\[\\]/); // each successful chapter requires fresh evidence review
 });
