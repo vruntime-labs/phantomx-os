@@ -1,111 +1,163 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#080e16">
-  <title>ZERO-DAY SANDBOX · PhantomX Story Test</title>
-  <link rel="stylesheet" href="../style.css">
-  <style>
-    html{height:auto;min-height:100%;overflow-x:hidden;overflow-y:auto;scroll-behavior:smooth}body{width:100%;height:auto;min-height:100vh;overflow-x:hidden;overflow-y:auto;background:#080e16;color:#e8f1f4;font-family:inherit}body::before{position:fixed;pointer-events:none}
-    .zd-shell{position:relative;z-index:1;width:100%;max-width:1120px;min-height:100vh;margin:0 auto;padding:32px 22px 90px}
-    .zd-top{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid #263440;padding-bottom:18px}
-    .zd-brand{font-size:12px;letter-spacing:.18em;color:#9eb3c1}.zd-brand strong{color:#b8f6df}
-    .zd-back,.zd-action{border:1px solid #40515e;background:#101c27;color:#dce8ef;padding:10px 14px;text-decoration:none;cursor:pointer}
-    .zd-hero{padding:56px 0 30px;max-width:780px}.zd-kicker{font:11px monospace;letter-spacing:.2em;color:#8bdcc4}
-    h1{font-size:clamp(36px,7vw,68px);line-height:.98;letter-spacing:-.055em;margin:15px 0}
-    .zd-sub{font-size:17px;line-height:1.7;color:#a9bac5;max-width:680px}
-    .zd-boundary{display:inline-block;margin-top:14px;padding:9px 12px;border:1px solid #42665c;color:#a9ead3;font:11px monospace;letter-spacing:.1em}
-    .zd-grid{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:18px;align-items:start}
-    .zd-panel{border:1px solid #263744;background:#0d1721;padding:22px}
-    .zd-stage{font:11px monospace;color:#8bdcc4;letter-spacing:.14em}
-    .zd-panel h2{font-size:26px;margin:12px 0}.zd-copy{color:#bdcbd3;line-height:1.75}
-    .zd-evidence{display:grid;gap:10px;margin:20px 0}.zd-evidence button{min-height:48px;line-height:1.5}.zd-evidence button,.zd-choice{width:100%;text-align:left;border:1px solid #344956;background:#111f2a;color:#e6f0f4;padding:14px;cursor:pointer}
-    .zd-evidence button:hover,.zd-choice:hover{border-color:#8bdcc4}.zd-evidence button[aria-pressed=true]{border-color:#70c6a9;background:#102a27}
-    .zd-choices{display:grid;gap:9px;margin-top:18px}.zd-choice{min-height:48px;line-height:1.55}.zd-choice:disabled{opacity:.42;cursor:not-allowed}.zd-choice:focus-visible,.zd-evidence button:focus-visible,.zd-action:focus-visible,.zd-back:focus-visible{outline:2px solid #8bdcc4;outline-offset:3px}.zd-status{min-height:24px;margin-top:16px;color:#a4d9c8;font:12px monospace}
-    .zd-side h3{font-size:12px;letter-spacing:.13em;color:#9eb3c1}.zd-side dl{display:grid;gap:14px}.zd-side dt{font:10px monospace;color:#79909e}.zd-side dd{margin:4px 0 0;font-size:13px}
-    .zd-progress{height:5px;background:#263744;margin:12px 0 20px}.zd-progress i{display:block;height:100%;width:0;background:#8bdcc4;transition:width .2s}
-    .zd-log{margin-top:18px;border-top:1px solid #263744;padding-top:14px;color:#94a8b5;font:12px/1.7 monospace;white-space:pre-wrap}
-    .zd-footer{margin-top:24px;color:#708592;font:10px monospace;letter-spacing:.12em}
-    @media(max-width:760px){.zd-grid{grid-template-columns:1fr}.zd-top{align-items:flex-start}.zd-hero{padding-top:38px}.zd-panel{padding:17px}}
-    @media(prefers-reduced-motion:reduce){*{transition:none!important}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071018">
+<title>ZERO-DAY SANDBOX · PhantomX Story Mode</title>
+<link rel="stylesheet" href="../style.css">
+<style>
+:root{color-scheme:dark;--bg:#071018;--panel:#0d1923;--panel2:#111f2b;--line:#263b49;--muted:#8ca3b1;--text:#e8f1f5;--mint:#83e3c3;--amber:#e7bd79;--red:#f18484}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,sans-serif}body{overflow:auto!important}
+button,input{font:inherit}button{color:inherit;cursor:pointer}button:focus-visible,input:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+.game{min-height:100vh;background:radial-gradient(ellipse at 50% -20%,#183346 0,transparent 52%),var(--bg);padding:18px;max-width:1600px;margin:auto}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);background:#09151eeF;padding:12px 16px;position:sticky;top:8px;z-index:10;backdrop-filter:blur(14px)}
+.brand{font:700 12px ui-monospace,monospace;letter-spacing:.18em}.brand b{color:var(--mint)}.topmeta{display:flex;gap:10px;align-items:center;color:var(--muted);font:11px ui-monospace,monospace}.pill{border:1px solid #34584e;padding:5px 8px;color:var(--mint)}
+.top-actions{display:flex;gap:8px}.ghost,.solid,.navbtn,.action{border:1px solid var(--line);background:var(--panel2);padding:9px 12px}.ghost:hover,.navbtn:hover,.action:hover{border-color:var(--mint)}.solid{background:var(--mint);color:#062018;border-color:var(--mint);font-weight:700}
+.layout{display:grid;grid-template-columns:220px minmax(0,1fr) 260px;gap:14px;margin-top:14px;align-items:start}
+.panel{border:1px solid var(--line);background:linear-gradient(160deg,#101f2a,#0b151e);min-width:0}.side{padding:14px;position:sticky;top:82px}.side h3,.eyebrow{font:11px ui-monospace,monospace;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}.case-title{font-size:17px;font-weight:700;margin:9px 0 4px}.case-sub{font-size:12px;color:var(--muted);line-height:1.6}.nav{display:grid;gap:6px;margin:18px 0}.navbtn{display:flex;align-items:center;gap:10px;text-align:left;width:100%;font-size:13px;background:transparent}.navbtn .glyph{width:22px;color:var(--mint);font:14px ui-monospace,monospace}.navbtn[aria-current=page]{background:#163128;border-color:#3e7564;color:#dffbef}.navbtn:disabled{opacity:.35;cursor:not-allowed}.divider{height:1px;background:var(--line);margin:14px 0}
+.center{min-height:690px;overflow:hidden}.scenehead{padding:24px 26px 20px;border-bottom:1px solid var(--line);background:linear-gradient(120deg,#142a36,#0d1a24)}.scenehead .eyebrow{color:var(--mint)}h1{font-size:clamp(26px,4vw,42px);line-height:1.04;letter-spacing:-.045em;margin:10px 0}.scenehead p{max-width:760px;color:#b4c4cd;line-height:1.65;margin:0;font-size:14px}.scenecontent{padding:22px 26px 28px}.viewhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:16px}.viewhead h2{font-size:19px;margin:0}.tag{font:10px ui-monospace,monospace;color:var(--mint);border:1px solid #34584e;padding:5px 8px}.storytext{font-size:14px;line-height:1.8;color:#c5d2d9;max-width:760px}.storytext strong{color:#fff}.dialogue{border-left:2px solid var(--mint);padding:12px 16px;background:#10231f;margin:16px 0;color:#d9eee7;line-height:1.7}.speaker{display:block;color:var(--mint);font:10px ui-monospace,monospace;letter-spacing:.14em;margin-bottom:5px}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.appcard,.itemcard{border:1px solid var(--line);background:#0b1720;padding:15px;text-align:left;min-width:0}.appcard:hover,.itemcard:hover{border-color:#6cbba2;transform:translateY(-1px)}.appicon{font:20px ui-monospace,monospace;color:var(--mint);margin-bottom:12px}.appcard b,.itemcard b{display:block;font-size:13px;margin-bottom:5px}.appcard small,.itemcard small{color:var(--muted);font-size:11px;line-height:1.55}.appcard.locked{opacity:.42;cursor:not-allowed}.list{display:grid;gap:8px}.record{border:1px solid var(--line);background:#0a151e;padding:13px}.recordhead{display:flex;justify-content:space-between;gap:10px;font-size:12px}.record p{font-size:12px;color:#b5c4cc;line-height:1.7;margin:8px 0 0}.record.unread{border-left:2px solid var(--mint)}
+.chat{display:grid;gap:10px;max-width:680px}.bubble{max-width:85%;padding:12px 14px;border:1px solid var(--line);background:#101e29;font-size:13px;line-height:1.65}.bubble.me{margin-left:auto;background:#153027;border-color:#315d4e}.bubble .who{display:block;font:10px ui-monospace,monospace;color:var(--mint);margin-bottom:5px}.replyrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.action{font-size:12px;text-align:left}.action.primary{border-color:#4c947e;background:#123126}.action:disabled{opacity:.4;cursor:not-allowed}
+.filegrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.file{border:1px solid var(--line);padding:12px;background:#0a151e;text-align:left}.file span{display:block;color:var(--mint);font:10px ui-monospace,monospace;margin-bottom:8px}.file b{font-size:12px}.file small{display:block;color:var(--muted);margin-top:5px}
+.puzzle{border:1px solid #36594f;background:#0b1b1a;padding:18px;margin:12px 0}.puzzle code{display:block;color:var(--mint);font:18px ui-monospace,monospace;letter-spacing:.12em;margin:10px 0}.puzzle input{width:100%;max-width:300px;padding:11px;background:#071018;border:1px solid #3c5963;color:white}.feedback{min-height:24px;font:11px ui-monospace,monospace;color:var(--amber);margin-top:9px}
+.evidenceboard{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.clue{border:1px solid #426b5d;background:#10231f;padding:12px}.clue b{display:block;font-size:12px;color:#d9f5e9}.clue small{display:block;color:#a8c2b8;margin-top:5px;line-height:1.5}
+.meter{height:5px;background:#233541;margin:10px 0}.meter i{display:block;height:100%;background:var(--mint);width:0;transition:width .2s}.objective{padding:10px 0;border-bottom:1px solid var(--line);font-size:12px;color:#b6c6ce;line-height:1.55}.objective.done{color:var(--mint)}.objective.done:before{content:"✓ ";}.objective:not(.done):before{content:"○ ";color:#8195a0}
+.status{min-height:28px;color:var(--mint);font:11px ui-monospace,monospace;margin-top:16px}.footer{color:#6f8794;font:10px ui-monospace,monospace;letter-spacing:.12em;text-align:center;padding:22px}
+.modal{position:fixed;inset:0;z-index:30;background:#02080de8;display:grid;place-items:center;padding:20px}.modalbox{max-width:650px;width:100%;border:1px solid #426b5d;background:linear-gradient(145deg,#142b35,#08131b);padding:clamp(22px,5vw,42px);box-shadow:0 30px 100px #000}.modalbox h2{font-size:clamp(32px,6vw,58px);line-height:.98;margin:14px 0}.modalbox p{color:#b8c9d2;line-height:1.8;font-size:14px}.modalbox .eyebrow{color:var(--mint)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:40;background:#143126;border:1px solid #4a8b73;padding:10px 15px;color:#dffbef;font:11px ui-monospace,monospace;display:none}
+@media(max-width:1050px){.layout{grid-template-columns:190px minmax(0,1fr)}.rightside{position:static;grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.rightside .panel{padding:14px}}
+@media(max-width:720px){.game{padding:8px}.topbar{top:4px;padding:10px}.topmeta{display:none}.layout{grid-template-columns:1fr}.leftside{position:static}.leftside .nav{grid-template-columns:repeat(3,minmax(0,1fr));}.navbtn{justify-content:center;padding:9px 5px;font-size:10px;gap:5px;flex-direction:column}.leftside .case-sub,.leftside .divider,.leftside h3{display:none}.center{min-height:0}.scenehead{padding:20px}.scenecontent{padding:17px}.rightside{grid-template-columns:1fr}.cards,.filegrid,.evidenceboard{grid-template-columns:1fr}.top-actions .ghost{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
 </head>
 <body>
-  <main class="zd-shell">
-    <header class="zd-top">
-      <div class="zd-brand"><strong>PX</strong> / PHANTOMX STORY LAB</div>
-      <a class="zd-back" href="../">← Back to cyberdeck</a>
-    </header>
-    <section class="zd-hero">
-      <div class="zd-kicker">INDEPENDENT PLAYTEST · BUILD 01</div>
-      <h1>ZERO-DAY<br><span style="color:#8bdcc4">SANDBOX</span></h1>
-      <p class="zd-sub">A systems architect finds an anomalous change inside a fictional cyberdeck project. Follow the evidence, question the source and contain the incident before the simulation reaches its final state.</p>
-      <div class="zd-boundary">FICTIONAL ENVIRONMENT · LOCAL SAVE · NO REAL TARGETS</div>
-    </section>
-    <div class="zd-grid">
-      <section class="zd-panel" aria-live="polite">
-        <div id="zd-stage" class="zd-stage">PROLOGUE / 00</div>
-        <h2 id="zd-title">A quiet repository</h2>
-        <p id="zd-copy" class="zd-copy">Kai Vance is preparing a routine PhantomX preview when a contributor named Sora flags an unusual permission change in a test pull request. The repository is a fictional copy. No external service is connected.</p>
-        <div id="zd-evidence" class="zd-evidence"></div>
-        <div id="zd-choices" class="zd-choices">
-          <button class="zd-choice" data-next="0">Begin the simulation →</button>
-        </div>
-        <div id="zd-status" class="zd-status" role="status">WAITING FOR PLAYER INPUT</div>
-        <div id="zd-log" class="zd-log">LOCAL CASE FILE · EMPTY</div>
-      </section>
-      <aside class="zd-panel zd-side">
-        <h3>CASE STATUS</h3>
-        <div id="zd-progress" class="zd-progress"><i></i></div>
-        <dl>
-          <div><dt>OPERATOR</dt><dd>KAI VANCE</dd></div>
-          <div><dt>CONTRIBUTOR</dt><dd>SORA</dd></div>
-          <div><dt>INCIDENT</dt><dd>UNVERIFIED CHANGE</dd></div>
-          <div><dt>MODE</dt><dd>SINGLE-PLAYER TEST</dd></div>
-          <div><dt>STORAGE</dt><dd>BROWSER LOCAL ONLY</dd></div>
-        </dl>
-        <button id="zd-reset" class="zd-action" type="button">Reset playtest</button>
-        <p class="zd-copy" style="font-size:12px">This test campaign is separate from Project Aster. Your choices are stored in this browser only.</p>
-      </aside>
-    </div>
-    <footer class="zd-footer">PHANTOMX · VRuntime Labs · FICTIONAL STORY SIMULATION</footer>
+<div class="game">
+<header class="topbar">
+  <div class="brand"><b>PX</b> / PHANTOMX <span style="color:#8095a2">STORY MODE</span></div>
+  <div class="topmeta"><span class="pill">LOCAL CASE FILE</span><span id="clock">SESSION 00:00</span><span>BUILD 02</span></div>
+  <div class="top-actions"><button class="ghost" id="saveBtn">SAVE</button><a class="ghost" href="../" style="text-decoration:none">EXIT</a></div>
+</header>
+<div class="layout">
+  <aside class="panel side leftside">
+    <div class="eyebrow">ACTIVE INVESTIGATION</div><div class="case-title">ZERO-DAY SANDBOX</div>
+    <div class="case-sub">CASE PX-001 · THE GHOST IN THE REPOSITORY</div>
+    <div class="divider"></div><h3>CYBERDECK APPS</h3>
+    <nav class="nav" id="nav">
+      <button class="navbtn" data-view="home" aria-current="page"><span class="glyph">⌂</span>Mission</button>
+      <button class="navbtn" data-view="messages"><span class="glyph">▤</span>Messages</button>
+      <button class="navbtn" data-view="mail"><span class="glyph">✉</span>Mail</button>
+      <button class="navbtn" data-view="files"><span class="glyph">▧</span>Files</button>
+      <button class="navbtn" data-view="browser"><span class="glyph">◎</span>NetBrowser</button>
+      <button class="navbtn" data-view="gallery"><span class="glyph">▦</span>Gallery</button>
+      <button class="navbtn" data-view="board"><span class="glyph">⌘</span>Case board</button>
+    </nav>
+    <div class="divider"></div><div class="case-sub">All people, messages, files, and systems in this campaign are fictional. No host access or external targets.</div>
+  </aside>
+  <main class="panel center">
+    <section class="scenehead"><div class="eyebrow" id="chapterLabel">PROLOGUE · 00:01 AM</div><h1 id="sceneTitle">The repository is awake.</h1><p id="sceneIntro">A routine preview build has stopped responding. Sora has sent you a message from an account that should be offline.</p></section>
+    <section class="scenecontent" id="view" aria-live="polite"></section>
   </main>
+  <aside class="rightside">
+    <section class="panel side">
+      <h3>MISSION OBJECTIVES</h3><div class="case-title" id="objectiveTitle">01 / Verify the anomaly</div>
+      <div class="meter"><i id="progressBar"></i></div><div id="objectives"></div><div class="status" id="missionStatus">AWAITING INVESTIGATION</div>
+    </section>
+    <section class="panel side">
+      <h3>OPERATOR PROFILE</h3><div class="case-title">KAI VANCE</div><div class="case-sub">SYSTEMS ARCHITECT · VRuntime Labs</div>
+      <div class="divider"></div><div class="objective">TRUST / SORA <strong id="trust" style="float:right;color:var(--mint)">NEUTRAL</strong></div>
+      <div class="objective">EVIDENCE <strong id="clueCount" style="float:right;color:var(--mint)">0 / 8</strong></div>
+      <div class="objective">CHAPTER <strong id="chapterCount" style="float:right;color:var(--mint)">01 / 03</strong></div>
+      <button class="action" id="hintBtn" style="width:100%;margin-top:12px">Request a hint</button>
+      <button class="action" id="resetBtn" style="width:100%;margin-top:7px">Reset campaign</button>
+    </section>
+  </aside>
+</div>
+<div class="footer">PHANTOMX · VRuntime Labs · FICTIONAL INVESTIGATION SIMULATION</div>
+</div>
+<div class="modal" id="introModal">
+  <div class="modalbox"><div class="eyebrow">PHANTOMX ORIGINAL STORY · EPISODE 01</div><h2>ZERO-DAY<br><span style="color:var(--mint)">SANDBOX</span></h2><p>01:17 AM. A routine preview build has gone dark. A contributor named Sora has left one message: <strong>“Kai, don't approve the update. I found something inside the mirror.”</strong></p><p>You're not reading a report. You're stepping into Kai's cyberdeck. Search the messages, inspect the files, compare the records, and decide who deserves your trust.</p><button class="solid" id="startBtn">ENTER THE CYBERDECK →</button></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
 <script>
 (() => {
-  "use strict";
-  const KEY = "phantomx.zero-day-sandbox.test.v1";
-  const chapters = [
-    {stage:"MISSION 01 / INIT_SANDBOX",title:"The boot anomaly",copy:"A synthetic boot report shows an unfamiliar module requesting access beyond the sandbox profile. Sora recommends pausing the preview and checking the local manifest before continuing.",evidence:["Review the local boot report","Compare the declared sandbox capabilities","Inspect the update signature record"],question:"What is the safest first response?",choices:[["isolate","Freeze this fictional session and preserve a local copy of the test evidence."],["continue","Continue booting and grant the unfamiliar module its requested access."]],success:"The test session is isolated. The evidence remains available for review; no device or network state was touched.",failure:"The simulation marks this as an unsafe trust decision. The session remains recoverable; choose again after reviewing the evidence."},
-    {stage:"MISSION 02 / GHOST_PR",title:"The contributor anomaly",copy:"A fictional pull request attributed to Sora contains a permission change that does not match its summary. Kai notices the discrepancy before the preview build is accepted. Aegis, the simulated incident monitor, raises a review alert.",evidence:["Read the pull request summary","Compare the changed permission list","Check the synthetic review timeline"],question:"How should Kai handle the suspicious change?",choices:[["quarantine","Mark the patch untrusted, keep it out of the preview and request an independent review."],["merge","Merge the change because the contributor name appears familiar."]],success:"The simulated patch is quarantined. The review trail is preserved and the preview remains unchanged.",failure:"The simulation records an unverified-trust decision. No code is executed; return to the evidence and choose again."},
-    {stage:"MISSION 03 / MIRROR_VFS",title:"The mirrored filesystem",copy:"A synthetic virtual filesystem contains a mirror node that points to a fictional staging path. The incident monitor reports conflicting labels. Kai and Sora must identify the trusted snapshot and close the simulated bridge without touching host files.",evidence:["Inspect the virtual tree labels","Compare the snapshot manifest","Review the synthetic bridge event"],question:"What closes the incident safely?",choices:[["contain","Detach the fictional mirror, preserve the clean snapshot and record the incident for review."],["purge","Delete every entry, including the clean snapshot, to make the warning disappear."]],success:"The mirror is contained and the clean snapshot is preserved. The simulated bridge is closed.",failure:"The test flags evidence destruction as an unsafe response. The virtual case file is intact; try again."}
-  ];
-  let state = load();
-  function load(){try{const value=JSON.parse(localStorage.getItem(KEY)||"null");return value&&Number.isInteger(value.chapter)&&value.chapter>=0&&value.chapter<=3?{chapter:value.chapter,completed:Array.isArray(value.completed)?value.completed.filter(Number.isInteger):[],reviewed:Array.isArray(value.reviewed)?value.reviewed.filter(Number.isInteger):[],log:Array.isArray(value.log)?value.log.slice(-12):[]}: {chapter:0,completed:[],reviewed:[],log:[]};}catch{return {chapter:0,completed:[],log:[]};}}
-  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{}}
-  const el=id=>document.getElementById(id);
-  function render(){
-    const stage=el("zd-stage"),title=el("zd-title"),copy=el("zd-copy"),evidence=el("zd-evidence"),choices=el("zd-choices"),status=el("zd-status"),log=el("zd-log"),progress=el("zd-progress").firstElementChild;
-    evidence.replaceChildren();choices.replaceChildren();
-    progress.style.width=(state.completed.length/3*100)+"%";
-    log.textContent=state.log.length?state.log.join("\n"):"LOCAL CASE FILE · EMPTY";
-    if(state.chapter>=3){stage.textContent="EPILOGUE / COMPLETE";title.textContent="Sandbox sealed";copy.textContent="Kai and Sora preserve the evidence, isolate the fictional bridge and publish a transparent incident note. Aegis closes the simulated alert. One question remains in the case file: who introduced the first unreviewed change?";status.textContent="PLAYTEST COMPLETE · LOCAL ENDING";const b=document.createElement("button");b.className="zd-choice";b.textContent="Replay from the beginning";b.addEventListener("click",reset);choices.append(b);return;}
-    const chapter=chapters[state.chapter];stage.textContent=chapter.stage;title.textContent=chapter.title;copy.textContent=chapter.copy;
-    chapter.evidence.forEach((item,i)=>{const b=document.createElement("button");b.type="button";b.textContent=(state.reviewed.includes(i)?"✓ ":"○ ")+String(i+1).padStart(2,"0")+"  "+item;b.setAttribute("aria-pressed",String(state.reviewed.includes(i)));b.addEventListener("click",()=>{state.reviewed=state.reviewed.includes(i)?state.reviewed.filter(value=>value!==i):[...state.reviewed,i];save();render();});evidence.append(b);});
-    const q=document.createElement("p");q.className="zd-copy";q.textContent=chapter.question;choices.append(q);const hint=document.createElement("p");hint.className="zd-stage";hint.textContent="EVIDENCE REVIEW · "+state.reviewed.length+"/"+chapter.evidence.length+" REVIEWED · REVIEW ALL ITEMS TO UNLOCK DECISIONS";choices.append(hint);
-    chapter.choices.forEach(([id,label])=>{const b=document.createElement("button");b.type="button";b.className="zd-choice";b.textContent=label;b.disabled=state.reviewed.length!==chapter.evidence.length;b.addEventListener("click",()=>choose(id));choices.append(b);});
-    status.textContent=state.completed.includes(state.chapter)?"CHAPTER CLEARED · CONTINUE THE CASE":"AWAITING DECISION";
-  }
-  function choose(id){
-    const chapter=chapters[state.chapter],choice=chapter.choices.find(item=>item[0]===id);if(!choice)return;
-    const success=(id==="isolate"||id==="quarantine"||id==="contain");
-    state.log.push(chapter.stage+" · "+(success?"SAFE DECISION":"UNSAFE DECISION")+" · "+choice[1]);
-    if(success){state.completed=[...new Set([...state.completed,state.chapter])];state.chapter+=1;state.reviewed=[];}
-    save();render();el("zd-status").textContent=success?chapter.success:chapter.failure;
-  }
-  function reset(){state={chapter:0,completed:[],reviewed:[],log:[]};try{localStorage.removeItem(KEY);}catch{}render();el("zd-status").textContent="PLAYTEST RESET · READY";}
-  el("zd-reset").addEventListener("click",()=>{if(confirm("Clear this local ZERO-DAY SANDBOX playtest?"))reset();});
-  render();
+"use strict";
+const KEY="phantomx.zero-day-story.v2";
+const initial={chapter:0,view:"home",flags:{},clues:[],trust:0,history:[],started:false,ended:false};
+let state=load();
+const $=id=>document.getElementById(id);
+const chapters=[
+ {name:"INIT_SANDBOX",title:"The repository is awake.",intro:"A routine preview build has stopped responding. Sora has sent you a message from an account that should be offline.",objectives:["Read Sora's encrypted message","Inspect the boot manifest","Solve the signature fragment"],required:["message","manifest","signature"],next:"The build is isolated. But the update was signed with a key that should have expired six months ago."},
+ {name:"GHOST_PR",title:"A familiar name. An unfamiliar key.",intro:"The pull request looks ordinary until you compare its summary with the actual permission changes. Someone has borrowed Sora's identity inside the simulation.",objectives:["Read the review thread","Compare the patch manifest","Question Sora about the key"],required:["thread","patch","sora"],next:"The patch is quarantined. Sora reveals a second anomaly: a mirror path that appears in two unrelated snapshots."},
+ {name:"MIRROR_VFS",title:"Something is looking back.",intro:"A synthetic filesystem mirror contains two conflicting snapshots. Aegis has marked the path as unstable. You must identify the clean copy and close the fictional bridge.",objectives:["Inspect both snapshots","Decode the mirror marker","Choose how to contain the bridge"],required:["snapshots","marker","contain"],next:"The mirror is contained. The evidence points to an orchestrator behind the unreviewed update."}
+];
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||"null");if(!x||typeof x!=="object")return structuredClone(initial);return {...structuredClone(initial),...x,flags:x.flags&&typeof x.flags==="object"?x.flags:{},clues:Array.isArray(x.clues)?x.clues:[],history:Array.isArray(x.history)?x.history.slice(-80):[]};}catch{return structuredClone(initial);}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{}}
+function toast(msg){$("toast").textContent=msg;$("toast").style.display="block";clearTimeout(toast.timer);toast.timer=setTimeout(()=>$("toast").style.display="none",2200);}
+function addClue(id,title,detail){if(state.clues.some(c=>c.id===id))return;state.clues.push({id,title,detail});state.history.push("EVIDENCE ADDED · "+title);save();renderShell();toast("Evidence added to case board");}
+function flag(id){return !!state.flags[id];}
+function setFlag(id,value=true){state.flags[id]=value;save();renderShell();}
+function go(view){state.view=view;save();render();}
+function current(){return chapters[Math.min(state.chapter,2)];}
+function renderShell(){
+ const c=current();$("chapterLabel").textContent=state.ended?"EPILOGUE · CASE CLOSED":"EPISODE 01 · "+c.name;
+ $("sceneTitle").textContent=state.ended?"The sandbox is sealed.":c.title;
+ $("sceneIntro").textContent=state.ended?"Kai and Sora preserve the clean snapshot and publish the incident record. The simulation ends with one unanswered question: who introduced the first unreviewed change?":c.intro;
+ $("objectiveTitle").textContent=state.ended?"CAMPAIGN COMPLETE":("0"+(state.chapter+1)+" / "+c.name.replace("_"," "));
+ const done=state.ended?3:c.required.filter(flag).length;
+ $("progressBar").style.width=(done/3*100)+"%";
+ $("objectives").innerHTML=(state.ended?["All three incidents contained","Evidence preserved","Case file archived"]:c.objectives).map((x,i)=>'<div class="objective '+((state.ended||flag(c.required[i]))?"done":"")+'">'+esc(x)+'</div>').join("");
+ $("missionStatus").textContent=state.ended?"ENDING UNLOCKED":done===3?"OBJECTIVES COMPLETE · RETURN TO MISSION":"INVESTIGATION IN PROGRESS";
+ $("trust").textContent=state.trust>1?"TRUSTING":state.trust<0?"SUSPICIOUS":"NEUTRAL";
+ $("clueCount").textContent=state.clues.length+" / 8";$("chapterCount").textContent=state.ended?"03 / 03":("0"+(state.chapter+1)+" / 03");
+ document.querySelectorAll(".navbtn").forEach(b=>{b.setAttribute("aria-current",b.dataset.view===state.view?"page":"false");});
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function button(label,fn,cls="action"){return '<button class="'+cls+'" data-action="'+esc(fn)+'">'+label+'</button>';}
+function render(){
+ renderShell();const v=$("view");
+ if(state.ended&&state.view==="home"){v.innerHTML=ending();return;}
+ const views={home:home,messages:messages,mail:mail,files:files,browser:browser,gallery:gallery,board:board};
+ v.innerHTML=(views[state.view]||home)();
+}
+function home(){const c=current(),all=c.required.every(flag);return '<div class="viewhead"><h2>Mission control</h2><span class="tag">'+c.name+'</span></div><p class="storytext">The room is lit by a single monitor. The preview environment is frozen at <strong>01:17:42</strong>. A notification blinks in the corner of the cyberdeck. You have access to a local copy of the incident workspace. Nothing here connects to a real system.</p><div class="dialogue"><span class="speaker">SORA · SECURE MESSAGE</span>“Kai, please tell me you haven't approved the update. The commit history doesn't add up. I left the evidence in the workspace. Start with the message I sent before the build went dark.”</div><div class="viewhead"><h2>Workspace</h2><span class="tag">LOCAL / OFFLINE</span></div><div class="cards"><button class="appcard" data-view="messages"><div class="appicon">▤</div><b>Messages</b><small>Read the conversation and question Sora.</small></button><button class="appcard" data-view="files"><div class="appicon">▧</div><b>File system</b><small>Inspect manifests, snapshots, and the mirror marker.</small></button><button class="appcard" data-view="mail"><div class="appicon">✉</div><b>Secure mail</b><small>Review incident alerts and pull request notices.</small></button><button class="appcard" data-view="board"><div class="appicon">⌘</div><b>Case board</b><small>Connect the evidence you've collected.</small></button></div><div class="status">'+(all?'All objectives met. Return here to advance.':'Explore the workspace. New evidence unlocks the next steps.')+'</div>'+(all?button(state.chapter===2?"Seal the mirror and finish the case":"Continue to next chapter →","advance","action primary"):"");}
+function messages(){let c=state.chapter;let base='<div class="viewhead"><h2>Secure messenger</h2><span class="tag">ENCRYPTED / LOCAL</span></div><div class="chat"><div class="bubble"><span class="who">SORA · 01:12 AM</span>Kai, are you awake? The preview runner just tried to load a module that isn't in the manifest.</div><div class="bubble me"><span class="who">KAI · 01:13 AM</span>Which module? The branch was frozen after review.</div><div class="bubble"><span class="who">SORA · 01:14 AM</span>That's what I thought. Look at the signature timestamp. It predates the key rotation. I put the boot report in /case/boot/.</div>'+(flag("message")?'<div class="bubble me"><span class="who">KAI · NOW</span>I have the message and I'm checking the local records first.</div>':'')+'</div>';
+ if(c===0){base+='<div class="replyrow">'+button("I’ll inspect the boot report first","readMessage","action primary")+button("Why did you message me from an offline account?","askSora","action")+'</div>';}
+ else if(c===1){base+='<div class="bubble"><span class="who">SORA · 01:26 AM</span>I did not submit that permission change. Compare the review thread with the patch itself. The signing identity is a copy, not my current key.</div><div class="replyrow">'+button("Ask Sora about the signing key","questionSora","action primary")+button("Accuse Sora of submitting the patch","accuseSora","action")+'</div>';}
+ else{base+='<div class="bubble"><span class="who">SORA · 01:41 AM</span>The mirror has two snapshots. Don't delete the whole tree. One of them is the only clean record we have left.</div><div class="replyrow">'+button("Ask Sora which snapshot she verified","askSnapshot","action primary")+'</div>';}
+ return base;}
+function mail(){return '<div class="viewhead"><h2>Secure mail</h2><span class="tag">3 RECORDS</span></div><div class="list"><article class="record unread"><div class="recordhead"><b>Aegis / Incident Monitor</b><span>01:17 AM</span></div><p>PREVIEW HALTED. An unknown capability label was detected in the fictional sandbox profile. No host access was requested or granted.</p></article><article class="record"><div class="recordhead"><b>Build System / Automated notice</b><span>01:16 AM</span></div><p>Build #PX-441 entered a suspended state after a manifest mismatch. Last known state: local preview only.</p></article><article class="record"><div class="recordhead"><b>Repository / Review digest</b><span>Yesterday</span></div><p>One permission change was added after the final reviewer acknowledgement. The digest does not identify who introduced it.</p></article></div>'+button("Archive incident notice as evidence","mailEvidence","action primary");}
+function files(){const c=state.chapter;let items=[];if(c===0)items=[["/case/boot/boot-report.txt","BOOT REPORT","Manifest requested an undeclared module: mirror.bridge.preview"],["/case/boot/manifest.json","MANIFEST","Declared profile: sandbox.readonly · build 441"],["/case/keys/signature-fragment.txt","SIGNATURE FRAGMENT","Key ID: PX-OLD-7 · timestamp: 6 months before rotation"],["/case/archive/README.txt","ARCHIVE NOTE","The preview runner must never inherit host permissions."]];else if(c===1)items=[["/case/review/summary.md","PULL REQUEST SUMMARY","Claims: documentation-only update. No runtime changes."],["/case/review/patch.diff","PATCH CONTENT","Adds capability: mirror.bridge.preview. Author field copied from old profile."],["/case/review/review.log","REVIEW TIMELINE","Permission changed after final reviewer acknowledgement."],["/case/keys/current-key.txt","CURRENT KEY","Sora's current signing key fingerprint differs from the patch."]];else items=[["/case/mirror/snapshot-A.json","SNAPSHOT A","Verified local snapshot. Manifest matches the clean baseline."],["/case/mirror/snapshot-B.json","SNAPSHOT B","Conflicting label. Includes an unknown mirror marker."],["/case/mirror/marker.txt","MIRROR MARKER","Encoded fragment: TUlSUk9SLUNMT1NFRA=="],["/case/mirror/bridge.log","BRIDGE EVENT","Synthetic bridge opened by an unverified update."]];return '<div class="viewhead"><h2>Virtual file system</h2><span class="tag">READ-ONLY CASE COPY</span></div><p class="storytext">Select a file to inspect its contents. Files are fictional case artifacts and cannot access your device.</p><div class="filegrid">'+items.map((it,i)=>'<button class="file" data-file="'+i+'"><span>FILE / '+(i+1)+'</span><b>'+esc(it[0])+'</b><small>'+esc(it[1])+'</small></button>').join("")+'</div><div id="fileDetail" class="record" style="margin-top:14px"><b>Select a file</b><p>Its contents will appear here.</p></div>';}
+function browser(){return '<div class="viewhead"><h2>NetBrowser</h2><span class="tag">FICTIONAL INTRANET</span></div><div class="record"><div class="recordhead"><b>VRuntime Labs / Internal status</b><span>LOCAL CACHE</span></div><p>Preview environment paused. Incident PX-441 is under review. Public-facing services are not connected to this simulation.</p></div><div class="record"><div class="recordhead"><b>Contributor directory</b><span>3 PROFILES</span></div><p><strong>Kai Vance</strong> · Systems architect<br><strong>Sora Vale</strong> · Repository contributor<br><strong>Aegis</strong> · Automated incident monitor</p></div><div class="record"><div class="recordhead"><b>Release policy / excerpt</b><span>REV 04</span></div><p>Any permission change after approval requires a fresh review. Familiar author labels are not proof of identity. Preserve evidence before containment.</p></div>'+button("Save release policy as evidence","policyEvidence","action primary");}
+function gallery(){return '<div class="viewhead"><h2>Evidence gallery</h2><span class="tag">CASE MEDIA</span></div><p class="storytext">A small set of generated incident artifacts from the fictional preview.</p><div class="cards"><div class="itemcard"><div class="appicon">▤</div><b>Build 441 status capture</b><small>Preview halted at 01:17:42. No external connection.</small></div><div class="itemcard"><div class="appicon">⌁</div><b>Review timeline capture</b><small>Permission change appears after final review.</small></div><div class="itemcard"><div class="appicon">▦</div><b>Mirror tree capture</b><small>Two synthetic snapshots have conflicting labels.</small></div><div class="itemcard"><div class="appicon">◉</div><b>Key rotation notice</b><small>Previous contributor key was retired six months ago.</small></div></div>'+button("Add gallery set to case board","galleryEvidence","action primary");}
+function board(){return '<div class="viewhead"><h2>Investigation board</h2><span class="tag">'+state.clues.length+' CLUES</span></div><p class="storytext">The case board updates as you discover evidence. Look for contradictions between the records, not just familiar names.</p><div class="evidenceboard">'+(state.clues.length?state.clues.map(c=>'<div class="clue"><b>'+esc(c.title)+'</b><small>'+esc(c.detail)+'</small></div>').join(""):'<div class="record">No evidence collected yet. Explore Messages, Files, and Mail.</div>')+'</div><div class="divider"></div>'+button("Return to mission control","home","action primary");}
+function ending(){return '<div class="eyebrow">CASE PX-001 · CLOSED</div><h2>Sandbox sealed.</h2><p class="storytext">The fictional bridge is contained. Kai preserves the clean snapshot, Sora signs the incident note with her current key, and Aegis closes the alert. But one line remains in the recovered commit metadata: <strong>“The preview was only the mirror.”</strong></p><div class="dialogue"><span class="speaker">SORA</span>“We stopped this build. We didn't find who prepared it.”</div><p class="storytext">This playtest ends here. The next episode will follow the identity behind the ghost pull request.</p>'+button("Replay campaign","replay","action primary");}
+function fileDetail(i){const c=state.chapter;const sets=[["Boot report","A sandbox preview attempted to load mirror.bridge.preview. The capability is not present in the declared profile.","manifest"],["Manifest","Declared capabilities: sandbox.readonly. Requested capability: mirror.bridge.preview. The two records do not match.","manifest"],["Signature fragment","Key ID PX-OLD-7 was retired six months ago. The timestamp is inconsistent with Sora's current identity.","signature"],["Archive note","The preview runner is isolated. Preserve the baseline snapshot before any containment action.","archive"],["Pull request summary","The summary says documentation-only. It does not mention runtime permissions.","thread"],["Patch content","The patch adds mirror.bridge.preview and carries a copied author label. This is not proof of who authored it.","patch"],["Review timeline","The permission change appears after final reviewer acknowledgement.","thread"],["Current key","The fingerprint in this record differs from the key attached to the suspicious patch.","patch"],["Snapshot A","Verified local snapshot. Its manifest matches the known clean baseline.","snapshots"],["Snapshot B","Contains a conflicting mirror label and a synthetic marker. Do not treat it as trusted.","snapshots"],["Mirror marker","Base64 fragment decodes to MIRROR-CLOSED. This is a clue, not an instruction to access any real system.","marker"],["Bridge event","A synthetic bridge was opened by an unverified update. Detach the mirror and preserve the clean snapshot.","contain"]];const d=sets[(c===0?0:c===1?4:8)+i];$("fileDetail").innerHTML='<b>'+esc(d[0])+'</b><p>'+esc(d[1])+'</p>'+button("Add to evidence board","addFileClue:"+d[2],"action primary");}
+function act(action){
+ if(action.startsWith("addFileClue:")){const id=action.split(":")[1];addClue(id.toUpperCase(),id==="signature"?"Retired signing key":id==="manifest"?"Manifest mismatch":id==="patch"?"Unverified patch permission":id==="thread"?"Review timeline mismatch":id==="snapshots"?"Conflicting filesystem snapshots":id==="marker"?"Mirror marker decoded":"Containment note","Verified from the local case file.");setFlag(id);return;}
+ switch(action){
+ case "readMessage":setFlag("message");addClue("MESSAGE","Sora's warning","Sora says the preview loaded an undeclared module and points to the local boot report.");go("files");break;
+ case "askSora":state.trust++;setFlag("message");addClue("SORA-ALERT","Offline account message","Sora warns that the preview runner attempted to load an undeclared module.");save();go("messages");toast("Sora trusts you with the first lead.");break;
+ case "questionSora":state.trust++;setFlag("sora");addClue("KEY-IDENTITY","Sora's key denial","Sora says the patch identity is a copy of a retired key.");go("files");break;
+ case "accuseSora":state.trust--;setFlag("sora");toast("Sora stops replying. Trust has fallen.");go("messages");break;
+ case "mailEvidence":addClue("AEGIS","Aegis incident alert","The local preview was halted after a capability mismatch.");setFlag("mail");break;
+ case "policyEvidence":addClue("POLICY","Release policy","Permission changes after approval require fresh review.");setFlag("policy");break;
+ case "galleryEvidence":addClue("MEDIA","Incident media set","Screenshots corroborate the build halt, review timeline, and mirror conflict.");setFlag("gallery");break;
+ case "advance":if(current().required.every(flag)){if(state.chapter===2){state.ended=true;state.view="home";state.history.push("CASE CLOSED · ZERO-DAY SANDBOX");}else{state.chapter++;state.view="home";state.history.push("CHAPTER ADVANCED · "+current().name);}save();render();}else toast("Complete the mission objectives first.");break;
+ case "replay":state=structuredClone(initial);save();render();$("introModal").style.display="grid";break;
+ case "home":go("home");break;
+ }
+}
+function requestHint(){const c=current();const missing=c.required.find(x=>!flag(x));const hints={message:"Open Messages and choose the first reply to review Sora's warning.",manifest:"Open Files. Compare the boot report with the declared manifest.",signature:"Inspect the signature fragment in Files.",thread:"Read the review timeline in Files and compare it with the summary.",patch:"Inspect the patch content. Look for a capability absent from its summary.",sora:"Open Messages and ask Sora about the signing key.",snapshots:"Open Files and inspect both snapshot records.",marker:"Inspect marker.txt. The encoded fragment has a recognizable decoded label.",contain:"Review the bridge event and choose containment, not deletion."};toast(hints[missing]||"Return to Mission Control and inspect the remaining evidence.");}
+$("nav").addEventListener("click",e=>{const b=e.target.closest("[data-view]");if(b)go(b.dataset.view);});
+$("view").addEventListener("click",e=>{const f=e.target.closest("[data-file]");if(f){fileDetail(Number(f.dataset.file));return;}const a=e.target.closest("[data-action]");if(a)act(a.dataset.action);const v=e.target.closest("[data-view]");if(v)go(v.dataset.view);});
+$("startBtn").addEventListener("click",()=>{$("introModal").style.display="none";state.started=true;save();render();});
+$("saveBtn").addEventListener("click",()=>{save();toast("Progress saved in this browser.");});
+$("resetBtn").addEventListener("click",()=>{if(confirm("Reset all ZERO-DAY SANDBOX progress in this browser?")){state=structuredClone(initial);save();render();$("introModal").style.display="grid";}});
+$("hintBtn").addEventListener("click",requestHint);
+$("clock").textContent="SESSION "+new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+render();if(state.started)$("introModal").style.display="none";
 })();
 </script>
 </body>
