@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080e16">
+  <title>ZERO-DAY SANDBOX · PhantomX Story Test</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body{min-height:100vh;background:#080e16;color:#e8f1f4;font-family:inherit}
+    .zd-shell{max-width:1120px;margin:0 auto;padding:32px 22px 70px}
+    .zd-top{display:flex;justify-content:space-between;align-items:center;gap:16px;border-bottom:1px solid #263440;padding-bottom:18px}
+    .zd-brand{font-size:12px;letter-spacing:.18em;color:#9eb3c1}.zd-brand strong{color:#b8f6df}
+    .zd-back,.zd-action{border:1px solid #40515e;background:#101c27;color:#dce8ef;padding:10px 14px;text-decoration:none;cursor:pointer}
+    .zd-hero{padding:56px 0 30px;max-width:780px}.zd-kicker{font:11px monospace;letter-spacing:.2em;color:#8bdcc4}
+    h1{font-size:clamp(36px,7vw,68px);line-height:.98;letter-spacing:-.055em;margin:15px 0}
+    .zd-sub{font-size:17px;line-height:1.7;color:#a9bac5;max-width:680px}
+    .zd-boundary{display:inline-block;margin-top:14px;padding:9px 12px;border:1px solid #42665c;color:#a9ead3;font:11px monospace;letter-spacing:.1em}
+    .zd-grid{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:18px;align-items:start}
+    .zd-panel{border:1px solid #263744;background:#0d1721;padding:22px}
+    .zd-stage{font:11px monospace;color:#8bdcc4;letter-spacing:.14em}
+    .zd-panel h2{font-size:26px;margin:12px 0}.zd-copy{color:#bdcbd3;line-height:1.75}
+    .zd-evidence{display:grid;gap:10px;margin:20px 0}.zd-evidence button,.zd-choice{width:100%;text-align:left;border:1px solid #344956;background:#111f2a;color:#e6f0f4;padding:14px;cursor:pointer}
+    .zd-evidence button:hover,.zd-choice:hover{border-color:#8bdcc4}.zd-evidence button[aria-pressed=true]{border-color:#70c6a9;background:#102a27}
+    .zd-choices{display:grid;gap:9px;margin-top:18px}.zd-status{min-height:24px;margin-top:16px;color:#a4d9c8;font:12px monospace}
+    .zd-side h3{font-size:12px;letter-spacing:.13em;color:#9eb3c1}.zd-side dl{display:grid;gap:14px}.zd-side dt{font:10px monospace;color:#79909e}.zd-side dd{margin:4px 0 0;font-size:13px}
+    .zd-progress{height:5px;background:#263744;margin:12px 0 20px}.zd-progress i{display:block;height:100%;width:0;background:#8bdcc4;transition:width .2s}
+    .zd-log{margin-top:18px;border-top:1px solid #263744;padding-top:14px;color:#94a8b5;font:12px/1.7 monospace;white-space:pre-wrap}
+    .zd-footer{margin-top:24px;color:#708592;font:10px monospace;letter-spacing:.12em}
+    @media(max-width:760px){.zd-grid{grid-template-columns:1fr}.zd-top{align-items:flex-start}.zd-hero{padding-top:38px}.zd-panel{padding:17px}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+<body>
+  <main class="zd-shell">
+    <header class="zd-top">
+      <div class="zd-brand"><strong>PX</strong> / PHANTOMX STORY LAB</div>
+      <a class="zd-back" href="../">← Back to cyberdeck</a>
+    </header>
+    <section class="zd-hero">
+      <div class="zd-kicker">INDEPENDENT PLAYTEST · BUILD 01</div>
+      <h1>ZERO-DAY<br><span style="color:#8bdcc4">SANDBOX</span></h1>
+      <p class="zd-sub">A systems architect finds an anomalous change inside a fictional cyberdeck project. Follow the evidence, question the source and contain the incident before the simulation reaches its final state.</p>
+      <div class="zd-boundary">FICTIONAL ENVIRONMENT · LOCAL SAVE · NO REAL TARGETS</div>
+    </section>
+    <div class="zd-grid">
+      <section class="zd-panel" aria-live="polite">
+        <div id="zd-stage" class="zd-stage">PROLOGUE / 00</div>
+        <h2 id="zd-title">A quiet repository</h2>
+        <p id="zd-copy" class="zd-copy">Kai Vance is preparing a routine PhantomX preview when a contributor named Sora flags an unusual permission change in a test pull request. The repository is a fictional copy. No external service is connected.</p>
+        <div id="zd-evidence" class="zd-evidence"></div>
+        <div id="zd-choices" class="zd-choices">
+          <button class="zd-choice" data-next="0">Begin the simulation →</button>
+        </div>
+        <div id="zd-status" class="zd-status" role="status">WAITING FOR PLAYER INPUT</div>
+        <div id="zd-log" class="zd-log">LOCAL CASE FILE · EMPTY</div>
+      </section>
+      <aside class="zd-panel zd-side">
+        <h3>CASE STATUS</h3>
+        <div id="zd-progress" class="zd-progress"><i></i></div>
+        <dl>
+          <div><dt>OPERATOR</dt><dd>KAI VANCE</dd></div>
+          <div><dt>CONTRIBUTOR</dt><dd>SORA</dd></div>
+          <div><dt>INCIDENT</dt><dd>UNVERIFIED CHANGE</dd></div>
+          <div><dt>MODE</dt><dd>SINGLE-PLAYER TEST</dd></div>
+          <div><dt>STORAGE</dt><dd>BROWSER LOCAL ONLY</dd></div>
+        </dl>
+        <button id="zd-reset" class="zd-action" type="button">Reset playtest</button>
+        <p class="zd-copy" style="font-size:12px">This test campaign is separate from Project Aster. Your choices are stored in this browser only.</p>
+      </aside>
+    </div>
+    <footer class="zd-footer">PHANTOMX · VRuntime Labs · FICTIONAL STORY SIMULATION</footer>
+  </main>
+<script>
+(() => {
+  "use strict";
+  const KEY = "phantomx.zero-day-sandbox.test.v1";
+  const chapters = [
+    {stage:"MISSION 01 / INIT_SANDBOX",title:"The boot anomaly",copy:"A synthetic boot report shows an unfamiliar module requesting access beyond the sandbox profile. Sora recommends pausing the preview and checking the local manifest before continuing.",evidence:["Review the local boot report","Compare the declared sandbox capabilities","Inspect the update signature record"],question:"What is the safest first response?",choices:[["isolate","Freeze this fictional session and preserve a local copy of the test evidence."],["continue","Continue booting and grant the unfamiliar module its requested access."]],success:"The test session is isolated. The evidence remains available for review; no device or network state was touched.",failure:"The simulation marks this as an unsafe trust decision. The session remains recoverable; choose again after reviewing the evidence."},
+    {stage:"MISSION 02 / GHOST_PR",title:"The contributor anomaly",copy:"A fictional pull request attributed to Sora contains a permission change that does not match its summary. Kai notices the discrepancy before the preview build is accepted. Aegis, the simulated incident monitor, raises a review alert.",evidence:["Read the pull request summary","Compare the changed permission list","Check the synthetic review timeline"],question:"How should Kai handle the suspicious change?",choices:[["quarantine","Mark the patch untrusted, keep it out of the preview and request an independent review."],["merge","Merge the change because the contributor name appears familiar."]],success:"The simulated patch is quarantined. The review trail is preserved and the preview remains unchanged.",failure:"The simulation records an unverified-trust decision. No code is executed; return to the evidence and choose again."},
+    {stage:"MISSION 03 / MIRROR_VFS",title:"The mirrored filesystem",copy:"A synthetic virtual filesystem contains a mirror node that points to a fictional staging path. The incident monitor reports conflicting labels. Kai and Sora must identify the trusted snapshot and close the simulated bridge without touching host files.",evidence:["Inspect the virtual tree labels","Compare the snapshot manifest","Review the synthetic bridge event"],question:"What closes the incident safely?",choices:[["contain","Detach the fictional mirror, preserve the clean snapshot and record the incident for review."],["purge","Delete every entry, including the clean snapshot, to make the warning disappear."]],success:"The mirror is contained and the clean snapshot is preserved. The simulated bridge is closed.",failure:"The test flags evidence destruction as an unsafe response. The virtual case file is intact; try again."}
+  ];
+  let state = load();
+  function load(){try{const value=JSON.parse(localStorage.getItem(KEY)||"null");return value&&Number.isInteger(value.chapter)&&value.chapter>=0&&value.chapter<=3?{chapter:value.chapter,completed:Array.isArray(value.completed)?value.completed.filter(Number.isInteger):[],reviewed:Array.isArray(value.reviewed)?value.reviewed.filter(Number.isInteger):[],log:Array.isArray(value.log)?value.log.slice(-12):[]}: {chapter:0,completed:[],reviewed:[],log:[]};}catch{return {chapter:0,completed:[],log:[]};}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{}}
+  const el=id=>document.getElementById(id);
+  function render(){
+    const stage=el("zd-stage"),title=el("zd-title"),copy=el("zd-copy"),evidence=el("zd-evidence"),choices=el("zd-choices"),status=el("zd-status"),log=el("zd-log"),progress=el("zd-progress").firstElementChild;
+    evidence.replaceChildren();choices.replaceChildren();
+    progress.style.width=(state.completed.length/3*100)+"%";
+    log.textContent=state.log.length?state.log.join("\n"):"LOCAL CASE FILE · EMPTY";
+    if(state.chapter>=3){stage.textContent="EPILOGUE / COMPLETE";title.textContent="Sandbox sealed";copy.textContent="Kai and Sora preserve the evidence, isolate the fictional bridge and publish a transparent incident note. Aegis closes the simulated alert. One question remains in the case file: who introduced the first unreviewed change?";status.textContent="PLAYTEST COMPLETE · LOCAL ENDING";const b=document.createElement("button");b.className="zd-choice";b.textContent="Replay from the beginning";b.addEventListener("click",reset);choices.append(b);return;}
+    const chapter=chapters[state.chapter];stage.textContent=chapter.stage;title.textContent=chapter.title;copy.textContent=chapter.copy;
+    chapter.evidence.forEach((item,i)=>{const b=document.createElement("button");b.type="button";b.textContent=(state.reviewed.includes(i)?"✓ ":"○ ")+String(i+1).padStart(2,"0")+"  "+item;b.setAttribute("aria-pressed",String(state.reviewed.includes(i)));b.addEventListener("click",()=>{state.reviewed=state.reviewed.includes(i)?state.reviewed.filter(value=>value!==i):[...state.reviewed,i];save();render();});evidence.append(b);});
+    const q=document.createElement("p");q.className="zd-copy";q.textContent=chapter.question;choices.append(q);
+    chapter.choices.forEach(([id,label])=>{const b=document.createElement("button");b.type="button";b.className="zd-choice";b.textContent=label;b.disabled=state.reviewed.length!==chapter.evidence.length;b.addEventListener("click",()=>choose(id));choices.append(b);});
+    status.textContent=state.completed.includes(state.chapter)?"CHAPTER CLEARED · CONTINUE THE CASE":"AWAITING DECISION";
+  }
+  function choose(id){
+    const chapter=chapters[state.chapter],choice=chapter.choices.find(item=>item[0]===id);if(!choice)return;
+    const success=(id==="isolate"||id==="quarantine"||id==="contain");
+    state.log.push(chapter.stage+" · "+(success?"SAFE DECISION":"UNSAFE DECISION")+" · "+choice[1]);
+    if(success){state.completed=[...new Set([...state.completed,state.chapter])];state.chapter+=1;state.reviewed=[];el("zd-status").textContent=chapter.success;}else{el("zd-status").textContent=chapter.failure;}
+    save();render();
+    if(success&&state.chapter>0)el("zd-status").textContent=chapter.success;
+  }
+  function reset(){state={chapter:0,completed:[],reviewed:[],log:[]};try{localStorage.removeItem(KEY);}catch{}render();el("zd-status").textContent="PLAYTEST RESET · READY";}
+  el("zd-reset").addEventListener("click",()=>{if(confirm("Clear this local ZERO-DAY SANDBOX playtest?"))reset();});
+  render();
+})();
+</script>
+</body>
+</html>
