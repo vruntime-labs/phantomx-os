@@ -6,32 +6,45 @@ import vm from "node:vm";
 const html=fs.readFileSync(new URL("../story-test/index.html",import.meta.url),"utf8");
 const script=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].at(-1)?.[1]||"";
 
-test("ZERO-DAY SANDBOX is an isolated three-chapter test campaign",()=>{
-  assert.match(html,/ZERO-DAY SANDBOX/);
-  assert.match(html,/Separate from Project Aster|separate from Project Aster/i);
-  assert.match(script,/INIT_SANDBOX/);
-  assert.match(script,/GHOST_PR/);
-  assert.match(script,/MIRROR_VFS/);
-  assert.match(script,/Sandbox sealed/);
+test("ZERO-DAY SANDBOX is a playable investigation campaign",()=>{
+  for(const id of ["INIT_SANDBOX","GHOST_PR","MIRROR_VFS"]) assert.ok(script.includes(id));
+  for(const view of ["messages","mail","files","browser","gallery","board"]) assert.match(html,new RegExp('data-view="'+view+'"'));
+  assert.match(html,/Mission control/);
+  assert.match(html,/Investigation board/);
+  assert.match(html,/Sandbox sealed/);
 });
 
-test("playtest script parses and persists only browser-local progress",()=>{
-  assert.ok(script.length>500);
+test("story runtime parses and stores only local progress",()=>{
+  assert.ok(script.length>5000);
   assert.doesNotThrow(()=>new vm.Script(script));
-  assert.match(script,/phantomx\.zero-day-sandbox\.test\.v1/);
+  assert.match(script,/phantomx\.zero-day-story\.v2/);
   assert.match(script,/localStorage/);
   assert.doesNotMatch(script,/fetch\s*\(|XMLHttpRequest|WebSocket|navigator\.sendBeacon/);
 });
 
-test("test campaign includes safe containment choices, reset, and per-chapter evidence review",()=>{
-  for(const id of ["isolate","quarantine","contain"]) assert.ok(script.includes('"'+id+'"'));
-  assert.match(html,/id="zd-reset"/);
-  assert.match(script,/confirm\(/);
-  assert.match(script,/state\.reviewed=\[\]/);
+test("missions have objectives, evidence collection, hints, and branching trust",()=>{
+  for(const id of ["message","manifest","signature","thread","patch","sora","snapshotA","snapshotB","marker","contain"]) assert.ok(script.includes('"'+id+'"'));
+  assert.match(script,/function addClue/);
+  assert.match(script,/function requestHint/);
+  assert.match(script,/decodeMarker/);
+  assert.match(script,/containSafe/);
+  assert.match(script,/containPurge/);
+  assert.match(script,/askSnapshot/);
+  assert.match(script,/state\.trust\+\+/);
+  assert.match(script,/state\.trust--/);
 });
 
-test("playtest page remains scrollable and exposes evidence-review progress",()=>{
-  assert.match(html,/overflow-y:auto/);
-  assert.match(html,/EVIDENCE REVIEW/);
-  assert.match(html,/zd-choice:disabled/);
+test("story UI supports save, reset, replay, and responsive scrolling",()=>{
+  assert.match(html,/id="saveBtn"/);
+  assert.match(html,/id="resetBtn"/);
+  assert.match(html,/id="introModal"/);
+  assert.match(html,/overflow:auto!important/);
+  assert.match(html,/prefers-reduced-motion/);
+  assert.match(html,/grid-template-columns:1fr/);
+});
+
+test("story campaign remains fictional and does not request host access",()=>{
+  assert.match(html,/No host access or external targets|No host access/);
+  assert.match(html,/FICTIONAL INVESTIGATION SIMULATION/);
+  assert.doesNotMatch(script,/navigator\.mediaDevices|RTCPeerConnection|child_process|process\.env/);
 });
