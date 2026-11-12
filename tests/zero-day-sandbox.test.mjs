@@ -29,3 +29,9 @@ test("test campaign includes safe containment choices, reset, and per-chapter ev
   assert.match(script,/confirm\(/);
   assert.match(script,/state\.reviewed=\[\]/);
 });
+
+test("playtest page remains scrollable and exposes evidence-review progress",()=>{
+  assert.match(html,/overflow-y:auto/);
+  assert.match(html,/EVIDENCE REVIEW/);
+  assert.match(html,/zd-choice:disabled/);
+});
