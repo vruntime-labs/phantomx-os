@@ -114,10 +114,11 @@ function renderShell(){
  $("objectiveTitle").textContent=state.ended?"CAMPAIGN COMPLETE":("0"+(state.chapter+1)+" / "+c.name.replace("_"," "));
  const done=state.ended?c.required.length:c.required.filter(flag).length;
  $("progressBar").style.width=(done/c.required.length*100)+"%";
- $("objectives").innerHTML=(state.ended?["All three incidents contained","Evidence preserved","Case file archived"]:c.objectives).map((x,i)=>'<div class="objective '+((state.ended||flag(c.required[i]))?"done":"")+'">'+esc(x)+'</div>').join("");
+ const finishedObjectives=state.ending==="cold"?["Incident contained","Mirror contents purged","Audit trace retained"]:["All three incidents contained","Evidence preserved","Case file archived"];
+ $("objectives").innerHTML=(state.ended?finishedObjectives:c.objectives).map((x,i)=>'<div class="objective '+((state.ended||flag(c.required[i]))?"done":"")+'">'+esc(x)+'</div>').join("");
  $("missionStatus").textContent=state.ended?"ENDING UNLOCKED":done===c.required.length?"OBJECTIVES COMPLETE · RETURN TO MISSION":"INVESTIGATION IN PROGRESS";
  $("trust").textContent=state.trust>1?"TRUSTING":state.trust<0?"SUSPICIOUS":"NEUTRAL";
- $("clueCount").textContent=state.clues.length+" / 8";$("chapterCount").textContent=state.ended?"03 / 03":("0"+(state.chapter+1)+" / 03");
+ $("clueCount").textContent=state.clues.length+" FOUND";$("chapterCount").textContent=state.ended?"03 / 03":("0"+(state.chapter+1)+" / 03");
  document.querySelectorAll(".navbtn").forEach(b=>{b.setAttribute("aria-current",b.dataset.view===state.view?"page":"false");});
 }
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
@@ -166,8 +167,8 @@ function act(action){
  case "accuseSora":state.trust--;state.choices.keyApproach="accused";setFlag("sora");toast("Sora stops replying. Trust has fallen.");go("files");break;
  case "askSnapshot":state.trust++;state.choices.snapshotApproach="trusted";addClue("SORA-SNAPSHOT","Sora's snapshot warning","Sora confirms that Snapshot A was verified before the incident.");setFlag("soraSnapshot");go("files");break;
  case "decodeMarker":{const answer=$("markerAnswer").value.trim();if(answer==="024117"){addClue("MIRROR-MARKER","Mirror audit key verified","The build delta is 024 and the event time is 0117. The six-digit audit key confirms the mirror timeline.");setFlag("marker");$("puzzleFeedback").textContent="MATCH CONFIRMED · BUILD DELTA + EVENT TIME VERIFIED";}else{$("puzzleFeedback").textContent="NO MATCH · RECHECK BOTH BUILD NUMBERS AND THE EVENT TIME";}break;}
- case "containSafe":state.trust++;state.choices.containment="preserve";state.ending=state.trust>=2?"clean":"open";addClue("CONTAINMENT","Mirror safely detached","Kai detached the fictional mirror and preserved the verified clean snapshot.");setFlag("contain");state.history.push("SAFE CHOICE · CLEAN SNAPSHOT PRESERVED");save();toast("Containment successful. Clean evidence preserved.");renderShell();break;
- case "containPurge":state.trust--;state.choices.containment="purge";state.ending="cold";addClue("PURGE-TRACE","Mirror purge trace","The mirror contents were purged in the simulation. Only the audit trace remains; the clean comparison was lost.");setFlag("contain");state.history.push("CONTAINMENT CHOICE · MIRROR PURGED, AUDIT TRACE RETAINED");save();toast("Mirror purged. Only its audit trace remains.");renderShell();break;
+ case "containSafe":state.trust++;state.choices.containment="preserve";state.ending=state.trust>=2?"clean":"open";addClue("CONTAINMENT","Mirror safely detached","Kai detached the fictional mirror and preserved the verified clean snapshot.");setFlag("contain");state.history.push("SAFE CHOICE · CLEAN SNAPSHOT PRESERVED");save();toast("Containment successful. Clean evidence preserved.");go("files");break;
+ case "containPurge":state.trust--;state.choices.containment="purge";state.ending="cold";addClue("PURGE-TRACE","Mirror purge trace","The mirror contents were purged in the simulation. Only the audit trace remains; the clean comparison was lost.");setFlag("contain");state.history.push("CONTAINMENT CHOICE · MIRROR PURGED, AUDIT TRACE RETAINED");save();toast("Mirror purged. Only its audit trace remains.");go("files");break;
  case "mailEvidence":addClue("AEGIS","Aegis incident alert","The local preview was halted after a capability mismatch.");setFlag("mail");break;
  case "policyEvidence":addClue("POLICY","Release policy","Permission changes after approval require fresh review.");setFlag("policy");break;
  case "galleryEvidence":addClue("MEDIA","Incident media set","Screenshots corroborate the build halt, review timeline, and mirror conflict.");setFlag("gallery");break;
