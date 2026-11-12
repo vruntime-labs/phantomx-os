@@ -35,6 +35,7 @@ test("missions have objectives, evidence collection, hints, and branching trust"
   assert.match(script,/demandProof/);
   assert.match(script,/state\.ending==="clean"/);
   assert.match(script,/state\.ending==="cold"/);
+  assert.match(script,/state\.choices\.keyApproach==="trusted"&&state\.choices\.snapshotApproach==="trusted"/);
   assert.match(script,/answer==="024117"/);
   assert.match(script,/function showCinematic/);
   assert.match(script,/function contacts/);
